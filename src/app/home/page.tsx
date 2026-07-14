@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { FileText, HeartHandshake, Map, MessageSquareWarning } from 'lucide-react';
+import { Landmark, BarChart3, TrendingUp, Newspaper, HeartHandshake, Image, FileSearch } from 'lucide-react';
 import styles from './page.module.css';
 import { getStatistik, getLatestBerita } from '@/lib/api';
 
@@ -66,24 +66,39 @@ export default function Home() {
           viewport={{ once: true, margin: "-100px" }}
           variants={containerVariants}
         >
-          <motion.a variants={itemVariants} href="/layanan/surat" className={styles.serviceCard}>
-            <div className={styles.serviceIcon}><FileText size={24} /></div>
-            <h3 className={styles.serviceTitle}>Buat Surat</h3>
+          <motion.a variants={itemVariants} href="/profil-desa" className={styles.serviceCard}>
+            <div className={styles.serviceIcon}><Landmark size={24} /></div>
+            <h3 className={styles.serviceTitle}>Profil Desa</h3>
           </motion.a>
-          
-          <motion.a variants={itemVariants} href="/layanan/bansos" className={styles.serviceCard}>
+
+          <motion.a variants={itemVariants} href="/data-statistik" className={styles.serviceCard}>
+            <div className={styles.serviceIcon}><BarChart3 size={24} /></div>
+            <h3 className={styles.serviceTitle}>Infografis</h3>
+          </motion.a>
+
+          <motion.a variants={itemVariants} href="/data-statistik#transparansi-apbdes" className={styles.serviceCard}>
+            <div className={styles.serviceIcon}><TrendingUp size={24} /></div>
+            <h3 className={styles.serviceTitle}>IDM</h3>
+          </motion.a>
+
+          <motion.a variants={itemVariants} href="/berita-agenda" className={styles.serviceCard}>
+            <div className={styles.serviceIcon}><Newspaper size={24} /></div>
+            <h3 className={styles.serviceTitle}>Berita</h3>
+          </motion.a>
+
+          <motion.a variants={itemVariants} href="/berita-agenda#cek-bansos" className={styles.serviceCard}>
             <div className={styles.serviceIcon}><HeartHandshake size={24} /></div>
-            <h3 className={styles.serviceTitle}>Cek Bansos</h3>
+            <h3 className={styles.serviceTitle}>Bansos</h3>
           </motion.a>
-          
-          <motion.a variants={itemVariants} href="/layanan/lapor" className={styles.serviceCard}>
-            <div className={styles.serviceIcon}><MessageSquareWarning size={24} /></div>
-            <h3 className={styles.serviceTitle}>Lapor Warga</h3>
+
+          <motion.a variants={itemVariants} href="/wisata#galeri-virtual-tour" className={styles.serviceCard}>
+            <div className={styles.serviceIcon}><Image size={24} /></div>
+            <h3 className={styles.serviceTitle}>Galeri</h3>
           </motion.a>
-          
-          <motion.a variants={itemVariants} href="/wisata/peta-wisata" className={styles.serviceCard}>
-            <div className={styles.serviceIcon}><Map size={24} /></div>
-            <h3 className={styles.serviceTitle}>Peta Desa</h3>
+
+          <motion.a variants={itemVariants} href="#" className={styles.serviceCard}>
+            <div className={styles.serviceIcon}><FileSearch size={24} /></div>
+            <h3 className={styles.serviceTitle}>PPID</h3>
           </motion.a>
         </motion.div>
       </section>
