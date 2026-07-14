@@ -1,5 +1,5 @@
 import { getPerangkatDesa } from '@/lib/api';
-import { Target, Lightbulb, Map, Compass, Mountain, CloudRain } from 'lucide-react';
+import { Target, Lightbulb, Map, Compass, Mountain, CloudRain, MapPin, Ruler } from 'lucide-react';
 import styles from './profil.module.css';
 
 export default function ProfilDesa() {
@@ -13,7 +13,7 @@ export default function ProfilDesa() {
         <section id="sejarah" style={{ backgroundColor: 'white', borderRadius: '8px', padding: '40px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
             <span style={{ color: '#1e3a8a', fontWeight: 600, letterSpacing: '2px', textTransform: 'uppercase', fontSize: '14px' }}>Profil Desa</span>
-            <h2 style={{ fontSize: '3rem', fontWeight: 800, color: '#0f172a', margin: '10px 0' }}>Sejarah Desa</h2>
+            <h2 style={{ fontSize: '3rem', fontWeight: 800, color: '#0f172a', margin: '10px 0' }}>Sejarah Desa Binanga</h2>
             <div style={{ width: '60px', height: '4px', backgroundColor: '#1e3a8a', margin: '0 auto', borderRadius: '2px' }}></div>
           </div>
 
@@ -27,14 +27,17 @@ export default function ProfilDesa() {
 
           <div style={{ fontSize: '1.1rem', lineHeight: '1.8', color: '#475569' }}>
             <p style={{ marginBottom: '20px' }}>
-              <span style={{ fontSize: '3rem', float: 'left', lineHeight: '0.8', paddingTop: '8px', paddingRight: '12px', color: '#0f172a', fontWeight: 800 }}>D</span>
-              esa kita telah berdiri sejak ratusan tahun yang lalu, diawali oleh sekelompok masyarakat agraris yang mencari lahan subur di lembah perbukitan. Nama desa ini diambil dari kata sansekerta yang melambangkan kemakmuran dan kedamaian.
+              <span style={{ fontSize: '3rem', float: 'left', lineHeight: '0.8', paddingTop: '8px', paddingRight: '12px', color: '#0f172a', fontWeight: 800 }}>B</span>
+              inanga adalah sebuah desa di Kecamatan Sendana, Kabupaten Majene, Provinsi Sulawesi Barat, Indonesia. Desa ini merupakan salah satu dari 14 desa yang terdapat di Kecamatan Sendana, yang secara keseluruhan membawahi 16 Desa/Kelurahan (2 Kelurahan dan 14 Desa) serta 71 Dusun/Lingkungan.
             </p>
             <p style={{ marginBottom: '20px' }}>
-              Pada masa kolonial, desa ini menjadi salah satu pusat lumbung padi yang penting di wilayah kabupaten. Gotong royong dan kearifan lokal selalu menjadi pondasi kuat yang mempersatukan warga menghadapi berbagai zaman.
+              Kecamatan Sendana sendiri memiliki luas wilayah total 138,87 km² dengan total penduduk mencapai 25.761 jiwa dan rata-rata kepadatan penduduk 185,50 jiwa/km². Desa-desa di bawah kecamatan ini meliputi Mosso Dhua, Bukit Samang, Mosso, Limbua, Pundau, Leppangan, Binanga, Sendana, Totolisi Sendana, Banua Sendana, Tallubanua, Tallubanua Utara, Limboro Rambu-Rambu, Puttada, Lalatedong, dan Paminggalan.
+            </p>
+            <p style={{ marginBottom: '20px' }}>
+              Desa Binanga memiliki luas daratan sebesar 1,68 km², yang hanya mengambil porsi 1,21% dari total luas Kecamatan Sendana. Dengan populasi sebanyak 956 jiwa yang menyumbang 3,71% dari total penduduk kecamatan, Desa Binanga memiliki kepadatan penduduk sebesar 569,05 jiwa/km².
             </p>
             <blockquote style={{ borderLeft: '4px solid #1e3a8a', paddingLeft: '20px', margin: '30px 0', fontSize: '1.25rem', fontStyle: 'italic', color: '#0f172a' }}>
-              "Kekuatan utama desa kita bukanlah pada hasil buminya semata, melainkan pada eratnya persaudaraan warganya."
+              "Desa Binanga — bagian dari Kecamatan Sendana yang kaya akan nilai kekeluargaan dan kearifan lokal masyarakat Sulawesi Barat."
             </blockquote>
           </div>
         </section>
@@ -82,51 +85,92 @@ export default function ProfilDesa() {
         <section id="wilayah-geografis">
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
             <h2 style={{ fontSize: '2.5rem', fontWeight: 800, color: '#0f172a', margin: '0 0 10px 0' }}>Wilayah & Geografis</h2>
-            <p style={{ color: '#64748b', fontSize: '1.1rem' }}>Informasi letak geografis, topografi, dan kondisi iklim desa.</p>
+            <p style={{ color: '#64748b', fontSize: '1.1rem' }}>Informasi letak geografis dan data wilayah Desa Binanga, Kecamatan Sendana.</p>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginBottom: '40px' }}>
             <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '8px', border: '1px solid #e2e8f0', textAlign: 'center', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
               <Map size={32} color="#1e3a8a" style={{ margin: '0 auto 15px auto' }} />
-              <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#0f172a' }}>45.2 Ha</div>
+              <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#0f172a' }}>1,68 km²</div>
               <div style={{ color: '#64748b', fontSize: '0.9rem', marginTop: '5px' }}>Luas Wilayah</div>
             </div>
             <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '8px', border: '1px solid #e2e8f0', textAlign: 'center', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
               <Compass size={32} color="#1e3a8a" style={{ margin: '0 auto 15px auto' }} />
-              <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#0f172a' }}>250 mdpl</div>
-              <div style={{ color: '#64748b', fontSize: '0.9rem', marginTop: '5px' }}>Ketinggian</div>
+              <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#0f172a' }}>1,21%</div>
+              <div style={{ color: '#64748b', fontSize: '0.9rem', marginTop: '5px' }}>Proporsi Luas Kecamatan</div>
             </div>
             <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '8px', border: '1px solid #e2e8f0', textAlign: 'center', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-              <Mountain size={32} color="#1e3a8a" style={{ margin: '0 auto 15px auto' }} />
-              <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#0f172a' }}>Perbukitan</div>
-              <div style={{ color: '#64748b', fontSize: '0.9rem', marginTop: '5px' }}>Topografi</div>
+              <MapPin size={32} color="#1e3a8a" style={{ margin: '0 auto 15px auto' }} />
+              <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#0f172a' }}>3,7 km</div>
+              <div style={{ color: '#64748b', fontSize: '0.9rem', marginTop: '5px' }}>Jarak ke Ibukota Kecamatan</div>
             </div>
             <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '8px', border: '1px solid #e2e8f0', textAlign: 'center', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
-              <CloudRain size={32} color="#1e3a8a" style={{ margin: '0 auto 15px auto' }} />
-              <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#0f172a' }}>2.000 mm</div>
-              <div style={{ color: '#64748b', fontSize: '0.9rem', marginTop: '5px' }}>Curah Hujan / Tahun</div>
+              <Ruler size={32} color="#1e3a8a" style={{ margin: '0 auto 15px auto' }} />
+              <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#0f172a' }}>26,7 km</div>
+              <div style={{ color: '#64748b', fontSize: '0.9rem', marginTop: '5px' }}>Jarak ke Ibukota Kabupaten</div>
             </div>
           </div>
 
           <div style={{ backgroundColor: 'white', padding: '40px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #e2e8f0' }}>
-            <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#0f172a', marginBottom: '20px' }}>Batas Wilayah</h3>
+            <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#0f172a', marginBottom: '20px' }}>Batas Wilayah Kecamatan Sendana</h3>
             <ul style={{ listStyleType: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '15px' }}>
               <li style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '15px', borderBottom: '1px solid #f1f5f9' }}>
                 <span style={{ fontWeight: 600, color: '#475569' }}>Sebelah Utara</span>
-                <span style={{ color: '#0f172a' }}>Desa Sukamakmur</span>
+                <span style={{ color: '#0f172a' }}>Kecamatan Tammerodo</span>
               </li>
               <li style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '15px', borderBottom: '1px solid #f1f5f9' }}>
                 <span style={{ fontWeight: 600, color: '#475569' }}>Sebelah Selatan</span>
-                <span style={{ color: '#0f172a' }}>Hutan Lindung Gunung Salak</span>
+                <span style={{ color: '#0f172a' }}>Kecamatan Pamboang</span>
               </li>
               <li style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '15px', borderBottom: '1px solid #f1f5f9' }}>
                 <span style={{ fontWeight: 600, color: '#475569' }}>Sebelah Timur</span>
-                <span style={{ color: '#0f172a' }}>Sungai Ciliwung</span>
+                <span style={{ color: '#0f172a' }}>Kabupaten Polewali Mandar</span>
+              </li>
+              <li style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '15px', borderBottom: '1px solid #f1f5f9' }}>
+                <span style={{ fontWeight: 600, color: '#475569' }}>Sebelah Barat</span>
+                <span style={{ color: '#0f172a' }}>Selat Makassar</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* DATA KEPENDUDUKAN RINGKAS */}
+          <div style={{ backgroundColor: 'white', padding: '40px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #e2e8f0', marginTop: '20px' }}>
+            <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#0f172a', marginBottom: '20px' }}>Data Kependudukan</h3>
+            <ul style={{ listStyleType: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '15px' }}>
+              <li style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '15px', borderBottom: '1px solid #f1f5f9' }}>
+                <span style={{ fontWeight: 600, color: '#475569' }}>Total Penduduk</span>
+                <span style={{ color: '#0f172a', fontWeight: 600 }}>956 Jiwa</span>
+              </li>
+              <li style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '15px', borderBottom: '1px solid #f1f5f9' }}>
+                <span style={{ fontWeight: 600, color: '#475569' }}>Laki-Laki</span>
+                <span style={{ color: '#0f172a' }}>485 Jiwa</span>
+              </li>
+              <li style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '15px', borderBottom: '1px solid #f1f5f9' }}>
+                <span style={{ fontWeight: 600, color: '#475569' }}>Perempuan</span>
+                <span style={{ color: '#0f172a' }}>471 Jiwa</span>
+              </li>
+              <li style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '15px', borderBottom: '1px solid #f1f5f9' }}>
+                <span style={{ fontWeight: 600, color: '#475569' }}>Rasio Jenis Kelamin</span>
+                <span style={{ color: '#0f172a' }}>103 (per 100 perempuan)</span>
+              </li>
+              <li style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '15px', borderBottom: '1px solid #f1f5f9' }}>
+                <span style={{ fontWeight: 600, color: '#475569' }}>Kepadatan Penduduk</span>
+                <span style={{ color: '#0f172a' }}>569,05 jiwa/km²</span>
               </li>
               <li style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '5px' }}>
-                <span style={{ fontWeight: 600, color: '#475569' }}>Sebelah Barat</span>
-                <span style={{ color: '#0f172a' }}>Desa Karanganyar</span>
+                <span style={{ fontWeight: 600, color: '#475569' }}>Proporsi terhadap Kecamatan</span>
+                <span style={{ color: '#0f172a' }}>3,71% dari total penduduk</span>
               </li>
+            </ul>
+          </div>
+
+          {/* SUMBER DATA */}
+          <div style={{ backgroundColor: '#f8fafc', padding: '20px 25px', borderRadius: '8px', border: '1px solid #e2e8f0', marginTop: '20px', fontSize: '0.85rem', color: '#64748b', lineHeight: '1.8' }}>
+            <strong style={{ color: '#475569' }}>Sumber Data:</strong>
+            <ul style={{ margin: '8px 0 0 0', paddingLeft: '20px' }}>
+              <li>Luas Wilayah — Badan Perencanaan Daerah Kabupaten Majene</li>
+              <li>Jarak Administrasi — Kantor Camat Sendana</li>
+              <li>Populasi & Kepadatan — Dinas Kependudukan dan Pencatatan Sipil Kab. Majene</li>
             </ul>
           </div>
         </section>

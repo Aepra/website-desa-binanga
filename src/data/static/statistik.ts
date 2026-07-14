@@ -6,8 +6,9 @@ export interface Statistik {
 }
 
 export const statistik: Statistik = {
-  penduduk: 5420,
-  kepala_keluarga: 1250,
-  luas_wilayah: 45.2,
+  penduduk: 956,
+  kepala_keluarga: 245,
+  luas_wilayah: 1.68,
   realisasi_anggaran: 85,
 };
+

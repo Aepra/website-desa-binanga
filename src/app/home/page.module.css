@@ -7,7 +7,7 @@
 /* HERO SECTION */
 .hero {
   position: relative;
-  min-height: calc(100vh - 71px);
+  min-height: calc(100vh - 61px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -84,7 +84,7 @@
   border-radius: 8px;
   padding: 24px;
   text-align: center;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
   transition: all 0.3s ease;
   text-decoration: none;
   color: inherit;
@@ -237,6 +237,7 @@
   .title {
     font-size: 2.5rem;
   }
+
   .ctaGroup {
     flex-direction: column;
   }

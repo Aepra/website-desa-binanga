@@ -119,8 +119,8 @@ export default function Home() {
             </motion.div>
             
             <motion.div variants={itemVariants} className={styles.statItem}>
-              <div className={styles.statValue}>{statistik.luas_wilayah}</div>
-              <div className={styles.statLabel}>Hektar Wilayah</div>
+              <div className={styles.statValue}>{statistik.luas_wilayah} km²</div>
+              <div className={styles.statLabel}>Luas Wilayah</div>
             </motion.div>
             
             <motion.div variants={itemVariants} className={styles.statItem}>

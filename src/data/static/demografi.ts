@@ -15,12 +15,12 @@ export interface Demografi {
 
 export const demografi: Demografi = {
   jenis_kelamin: [
-    { name: "Laki-Laki", value: 2810 },
-    { name: "Perempuan", value: 2610 },
+    { name: "Laki-Laki", value: 485 },
+    { name: "Perempuan", value: 471 },
   ],
   usia: [
-    { rentang: "0-14 Tahun", jumlah: 1200 },
-    { rentang: "15-64 Tahun", jumlah: 3500 },
-    { rentang: "65+ Tahun", jumlah: 720 },
+    { rentang: "0-14 Tahun", jumlah: 215 },
+    { rentang: "15-64 Tahun", jumlah: 620 },
+    { rentang: "65+ Tahun", jumlah: 121 },
   ],
 };

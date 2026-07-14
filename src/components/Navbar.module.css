@@ -11,7 +11,7 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 32px;
-  height: 70px;
+  height: 60px;
 
   display: flex;
   align-items: center;
@@ -265,7 +265,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   }
 
-  .mobileMenu > a {
+  .mobileMenu>a {
     text-decoration: none;
     color: #475569;
     font-size: 14px;
