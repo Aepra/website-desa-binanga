@@ -63,7 +63,7 @@ export default function Home() {
           className={styles.servicesGrid}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true }}
           variants={containerVariants}
         >
           <motion.a variants={itemVariants} href="/profil-desa" className={styles.serviceCard}>
