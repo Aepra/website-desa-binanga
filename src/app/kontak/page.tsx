@@ -40,7 +40,7 @@ export default function KontakDesa() {
             {faqs.map((faq, index) => (
               <div 
                 key={index} 
-                style={{ backgroundColor: 'white', borderRadius: '12px', boxShadow: '0 2px 4px rgba(0,0,0,0.02)', border: '1px solid #e2e8f0', overflow: 'hidden' }}
+                style={{ backgroundColor: 'white', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #e2e8f0', overflow: 'hidden' }}
               >
                 <button 
                   onClick={() => setOpenIndex(openIndex === index ? null : index)}
@@ -73,41 +73,41 @@ export default function KontakDesa() {
             
             {/* Contact Info */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
-              <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '16px', border: '1px solid #e2e8f0', textAlign: 'center' }}>
-                <MapPin size={32} color="#0ea5e9" style={{ margin: '0 auto 15px auto' }} />
+              <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '8px', border: '1px solid #e2e8f0', textAlign: 'center', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+                <MapPin size={32} color="#1e3a8a" style={{ margin: '0 auto 15px auto' }} />
                 <h3 style={{ fontSize: '1.1rem', color: '#0f172a', marginBottom: '5px' }}>Alamat Kantor</h3>
                 <p style={{ color: '#64748b', fontSize: '0.9rem', margin: 0 }}>Jl. Balai Desa No. 1, Kecamatan Maju Jaya</p>
               </div>
-              <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '16px', border: '1px solid #e2e8f0', textAlign: 'center' }}>
-                <Phone size={32} color="#10b981" style={{ margin: '0 auto 15px auto' }} />
+              <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '8px', border: '1px solid #e2e8f0', textAlign: 'center', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+                <Phone size={32} color="#1e3a8a" style={{ margin: '0 auto 15px auto' }} />
                 <h3 style={{ fontSize: '1.1rem', color: '#0f172a', marginBottom: '5px' }}>Telepon / WA</h3>
                 <p style={{ color: '#64748b', fontSize: '0.9rem', margin: 0 }}>+62 812-3456-7890</p>
               </div>
-              <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '16px', border: '1px solid #e2e8f0', textAlign: 'center' }}>
-                <Mail size={32} color="#f59e0b" style={{ margin: '0 auto 15px auto' }} />
+              <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '8px', border: '1px solid #e2e8f0', textAlign: 'center', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+                <Mail size={32} color="#1e3a8a" style={{ margin: '0 auto 15px auto' }} />
                 <h3 style={{ fontSize: '1.1rem', color: '#0f172a', marginBottom: '5px' }}>Email Resmi</h3>
                 <p style={{ color: '#64748b', fontSize: '0.9rem', margin: 0 }}>layanan@desa.id</p>
               </div>
             </div>
 
             {/* Form */}
-            <div style={{ backgroundColor: 'white', padding: '40px', borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }}>
+            <div style={{ backgroundColor: 'white', padding: '40px', borderRadius: '8px', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
               <form onSubmit={(e) => e.preventDefault()} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                 <div style={{ display: 'flex', gap: '20px' }}>
                   <div style={{ flex: 1 }}>
                     <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600, color: '#0f172a', fontSize: '0.9rem' }}>Nama Lengkap</label>
-                    <input type="text" placeholder="Masukkan nama..." style={{ width: '100%', padding: '12px 15px', borderRadius: '8px', border: '1px solid #cbd5e1', outline: 'none' }} />
+                    <input type="text" placeholder="Masukkan nama..." style={{ width: '100%', padding: '12px 15px', borderRadius: '4px', border: '1px solid #cbd5e1', outline: 'none' }} />
                   </div>
                   <div style={{ flex: 1 }}>
                     <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600, color: '#0f172a', fontSize: '0.9rem' }}>Email / No. Telepon</label>
-                    <input type="text" placeholder="Masukkan kontak..." style={{ width: '100%', padding: '12px 15px', borderRadius: '8px', border: '1px solid #cbd5e1', outline: 'none' }} />
+                    <input type="text" placeholder="Masukkan kontak..." style={{ width: '100%', padding: '12px 15px', borderRadius: '4px', border: '1px solid #cbd5e1', outline: 'none' }} />
                   </div>
                 </div>
                 <div>
                   <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600, color: '#0f172a', fontSize: '0.9rem' }}>Pesan / Pengaduan</label>
-                  <textarea rows={5} placeholder="Tuliskan pesan Anda di sini..." style={{ width: '100%', padding: '12px 15px', borderRadius: '8px', border: '1px solid #cbd5e1', outline: 'none', resize: 'vertical' }}></textarea>
+                  <textarea rows={5} placeholder="Tuliskan pesan Anda di sini..." style={{ width: '100%', padding: '12px 15px', borderRadius: '4px', border: '1px solid #cbd5e1', outline: 'none', resize: 'vertical' }}></textarea>
                 </div>
-                <button type="submit" style={{ backgroundColor: '#0f172a', color: 'white', padding: '15px', borderRadius: '8px', fontWeight: 600, fontSize: '1rem', border: 'none', cursor: 'pointer', marginTop: '10px' }}>
+                <button type="submit" style={{ backgroundColor: '#1e3a8a', color: 'white', padding: '15px', borderRadius: '4px', fontWeight: 600, fontSize: '1rem', border: 'none', cursor: 'pointer', marginTop: '10px' }}>
                   Kirim Pesan
                 </button>
               </form>

@@ -47,10 +47,10 @@ export default function Home() {
           </motion.p>
           
           <motion.div variants={itemVariants} className={styles.ctaGroup}>
-            <Link href="/profil-desa/sejarah" className="btn btn-primary" style={{ padding: '12px 24px', background: '#0f172a', color: 'white', borderRadius: '8px', textDecoration: 'none', fontWeight: 500 }}>
+            <Link href="/profil-desa#sejarah" className="btn btn-primary" style={{ padding: '12px 24px', background: '#1e3a8a', color: 'white', borderRadius: '4px', textDecoration: 'none', fontWeight: 500 }}>
               Jelajahi Profil Desa
             </Link>
-            <Link href="#layanan" className="btn btn-secondary" style={{ padding: '12px 24px', background: 'white', color: '#0f172a', border: '1px solid #cbd5e1', borderRadius: '8px', textDecoration: 'none', fontWeight: 500 }}>
+            <Link href="#layanan" className="btn btn-secondary" style={{ padding: '12px 24px', background: 'transparent', color: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '4px', textDecoration: 'none', fontWeight: 500 }}>
               Layanan Publik
             </Link>
           </motion.div>
@@ -152,11 +152,11 @@ export default function Home() {
             variants={containerVariants}
           >
             {berita.map((item) => (
-              <motion.a variants={itemVariants} key={item.id} href={`/berita-agenda/berita-desa`} style={{ textDecoration: 'none' }} className={styles.newsCard}>
+              <motion.a variants={itemVariants} key={item.id} href={`/berita-agenda#berita-desa`} style={{ textDecoration: 'none' }} className={styles.newsCard}>
                 <img src={item.cover} alt={item.judul} className={styles.newsImage} />
                 <div className={styles.newsContent}>
                   <div className={styles.newsMeta}>
-                    <span style={{ color: '#0ea5e9', fontWeight: 600 }}>{item.kategori}</span>
+                    <span style={{ color: '#1e3a8a', fontWeight: 600 }}>{item.kategori}</span>
                     <span>{new Date(item.tanggal).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
                   </div>
                   <h3 className={styles.newsTitle}>{item.judul}</h3>

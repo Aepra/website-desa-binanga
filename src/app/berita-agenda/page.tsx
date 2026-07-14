@@ -62,9 +62,9 @@ export default function BeritaDanAgenda() {
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             {[1, 2, 3].map((item) => (
-              <div key={item} style={{ backgroundColor: 'white', padding: '25px', borderRadius: '12px', borderLeft: '4px solid #f59e0b', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }}>
+              <div key={item} style={{ backgroundColor: 'white', padding: '25px', borderRadius: '8px', borderLeft: '4px solid #1e3a8a', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
                 <div style={{ display: 'flex', gap: '15px' }}>
-                  <div style={{ color: '#f59e0b', marginTop: '3px' }}><Bell size={24} /></div>
+                  <div style={{ color: '#1e3a8a', marginTop: '3px' }}><Bell size={24} /></div>
                   <div>
                     <div style={{ fontSize: '0.85rem', color: '#94a3b8', marginBottom: '5px', fontWeight: 600 }}>12 Agustus 2026</div>
                     <h3 style={{ fontSize: '1.25rem', color: '#0f172a', margin: '0 0 10px 0' }}>Pengumuman Libur Pelayanan Balai Desa</h3>
@@ -84,8 +84,8 @@ export default function BeritaDanAgenda() {
           </div>
           <div style={{ display: 'grid', gap: '20px' }}>
             {agenda.map(item => (
-              <div key={item.id} style={{ display: 'flex', backgroundColor: 'white', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 6px rgba(0,0,0,0.02)', border: '1px solid #e2e8f0' }}>
-                <div style={{ backgroundColor: '#0ea5e9', color: 'white', padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minWidth: '120px' }}>
+              <div key={item.id} style={{ display: 'flex', backgroundColor: 'white', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #e2e8f0' }}>
+                <div style={{ backgroundColor: '#1e3a8a', color: 'white', padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minWidth: '120px' }}>
                   <Calendar size={28} style={{ marginBottom: '8px' }} />
                   <span style={{ fontSize: '1.5rem', fontWeight: 800 }}>
                     {new Date(item.tanggal).getDate()}
@@ -115,7 +115,7 @@ export default function BeritaDanAgenda() {
             </p>
           </div>
 
-          <div style={{ backgroundColor: 'white', borderRadius: '16px', padding: '40px', boxShadow: '0 10px 40px rgba(0,0,0,0.05)', marginBottom: '30px' }}>
+          <div style={{ backgroundColor: 'white', borderRadius: '8px', padding: '40px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', marginBottom: '30px' }}>
             <form onSubmit={handleSearch} style={{ display: 'flex', gap: '15px' }}>
               <div style={{ flex: 1, position: 'relative' }}>
                 <Search style={{ position: 'absolute', left: '15px', top: '15px', color: '#94a3b8' }} size={20} />
@@ -127,7 +127,7 @@ export default function BeritaDanAgenda() {
                   style={{ 
                     width: '100%', 
                     padding: '15px 15px 15px 45px', 
-                    borderRadius: '12px', 
+                    borderRadius: '4px', 
                     border: '1px solid #e2e8f0',
                     fontSize: '1rem',
                     outline: 'none',
@@ -138,7 +138,7 @@ export default function BeritaDanAgenda() {
               <button 
                 type="submit" 
                 className="btn btn-primary"
-                style={{ padding: '0 30px', borderRadius: '12px', fontSize: '1rem', fontWeight: 600, border: 'none' }}
+                style={{ padding: '0 30px', borderRadius: '4px', fontSize: '1rem', fontWeight: 600, border: 'none' }}
               >
                 Cari Data
               </button>
@@ -148,7 +148,7 @@ export default function BeritaDanAgenda() {
           {hasSearched && (
             <div style={{ animation: 'fadeIn 0.5s ease-out' }}>
               {result ? (
-                <div style={{ backgroundColor: 'white', borderRadius: '16px', padding: '30px', borderLeft: '5px solid #10b981', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }}>
+                <div style={{ backgroundColor: 'white', borderRadius: '8px', padding: '30px', borderLeft: '5px solid #10b981', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '20px' }}>
                     <div style={{ backgroundColor: '#d1fae5', padding: '10px', borderRadius: '50%', color: '#10b981' }}>
                       <CheckCircle size={28} />
@@ -159,7 +159,7 @@ export default function BeritaDanAgenda() {
                     </div>
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', backgroundColor: '#f8fafc', padding: '20px', borderRadius: '12px' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', backgroundColor: '#f8fafc', padding: '20px', borderRadius: '8px' }}>
                     <div>
                       <div style={{ color: '#94a3b8', fontSize: '0.85rem', fontWeight: 600, textTransform: 'uppercase' }}>Nama Penerima</div>
                       <div style={{ color: '#0f172a', fontWeight: 600, fontSize: '1.1rem' }}>{result.nama}</div>
@@ -182,7 +182,7 @@ export default function BeritaDanAgenda() {
                   </div>
                 </div>
               ) : (
-                <div style={{ backgroundColor: '#fef2f2', borderRadius: '16px', padding: '30px', borderLeft: '5px solid #ef4444', display: 'flex', alignItems: 'center', gap: '20px' }}>
+                <div style={{ backgroundColor: '#fef2f2', borderRadius: '8px', padding: '30px', borderLeft: '5px solid #ef4444', display: 'flex', alignItems: 'center', gap: '20px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
                   <div style={{ color: '#ef4444' }}><ShieldAlert size={40} /></div>
                   <div>
                     <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#991b1b', margin: '0 0 5px 0' }}>Data Tidak Ditemukan</h3>

@@ -31,7 +31,7 @@
 
 .card {
   background: white;
-  border-radius: 16px;
+  border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0,0,0,0.02);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -69,7 +69,7 @@
 }
 
 .role {
-  color: #0ea5e9;
+  color: #1e3a8a;
   font-weight: 600;
   font-size: 0.95rem;
 }

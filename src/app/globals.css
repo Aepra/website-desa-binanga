@@ -1,24 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --bg-color: #fcfcfc;
-  --text-color: #1a1a1a;
-  --primary-color: #0070f3;
-  --primary-hover: #005bb5;
-  --nav-bg: rgba(252, 252, 252, 0.8);
-  --border-color: #eaeaea;
-  --hero-gradient: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);
+  --bg-color: #f8fafc;
+  --text-color: #0f172a;
+  --primary-color: #1e3a8a;
+  --primary-hover: #1e40af;
+  --nav-bg: rgba(255, 255, 255, 0.9);
+  --border-color: #e2e8f0;
+  --hero-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-color: #0a0a0a;
-    --text-color: #ededed;
-    --primary-color: #3291ff;
-    --primary-hover: #0070f3;
-    --nav-bg: rgba(10, 10, 10, 0.8);
-    --border-color: #333;
-    --hero-gradient: linear-gradient(135deg, #111 0%, #000 100%);
+    --bg-color: #0f172a;
+    --text-color: #f1f5f9;
+    --primary-color: #3b82f6;
+    --primary-hover: #60a5fa;
+    --nav-bg: rgba(15, 23, 42, 0.9);
+    --border-color: #334155;
+    --hero-gradient: linear-gradient(135deg, #020617 0%, #0f172a 100%);
   }
 }
 
@@ -50,7 +50,7 @@ a {
 .btn {
   display: inline-block;
   padding: 0.75rem 1.5rem;
-  border-radius: 8px;
+  border-radius: 4px;
   font-weight: 500;
   transition: all 0.2s ease;
   cursor: pointer;

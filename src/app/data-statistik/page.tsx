@@ -27,24 +27,24 @@ export default function DataStatistik() {
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px', marginBottom: '40px' }}>
-            <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '16px', boxShadow: '0 4px 6px rgba(0,0,0,0.02)', textAlign: 'center', border: '1px solid #e2e8f0' }}>
-              <div style={{ color: '#0ea5e9', marginBottom: '15px' }}><Users size={40} style={{ margin: '0 auto' }}/></div>
+            <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center', border: '1px solid #e2e8f0' }}>
+              <div style={{ color: '#1e3a8a', marginBottom: '15px' }}><Users size={40} style={{ margin: '0 auto' }}/></div>
               <div style={{ fontSize: '2.5rem', fontWeight: 800, color: '#0f172a' }}>{totalPenduduk}</div>
               <div style={{ color: '#64748b', fontWeight: 600 }}>Total Penduduk</div>
             </div>
-            <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '16px', boxShadow: '0 4px 6px rgba(0,0,0,0.02)', textAlign: 'center', border: '1px solid #e2e8f0' }}>
+            <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center', border: '1px solid #e2e8f0' }}>
               <div style={{ color: '#3b82f6', marginBottom: '15px' }}><User size={40} style={{ margin: '0 auto' }}/></div>
               <div style={{ fontSize: '2.5rem', fontWeight: 800, color: '#0f172a' }}>{totalLaki}</div>
               <div style={{ color: '#64748b', fontWeight: 600 }}>Laki - Laki</div>
             </div>
-            <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '16px', boxShadow: '0 4px 6px rgba(0,0,0,0.02)', textAlign: 'center', border: '1px solid #e2e8f0' }}>
-              <div style={{ color: '#ec4899', marginBottom: '15px' }}><UserCheck size={40} style={{ margin: '0 auto' }}/></div>
+            <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center', border: '1px solid #e2e8f0' }}>
+              <div style={{ color: '#334155', marginBottom: '15px' }}><UserCheck size={40} style={{ margin: '0 auto' }}/></div>
               <div style={{ fontSize: '2.5rem', fontWeight: 800, color: '#0f172a' }}>{totalPerempuan}</div>
               <div style={{ color: '#64748b', fontWeight: 600 }}>Perempuan</div>
             </div>
           </div>
 
-          <div style={{ backgroundColor: 'white', padding: '40px', borderRadius: '16px', boxShadow: '0 4px 6px rgba(0,0,0,0.02)', border: '1px solid #e2e8f0' }}>
+          <div style={{ backgroundColor: 'white', padding: '40px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #e2e8f0' }}>
             <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#0f172a', marginBottom: '30px' }}>Distribusi Kelompok Usia</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               {demografi.usia.map((item, index) => {
@@ -56,7 +56,7 @@ export default function DataStatistik() {
                       <span style={{ fontWeight: 700, color: '#0f172a' }}>{item.jumlah} Jiwa ({percentage}%)</span>
                     </div>
                     <div style={{ width: '100%', height: '16px', backgroundColor: '#f1f5f9', borderRadius: '8px', overflow: 'hidden' }}>
-                      <div style={{ width: `${percentage}%`, height: '100%', backgroundColor: '#0ea5e9', borderRadius: '8px' }}></div>
+                      <div style={{ width: `${percentage}%`, height: '100%', backgroundColor: '#1e3a8a', borderRadius: '8px' }}></div>
                     </div>
                   </div>
                 );
@@ -69,7 +69,7 @@ export default function DataStatistik() {
         <section id="pendidikan-pekerjaan" style={{ textAlign: 'center', padding: '40px 0' }}>
           <h2 style={{ fontSize: '2.5rem', fontWeight: 800, color: '#0f172a', marginBottom: '20px' }}>Pendidikan & Pekerjaan</h2>
           <p style={{ color: '#64748b', marginBottom: '30px' }}>Data analitik mengenai demografi pendidikan dan pekerjaan masyarakat desa.</p>
-          <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '16px', border: '1px solid #e2e8f0', color: '#64748b' }}>
+          <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '8px', border: '1px solid #e2e8f0', color: '#64748b' }}>
             Masih dalam tahap pembaruan data pendidikan dan pekerjaan.
           </div>
         </section>
@@ -82,17 +82,17 @@ export default function DataStatistik() {
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px', marginBottom: '40px' }}>
-            <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '16px', boxShadow: '0 4px 6px rgba(0,0,0,0.02)', border: '1px solid #e2e8f0', borderTop: '5px solid #10b981' }}>
+            <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #e2e8f0', borderTop: '5px solid #1e3a8a' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '15px' }}>
-                <div style={{ backgroundColor: '#d1fae5', color: '#10b981', padding: '10px', borderRadius: '10px' }}><Landmark size={24} /></div>
+                <div style={{ backgroundColor: '#f1f5f9', color: '#1e3a8a', padding: '10px', borderRadius: '8px' }}><Landmark size={24} /></div>
                 <div style={{ color: '#64748b', fontWeight: 600 }}>Total Pendapatan</div>
               </div>
               <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0f172a' }}>{formatRupiah(totalPendapatan)}</div>
             </div>
 
-            <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '16px', boxShadow: '0 4px 6px rgba(0,0,0,0.02)', border: '1px solid #e2e8f0', borderTop: '5px solid #ef4444' }}>
+            <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #e2e8f0', borderTop: '5px solid #334155' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '15px' }}>
-                <div style={{ backgroundColor: '#fee2e2', color: '#ef4444', padding: '10px', borderRadius: '10px' }}><Wallet size={24} /></div>
+                <div style={{ backgroundColor: '#f1f5f9', color: '#334155', padding: '10px', borderRadius: '8px' }}><Wallet size={24} /></div>
                 <div style={{ color: '#64748b', fontWeight: 600 }}>Total Belanja</div>
               </div>
               <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0f172a' }}>{formatRupiah(totalBelanja)}</div>
@@ -101,7 +101,7 @@ export default function DataStatistik() {
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px' }}>
             {/* Pendapatan Detail */}
-            <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '16px', boxShadow: '0 4px 6px rgba(0,0,0,0.02)', border: '1px solid #e2e8f0' }}>
+            <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #e2e8f0' }}>
               <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#0f172a', marginBottom: '20px' }}>Rincian Pendapatan</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '10px', borderBottom: '1px solid #f1f5f9' }}>
@@ -120,7 +120,7 @@ export default function DataStatistik() {
             </div>
 
             {/* Belanja Detail */}
-            <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '16px', boxShadow: '0 4px 6px rgba(0,0,0,0.02)', border: '1px solid #e2e8f0' }}>
+            <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #e2e8f0' }}>
               <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#0f172a', marginBottom: '20px' }}>Rincian Belanja</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '10px', borderBottom: '1px solid #f1f5f9' }}>

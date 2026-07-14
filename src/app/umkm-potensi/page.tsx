@@ -44,7 +44,7 @@ export default function UMKMPotensi() {
         <section id="profil-usaha" style={{ textAlign: 'center', padding: '40px 0' }}>
           <h2 style={{ fontSize: '2.5rem', fontWeight: 800, color: '#0f172a', marginBottom: '20px' }}>Profil Usaha Desa</h2>
           <p style={{ color: '#64748b', marginBottom: '30px', fontSize: '1.1rem' }}>Informasi mengenai badan usaha milik desa dan ekosistem UMKM lokal.</p>
-          <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '16px', border: '1px solid #e2e8f0', color: '#64748b', maxWidth: '800px', margin: '0 auto' }}>
+          <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '8px', border: '1px solid #e2e8f0', color: '#64748b', maxWidth: '800px', margin: '0 auto', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
             Masih dalam tahap pembaruan data profil usaha.
           </div>
         </section>
