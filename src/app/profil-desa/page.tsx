@@ -166,12 +166,15 @@ export default function ProfilDesa() {
 
           {/* SUMBER DATA */}
           <div style={{ backgroundColor: '#f8fafc', padding: '20px 25px', borderRadius: '8px', border: '1px solid #e2e8f0', marginTop: '20px', fontSize: '0.85rem', color: '#64748b', lineHeight: '1.8' }}>
-            <strong style={{ color: '#475569' }}>Sumber Data:</strong>
+            <strong style={{ color: '#475569' }}>Sumber Data (Tahun 2023):</strong>
             <ul style={{ margin: '8px 0 0 0', paddingLeft: '20px' }}>
-              <li>Luas Wilayah — Badan Perencanaan Daerah Kabupaten Majene</li>
-              <li>Jarak Administrasi — Kantor Camat Sendana</li>
-              <li>Populasi & Kepadatan — Dinas Kependudukan dan Pencatatan Sipil Kab. Majene</li>
+              <li>Luas Wilayah &amp; Persentase Luas — <em>Badan Perencanaan Daerah Kabupaten Majene, 2023</em></li>
+              <li>Jarak ke Ibukota Kecamatan &amp; Kabupaten — <em>Kantor Camat Sendana, 2023</em></li>
+              <li>Kependudukan, Kepadatan &amp; Rasio Jenis Kelamin — <em>Dinas Kependudukan dan Pencatatan Sipil Kabupaten Majene, 2023</em></li>
             </ul>
+            <p style={{ margin: '12px 0 0 0', fontSize: '0.8rem', color: '#94a3b8' }}>
+              Diterbitkan oleh Badan Pusat Statistik (BPS) Kabupaten Majene — <a href="https://majenekab.bps.go.id" target="_blank" rel="noopener noreferrer" style={{ color: '#1e3a8a', textDecoration: 'underline' }}>majenekab.bps.go.id</a>
+            </p>
           </div>
         </section>
 

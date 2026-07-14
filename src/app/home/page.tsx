@@ -35,7 +35,7 @@ export default function Home() {
           variants={containerVariants}
         >
           <motion.div variants={itemVariants} className={styles.badge}>
-            Portal Resmi Pemerintahan Desa
+            Portal Resmi Pemerintahan Desa Binanga
           </motion.div>
           
           <motion.h1 variants={itemVariants} className={styles.title}>
@@ -43,7 +43,7 @@ export default function Home() {
           </motion.h1>
           
           <motion.p variants={itemVariants} className={styles.description}>
-            Selamat datang di Smart Village Platform. Pusat informasi, layanan publik digital, dan transparansi data untuk seluruh warga desa.
+            Selamat datang di portal resmi Desa Binanga, Kecamatan Sendana, Kabupaten Majene, Sulawesi Barat. Pusat informasi, layanan publik digital, dan transparansi data untuk seluruh warga desa.
           </motion.p>
           
           <motion.div variants={itemVariants} className={styles.ctaGroup}>
@@ -97,8 +97,8 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className={styles.sectionTitle} style={{ color: 'white' }}>Statistik Desa</h2>
-            <p style={{ color: '#94a3b8' }}>Data real-time kependudukan dan transparansi</p>
+            <h2 className={styles.sectionTitle} style={{ color: 'white' }}>Statistik Desa Binanga</h2>
+            <p style={{ color: '#94a3b8' }}>Data kependudukan dan wilayah Desa Binanga, Kecamatan Sendana</p>
           </motion.div>
 
           <motion.div 
@@ -127,6 +127,19 @@ export default function Home() {
               <div className={styles.statValue}>{statistik.realisasi_anggaran}%</div>
               <div className={styles.statLabel}>Realisasi APBDes</div>
             </motion.div>
+          </motion.div>
+
+          {/* SUMBER DATA */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            style={{ textAlign: 'center', marginTop: '30px', padding: '16px 20px', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}
+          >
+            <p style={{ color: '#64748b', fontSize: '0.8rem', lineHeight: '1.6', margin: 0 }}>
+              Sumber: Badan Pusat Statistik (BPS) Kabupaten Majene, 2023 — 
+              Dinas Kependudukan dan Pencatatan Sipil Kab. Majene &amp; Badan Perencanaan Daerah Kab. Majene
+            </p>
           </motion.div>
         </div>
       </section>
