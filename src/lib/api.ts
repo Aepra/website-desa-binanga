@@ -1,108 +1,123 @@
-import db from '../data/dummy-db.json';
+// ============================================================
+// API Layer — Website Desa Binanga
+// ============================================================
+// Data statis  → import dari src/data/static/
+// Data dinamis → import dari src/data/dynamic/
+//
+// Nanti saat integrasi database, cukup ganti isi file dynamic/
+// dengan query ke database (Supabase, Prisma, dsb).
+// ============================================================
 
-export interface Statistik {
-  penduduk: number;
-  kepala_keluarga: number;
-  luas_wilayah: number;
-  realisasi_anggaran: number;
-}
+// --- Data Statis ---
+import { statistik, type Statistik } from "@/data/static/statistik";
+import { demografi, type Demografi } from "@/data/static/demografi";
+import { apbdes, type APBDes } from "@/data/static/apbdes";
+import {
+  perangkatDesa,
+  type PerangkatDesa,
+} from "@/data/static/perangkat-desa";
+import { mapDesa, type MapDesa } from "@/data/static/map-desa";
+import { wisata, type Wisata } from "@/data/static/wisata";
 
-export interface Berita {
-  id: string;
-  judul: string;
-  kategori: string;
-  tanggal: string;
-  cover: string;
-  ringkasan: string;
-}
+// --- Data Dinamis ---
+import { posts, type Post, type PostType } from "@/data/dynamic/posts";
+import { umkmList, type UMKM } from "@/data/dynamic/umkm";
+import { bansosList, type Bansos } from "@/data/dynamic/bansos";
 
-export interface Agenda {
-  id: string;
-  judul: string;
-  tanggal: string;
-  lokasi: string;
-}
+// ============================================================
+// Re-export types agar halaman tetap import dari '@/lib/api'
+// ============================================================
+export type {
+  Statistik,
+  Demografi,
+  APBDes,
+  PerangkatDesa,
+  MapDesa,
+  Wisata,
+  Post,
+  PostType,
+  UMKM,
+  Bansos,
+};
 
-export interface UMKM {
-  id: string;
-  nama: string;
-  kategori: string;
-  foto: string;
-  deskripsi: string;
-  kontak: string;
-}
+// Backward-compatible type alias
+export type Berita = Post;
+export type Agenda = Post;
 
-export interface Wisata {
-  id: string;
-  nama: string;
-  kategori: string;
-  foto: string;
-  deskripsi: string;
-}
-
-export interface PerangkatDesa {
-  id: string;
-  nama: string;
-  jabatan: string;
-  foto: string;
-}
+// ============================================================
+// Fungsi API — Data Statis
+// ============================================================
 
 export function getStatistik(): Statistik {
-  return db.statistik;
+  return statistik;
 }
 
-export function getLatestBerita(count: number = 3): Berita[] {
-  return db.berita.slice(0, count);
+export function getDemografi(): Demografi {
+  return demografi;
 }
 
-export function getAllBerita(): Berita[] {
-  return db.berita;
-}
-
-export function getUpcomingAgenda(count: number = 2): Agenda[] {
-  return db.agenda.slice(0, count);
-}
-
-export function getAllUMKM(): UMKM[] {
-  return db.umkm;
-}
-
-export function getAllWisata(): Wisata[] {
-  return db.wisata;
+export function getAPBDes(): APBDes {
+  return apbdes;
 }
 
 export function getPerangkatDesa(): PerangkatDesa[] {
-  return db.perangkat_desa;
-}
-
-export interface Bansos {
-  nik: string;
-  nama: string;
-  program: string;
-  status: string;
-  tanggal_terima: string;
-}
-
-export function cekBansos(nik: string): Bansos | undefined {
-  return db.bansos.find(b => b.nik === nik);
-}
-
-export function getAPBDes() {
-  return db.apbdes;
-}
-
-export function getDemografi() {
-  return db.demografi;
-}
-
-export interface MapDesa {
-  id: string;
-  nama: string;
-  kategori: string;
-  lat: number;
-  lng: number;
+  return perangkatDesa;
 }
 
 export function getMapDesa(): MapDesa[] {
-  return db.map_desa;
+  return mapDesa;
+}
+
+export function getAllWisata(): Wisata[] {
+  return wisata;
+}
+
+// ============================================================
+// Fungsi API — Data Dinamis: Posts
+// ============================================================
+
+/** Ambil semua posts */
+export function getAllPosts(): Post[] {
+  return posts;
+}
+
+/** Ambil posts berdasarkan type */
+export function getPostsByType(type: PostType): Post[] {
+  return posts.filter((p) => p.type === type);
+}
+
+/** Ambil berita terbaru (backward-compatible) */
+export function getLatestBerita(count: number = 3): Post[] {
+  return getPostsByType("berita").slice(0, count);
+}
+
+/** Ambil semua berita (backward-compatible) */
+export function getAllBerita(): Post[] {
+  return getPostsByType("berita");
+}
+
+/** Ambil semua pengumuman */
+export function getAllPengumuman(): Post[] {
+  return getPostsByType("pengumuman");
+}
+
+/** Ambil agenda mendatang (backward-compatible) */
+export function getUpcomingAgenda(count: number = 2): Post[] {
+  return getPostsByType("agenda").slice(0, count);
+}
+
+// ============================================================
+// Fungsi API — Data Dinamis: UMKM
+// ============================================================
+
+export function getAllUMKM(): UMKM[] {
+  return umkmList;
+}
+
+// ============================================================
+// Fungsi API — Data Dinamis: Bansos
+// ============================================================
+
+export function cekBansos(nik: string): Bansos | undefined {
+  return bansosList.find((b) => b.nik === nik);
 }
