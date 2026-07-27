@@ -1,0 +1,658 @@
+/* ============================================
+   Fasilitas & Extended Components
+   ============================================ */
+
+/* ── FASILITAS GRID ─────────────────────────────────────── */
+.fasilitasGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.fasilitasCard {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.fasilitasCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+}
+
+.fasImgWrap {
+  position: relative;
+  height: 190px;
+  overflow: hidden;
+}
+.fasImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.fasilitasCard:hover .fasImg { transform: scale(1.05); }
+
+.fasBadge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 100px;
+  letter-spacing: 0.5px;
+}
+
+.fasBody {
+  padding: 16px 20px 20px;
+}
+
+.fasDusunTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  color: #94a3b8;
+  margin-bottom: 8px;
+}
+
+.fasTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.fasDesc {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+/* ── SUMBER BOX ─────────────────────────────────────────── */
+.sumberBox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 0.8rem;
+  color: #0369a1;
+  line-height: 1.6;
+  margin-top: 20px;
+}
+
+.sumberBoxCenter {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 0.8rem;
+  color: #0369a1;
+  line-height: 1.6;
+  margin: 0 auto 32px;
+  max-width: 750px;
+}
+
+.sumberBoxDark {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.6;
+  margin-top: 24px;
+}
+
+.quoteSource {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-style: italic;
+}
+
+/* ── TIMELINE ────────────────────────────────────────────── */
+.timeline {
+  position: relative;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 110px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, #3b82f6, #8b5cf6, #ef4444);
+  opacity: 0.3;
+}
+
+.timelineItem {
+  display: flex;
+  gap: 0;
+  align-items: flex-start;
+  padding-bottom: 28px;
+}
+
+.timelineLeft {
+  width: 120px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0;
+  padding-top: 12px;
+}
+
+.timelineYear {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding-right: 20px;
+  text-align: right;
+}
+
+.timelineDot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+  position: relative;
+  margin-top: 4px;
+  margin-right: -6px;
+  z-index: 2;
+}
+
+.timelineCard {
+  flex: 1;
+  background: white;
+  border-radius: 14px;
+  padding: 16px 20px;
+  border-left: 4px solid;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-left: 16px;
+}
+.timelineCard:hover {
+  transform: translateX(4px);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.1);
+}
+
+.timelineBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 3px 10px;
+  border-radius: 100px;
+  margin-bottom: 8px;
+}
+
+.timelineTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 6px;
+}
+
+.timelineCerita {
+  font-size: 0.85rem;
+  color: #475569;
+  line-height: 1.7;
+}
+
+/* ── TAB ROW ─────────────────────────────────────────────── */
+.tabRow {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.tabBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border-radius: 100px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  color: #64748b;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.tabBtn:hover {
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+.tabActive {
+  background: #1e3a8a;
+  color: white !important;
+  border-color: #1e3a8a !important;
+  box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
+}
+
+.tabPanel {
+  animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── DUSUN GRID ──────────────────────────────────────────── */
+.dusunGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.dusunCard {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.dusunCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.1);
+}
+
+.dusunHeader {
+  margin-bottom: 16px;
+}
+
+.dusunNama {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+
+.dusunHighlight {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #1e3a8a;
+  background: #eff6ff;
+  border-radius: 100px;
+  padding: 2px 10px;
+}
+
+.dusunStats {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.dusunStat {
+  flex: 1;
+  text-align: center;
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 10px 6px;
+}
+
+.dusunStatVal {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #1e3a8a;
+}
+
+.dusunStatLbl {
+  font-size: 0.65rem;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+.genderBar {
+  display: flex;
+  height: 8px;
+  border-radius: 100px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.genderBarLaki {
+  background: #3b82f6;
+}
+.genderBarPerempuan {
+  background: #ec4899;
+}
+
+.genderLegend {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: #64748b;
+}
+.legendLaki    { color: #3b82f6; font-weight: 600; }
+.legendPerempuan { color: #ec4899; font-weight: 600; }
+
+/* ── PENDIDIKAN PANEL ────────────────────────────────────── */
+.eduSummary {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.eduSumItem {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 20px 16px;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+.eduSumItem:hover { transform: translateY(-4px); }
+
+.eduIcon {
+  color: #1e3a8a;
+  margin-bottom: 8px;
+}
+
+.eduSumVal {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.eduSumLbl {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-top: 4px;
+  line-height: 1.3;
+}
+
+.eduTableWrap {
+  overflow-x: auto;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+}
+
+.eduTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.eduTable th {
+  background: #1e3a8a;
+  color: white;
+  padding: 12px 14px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+.eduTable th:first-child { text-align: left; border-radius: 14px 0 0 0; }
+.eduTable th:last-child  { border-radius: 0 14px 0 0; }
+
+.eduTable td {
+  padding: 11px 14px;
+  border-bottom: 1px solid #f1f5f9;
+  text-align: center;
+  color: #475569;
+}
+.eduTable td:first-child { text-align: left; color: #0f172a; }
+.eduTable tr:last-child td { border-bottom: none; }
+.eduTable tr:hover td { background: #f8fafc; }
+
+.totalRow td {
+  background: #f0f9ff !important;
+  font-weight: 700;
+  color: #0f172a !important;
+  border-top: 2px solid #bae6fd;
+}
+
+/* ── SOSIAL PANEL ────────────────────────────────────────── */
+.sosialGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.sosialCard {
+  background: white;
+  border-radius: 16px;
+  padding: 24px 20px;
+  border: 1px solid #e2e8f0;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.sosialCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+}
+
+.sosialIcon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 14px;
+}
+
+.sosialCard h3 {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.sosialVal {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 6px;
+}
+
+.sosialSub {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  line-height: 1.4;
+}
+
+/* ── PERKAWINAN ──────────────────────────────────────────── */
+.perkawinanCard {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+}
+
+.perkawinanTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 20px;
+}
+
+.perkawinanGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.perkawinanItem {
+  display: grid;
+  grid-template-columns: 100px 1fr 60px;
+  align-items: center;
+  gap: 12px;
+}
+
+.perkawinanLabel {
+  font-size: 0.85rem;
+  color: #475569;
+  font-weight: 500;
+}
+
+.perkawinanBar {
+  height: 10px;
+  background: #f1f5f9;
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.perkawinanBarFill {
+  height: 100%;
+  border-radius: 100px;
+  transition: width 0.8s ease;
+}
+
+.perkawinanVal {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-align: right;
+}
+
+/* ── FASILITAS RINGKASAN ─────────────────────────────────── */
+.fasRingkasanGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 14px;
+  margin-bottom: 32px;
+}
+
+.fasRingkasanItem {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 18px 14px;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+.fasRingkasanItem:hover { transform: translateY(-3px); }
+
+.fasRingkasanIcon {
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: center;
+}
+
+.fasRingkasanVal {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.fasRingkasanLbl {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.3;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .timeline::before { left: 80px; }
+  .timelineLeft { width: 90px; }
+  .timelineYear { font-size: 0.7rem; }
+
+  .fasilitasGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .fasImgWrap { height: 140px; }
+
+  .dusunGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .dusunCard { padding: 14px; }
+
+  .sosialGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .sosialCard { padding: 14px 10px; }
+  .sosialIcon { width: 38px; height: 38px; margin-bottom: 8px; }
+  .sosialIcon svg { width: 20px; height: 20px; }
+  .sosialVal { font-size: 1.1rem; }
+
+  .perkawinanItem {
+    grid-template-columns: 80px 1fr 50px;
+  }
+
+  .fasRingkasanGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .fasRingkasanItem { padding: 12px 8px; }
+  .fasRingkasanVal { font-size: 1.3rem; }
+
+  .eduSummary {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .eduSumItem { padding: 14px 10px; }
+  .eduSumVal { font-size: 1.3rem; }
+
+  .tabRow {
+    gap: 6px;
+  }
+
+  .tabBtn {
+    padding: 8px 14px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dusunGrid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .dusunStatVal { font-size: 0.95rem; }
+  .dusunStatLbl { font-size: 0.55rem; }
+  .dusunNama { font-size: 0.9rem; }
+  
+  .sosialGrid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  
+  .fasilitasGrid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .fasTitle { font-size: 0.85rem; }
+  .fasDesc { font-size: 0.7rem; }
+  .fasImgWrap { height: 110px; }
+  
+  .fasRingkasanGrid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .fasRingkasanVal { font-size: 1.1rem; }
+  .fasRingkasanLbl { font-size: 0.6rem; }
+  
+  .eduSummary { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  
+  .perkawinanCard { padding: 16px 12px; }
+  .perkawinanLabel { font-size: 0.7rem; }
+  .perkawinanVal { font-size: 0.75rem; }
+  .perkawinanItem { grid-template-columns: 65px 1fr 45px; gap: 8px; }
+}

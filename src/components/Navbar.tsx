@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import {
   ChevronDown,
@@ -17,66 +18,58 @@ const menuItems = [
   },
   {
     title: 'Profil Desa',
-    items: [
-      { title: 'Sejarah', href: '/profil-desa#sejarah' },
-      { title: 'Visi & Misi', href: '/profil-desa#visi-misi' },
-      { title: 'Wilayah & Geografis', href: '/profil-desa#wilayah-geografis' },
-      { title: 'Perangkat Desa', href: '/profil-desa#perangkat-desa' },
-      { title: 'Prestasi & Penghargaan', href: '/profil-desa#prestasi-penghargaan' },
-    ],
+    href: '/profil-desa',
   },
   {
     title: 'Data & Statistik',
     items: [
-      { title: 'Demografi Penduduk', href: '/data-statistik#demografi-penduduk' },
-      { title: 'Pendidikan & Pekerjaan', href: '/data-statistik#pendidikan-pekerjaan' },
-      { title: 'Transparansi APBDes', href: '/data-statistik#transparansi-apbdes' },
+      { title: 'Data Kependudukan', href: '/data-statistik#kependudukan' },
+      { title: 'Transparansi APBDes', href: '/data-statistik#apbdes' },
     ],
   },
   {
     title: 'Berita & Agenda',
-    items: [
-      { title: 'Berita Desa', href: '/berita-agenda#berita-desa' },
-      { title: 'Pengumuman', href: '/berita-agenda#pengumuman' },
-      { title: 'Agenda Kegiatan', href: '/berita-agenda#agenda-kegiatan' },
-      { title: 'Cek Bansos', href: '/berita-agenda#cek-bansos' },
-    ],
+    href: '/berita-agenda',
   },
   {
-    title: 'UMKM & Potensi',
-    items: [
-      { title: 'Katalog Produk', href: '/umkm-potensi#katalog-produk' },
-      { title: 'Profil Usaha', href: '/umkm-potensi#profil-usaha' },
-    ],
+    title: 'UMKM',
+    href: '/umkm',
   },
   {
-    title: 'Wisata',
+    title: 'Wisata & Potensi Desa',
     items: [
-      { title: 'Destinasi', href: '/wisata#destinasi' },
-      { title: 'Galeri Virtual Tour', href: '/wisata#galeri-virtual-tour' },
-      { title: 'Peta Wisata', href: '/wisata#peta-wisata' },
+      { title: 'Ikhtisar', href: '/wisata#bento' },
+      { title: 'Destinasi Wisata', href: '/wisata#destinasi' },
+      { title: 'Potensi Agrowisata', href: '/wisata#potensi' },
+      { title: 'Peta ArcGIS', href: '/wisata#peta' },
     ],
   },
   {
     title: 'Kontak',
-    items: [
-      { title: 'FAQ', href: '/kontak#faq' },
-      { title: 'Form Kontak', href: '/kontak#form-kontak' },
-    ],
+    href: '/kontak',
   },
 ];
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  if (pathname.startsWith('/admin')) {
+    return null;
+  }
 
   return (
     <header className={styles.header}>
-      <div className={`container ${styles.container}`}>
+      <div className={styles.container}>
 
         {/* Logo Placeholder */}
 
         <Link href="/home" className={styles.logo} title="Home">
-          <div className={styles.logoPlaceholder}></div>
+          <img src="/pic/logo-desa.jpeg" alt="Logo Desa Binanga" className={styles.logoImage} />
+          <div className={styles.logoText}>
+            <span className={styles.logoTitle}>Desa Binanga</span>
+            <span className={styles.logoSubtitle}>Kecamatan Sendana, Kabupaten Majene</span>
+          </div>
         </Link>
 
         {/* Desktop Menu */}
@@ -132,7 +125,7 @@ export default function Navbar() {
             className={styles.mobileButton}
             onClick={() => setMobileOpen(!mobileOpen)}
           >
-            {mobileOpen ? <X /> : <Menu />}
+            {mobileOpen ? <X color="#0f172a" /> : <Menu color="#ffffff" />}
           </button>
 
         </div>
@@ -147,7 +140,7 @@ export default function Navbar() {
             <div key={menu.title} className={styles.mobileItem}>
 
               {menu.href ? (
-                <Link href={menu.href}>
+                <Link href={menu.href} onClick={() => setMobileOpen(false)} className={styles.mobileMainLink}>
                   {menu.title}
                 </Link>
               ) : (
@@ -161,6 +154,8 @@ export default function Navbar() {
                       <Link
                         key={item.href}
                         href={item.href}
+                        onClick={() => setMobileOpen(false)}
+                        className={styles.mobileSubLink}
                       >
                         {item.title}
                       </Link>
@@ -172,9 +167,9 @@ export default function Navbar() {
             </div>
           ))}
 
-          <hr />
+          <hr className={styles.mobileDivider} />
 
-          <Link href="/admin/login">
+          <Link href="/admin/login" onClick={() => setMobileOpen(false)} className={styles.mobileMainLink}>
             Login Admin
           </Link>
 

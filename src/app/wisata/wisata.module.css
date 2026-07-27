@@ -1,0 +1,155 @@
+/* CLEAN MODERN THEME - KKN DESA WISATA */
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+.page { background: #f8fafc; min-height: 100vh; color: #0f172a; font-family: 'Inter', sans-serif; overflow-x: hidden; padding-bottom: 100px; }
+.container { max-width: 1300px; margin: 0 auto; padding: 0 5%; }
+
+/* --- IN-PAGE SUB NAVIGATION --- */
+.subnav { position: sticky; top: 70px; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); border-bottom: 1px solid #e2e8f0; z-index: 50; padding: 12px 20px; margin-bottom: 50px; display: flex; justify-content: flex-start; gap: 12px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.subnav::-webkit-scrollbar { display: none; }
+.navItem { flex-shrink: 0; display: flex; align-items: center; gap: 8px; background: #f1f5f9; border: 1px solid transparent; padding: 8px 20px; border-radius: 100px; color: #475569; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; text-decoration: none; }
+.navItem:hover { background: #e2e8f0; color: #0f172a; }
+.navItemActive { background: #3b82f6; color: #fff; box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3); }
+
+/* --- HEADER TITLE --- */
+.headerTitle { text-align: center; margin: 40px 0 60px 0; animation: fadeInUp 0.6s ease-out; }
+.hBadge { display: inline-block; background: #eff6ff; color: #2563eb; padding: 6px 16px; border-radius: 100px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
+.hMain { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; line-height: 1.1; margin: 0 0 16px 0; letter-spacing: -1.5px; color: #0f172a; }
+.hDesc { font-size: 1.1rem; color: #64748b; max-width: 600px; margin: 0 auto; line-height: 1.6; }
+
+/* --- BENTO DASHBOARD (CLEAN & BRIGHT) --- */
+.bentoGrid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 240px; gap: 24px; margin-bottom: 100px; animation: fadeInUp 0.8s ease-out; }
+.bentoCard { background: #fff; border-radius: 24px; border: 1px solid #e2e8f0; overflow: hidden; position: relative; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
+.bentoCard:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.06); border-color: #cbd5e1; }
+
+/* Highlight Image (span 2x2) */
+.bentoHighlight { grid-column: span 2; grid-row: span 2; border: none; box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
+.bBg { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+.bentoCard:hover .bBg { transform: scale(1.05); }
+.bOverlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,23,42,0.85) 0%, transparent 50%); display: flex; flex-direction: column; justify-content: flex-end; padding: 32px; }
+.bTitleBig { font-size: 2.2rem; font-weight: 800; margin: 0 0 8px 0; color: #fff; line-height: 1.1; }
+.bDesc { color: rgba(255,255,255,0.8); font-size: 0.95rem; margin: 0; }
+
+/* Weather Card */
+.bentoWeather { display: flex; flex-direction: column; justify-content: space-between; padding: 24px; background: #fff; }
+.wTop { display: flex; justify-content: space-between; align-items: flex-start; color: #f59e0b; }
+.wTemp { font-size: 3rem; font-weight: 900; margin: 0; line-height: 1; color: #0f172a; }
+.wDesc { font-size: 0.9rem; font-weight: 600; color: #64748b; margin-top: 4px; }
+
+/* Map Preview Card */
+.bentoMap { grid-row: span 2; padding: 24px; display: flex; flex-direction: column; cursor: pointer; }
+.mapThumbWrap { flex: 1; border-radius: 16px; overflow: hidden; position: relative; margin-bottom: 16px; background: #f1f5f9; }
+.mapThumbWrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+.bentoCard:hover .mapThumbWrap img { transform: scale(1.05); }
+.mapLabel { font-weight: 700; font-size: 1.05rem; color: #0f172a; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
+
+/* Quick Stats */
+.bentoStat { display: flex; flex-direction: column; justify-content: center; padding: 24px; background: #fff; }
+.sIconWrap { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+.sVal { font-size: 2.2rem; font-weight: 900; color: #0f172a; line-height: 1; margin-bottom: 4px; }
+.sLbl { font-size: 0.85rem; color: #64748b; font-weight: 600; line-height: 1.4; }
+
+/* --- SECTION HEADERS --- */
+.section { padding-top: 100px; margin-top: -30px; }
+.secHeader { margin-bottom: 40px; text-align: center; }
+.secSub { color: #3b82f6; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 8px; }
+.secTitle { font-size: 2.4rem; font-weight: 900; margin: 0; color: #0f172a; letter-spacing: -0.5px; }
+
+/* --- DESTINASI KARTU DETAIL (CLEAN GRID) --- */
+.destGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px; }
+.destCard { background: #fff; border-radius: 20px; border: 1px solid #e2e8f0; overflow: hidden; transition: all 0.3s; box-shadow: 0 4px 16px rgba(0,0,0,0.02); display: flex; flex-direction: column; }
+.destCard:hover { border-color: #cbd5e1; box-shadow: 0 12px 32px rgba(0,0,0,0.06); transform: translateY(-4px); }
+.dImgWrap { height: 220px; width: 100%; position: relative; overflow: hidden; }
+.dImg { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.destCard:hover .dImg { transform: scale(1.05); }
+.dBadge { position: absolute; top: 16px; left: 16px; background: rgba(255,255,255,0.7); backdrop-filter: blur(8px); padding: 6px 14px; border-radius: 10px; font-size: 0.75rem; font-weight: 700; color: #0f172a; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.4); }
+.dBody { padding: 24px; display: flex; flex-direction: column; flex: 1; }
+.dTitle { font-size: 1.3rem; font-weight: 800; margin: 0 0 10px 0; color: #0f172a; }
+.dDesc { font-size: 0.9rem; color: #64748b; line-height: 1.6; margin: 0 0 24px 0; flex: 1; }
+.dMeta { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background: #f8fafc; padding: 16px; border-radius: 12px; border: 1px solid #f1f5f9; margin-top: auto; }
+.mItem { display: flex; align-items: center; gap: 8px; }
+.mIconWrap { color: #3b82f6; display: flex; justify-content: center; align-items: center; }
+.mText { font-size: 0.8rem; font-weight: 700; color: #475569; }
+
+/* --- POTENSI DESA (CLEAN ROWS) --- */
+.potensiList { display: flex; flex-direction: column; gap: 32px; }
+.potensiRow { display: flex; background: #fff; border-radius: 24px; border: 1px solid #e2e8f0; overflow: hidden; align-items: stretch; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
+.pImgWrap { width: 450px; flex-shrink: 0; }
+.pImg { width: 100%; height: 100%; object-fit: cover; }
+.pContent { padding: 48px; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.pTitle { font-size: 1.8rem; font-weight: 800; color: #0f172a; margin: 0 0 16px 0; letter-spacing: -0.5px; }
+.pDesc { font-size: 1.05rem; color: #475569; line-height: 1.7; margin: 0; }
+
+/* --- PETA ARCGIS (STATIC CONTAINER) --- */
+.mapContainer { position: relative; border-radius: 24px; overflow: hidden; border: 1px solid #e2e8f0; background: #fff; padding: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); margin-bottom: 40px; }
+.arcGisImg { width: 100%; border-radius: 16px; display: block; border: 1px solid #e2e8f0; }
+.mapOverlay { position: absolute; inset: 12px; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(15,23,42,0.4); backdrop-filter: blur(2px); opacity: 0; transition: opacity 0.3s; cursor: pointer; }
+.mapContainer:hover .mapOverlay { opacity: 1; }
+.btnMap { background: #fff; color: #0f172a; border: none; padding: 14px 28px; border-radius: 100px; font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1200px) {
+  .bentoGrid { grid-template-columns: repeat(3, 1fr); }
+  .bentoMap { grid-row: 1; grid-column: 3; }
+  .bentoStat { grid-column: span 1; }
+  .potensiRow { flex-direction: column; }
+  .pImgWrap { width: 100%; height: 300px; }
+}
+
+@media (max-width: 900px) {
+  .bentoGrid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 200px; }
+  .bentoHighlight { grid-column: span 2; }
+  .bentoMap { grid-column: span 1; grid-row: span 1; padding: 16px; }
+}
+
+@media (max-width: 768px) {
+  .subnav { justify-content: flex-start; padding: 12px 5%; margin-bottom: 30px; }
+  .secTitle { font-size: 2rem; }
+  .hMain { font-size: 2.2rem; }
+  
+  /* BENTO GRID - PADAT 2 KOLOM */
+  .bentoGrid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: auto; gap: 12px; margin-bottom: 40px; }
+  .bentoHighlight { grid-column: span 2; grid-row: span 1; height: 280px; }
+  .bentoMap { grid-column: span 2; height: 200px; padding: 16px; }
+  .bentoWeather, .bentoStat { height: 140px; padding: 16px; }
+  .wTemp { font-size: 2.2rem; }
+  .sVal { font-size: 1.8rem; }
+  .sIconWrap { width: 36px; height: 36px; margin-bottom: 12px; }
+  .sIconWrap svg { width: 18px; height: 18px; }
+  .sLbl { font-size: 0.75rem; }
+  
+  /* DESTINASI - HORIZONTAL CAROUSEL */
+  .destGrid { 
+    display: flex; 
+    overflow-x: auto; 
+    scroll-snap-type: x mandatory; 
+    gap: 16px; 
+    padding-bottom: 24px;
+    margin: 0 -5%; /* Break out of container padding */
+    padding-left: 5%;
+    padding-right: 5%;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+  }
+  .destGrid::-webkit-scrollbar { display: none; /* Chrome/Safari */ }
+  .destCard { flex: 0 0 85%; scroll-snap-align: center; }
+  .dImgWrap { height: 180px; }
+  .dBody { padding: 16px; }
+  .dTitle { font-size: 1.15rem; }
+  .dDesc { font-size: 0.85rem; margin-bottom: 16px; }
+  .dMeta { padding: 12px; gap: 8px; }
+  
+  /* POTENSI DESA */
+  .potensiRow { border-radius: 16px; }
+  .pContent { padding: 24px 20px; }
+  .pTitle { font-size: 1.3rem; margin-bottom: 12px; }
+  .pImgWrap { height: 200px; }
+  .pDesc { font-size: 0.9rem; }
+  
+  .headerTitle { margin: 20px 0 30px 0; }
+  .section { padding-top: 60px; margin-top: -20px; }
+}
+
+@media (min-width: 769px) {
+  .subnav { justify-content: center; }
+}

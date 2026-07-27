@@ -1,0 +1,856 @@
+'use client';
+
+import { Target, Lightbulb, Map, Compass, MapPin, Ruler, Users, Award, Landmark, BookOpen, Clock, TreePine, Waves, Building2, Heart, GraduationCap, Home, AlertTriangle, CheckCircle2, Star, ChevronRight } from 'lucide-react';
+import styles from './profil.module.css';
+import fasStyles from './fasilitas.module.css';
+import { useState, useEffect } from 'react';
+
+/* ─── DATA SEJARAH (sumber: Monografi Desa Binanga, Hal. 38–39) ─────────── */
+const kronologiSejarah = [
+  {
+    tahun: '~1950an',
+    judul: 'Wilayah Puttada yang Besar',
+    cerita:
+      'Binanga merupakan bagian dari Desa Puttada bersama Dusun Paminggalan, Lalattedong, Puttada, Pundau, dan Leppangan. Desa induk ini belum terpecah, masyarakat hidup berdampingan di pesisir Selat Makassar.',
+    tipe: 'info',
+  },
+  {
+    tahun: '1969',
+    judul: 'Gempa Bumi & Tsunami Melanda',
+    cerita:
+      'Gempa bumi disertai tsunami menghantam kawasan Desa Puttada. Masjid hancur; air laut masuk jauh ke pemukiman. Banyak ikan terdampar di darat, namun ketakutan membuat warga tidak berani mengambilnya.',
+    tipe: 'bencana',
+  },
+  {
+    tahun: '1972',
+    judul: 'Kemarau Panjang 10 Bulan',
+    cerita:
+      'Kemarau ekstrem selama sepuluh bulan menghancurkan hasil panen. Krisis pangan parah memaksa masyarakat bertahan hidup dengan memakan sagu dari pohon aren yang diproses secara tradisional.',
+    tipe: 'bencana',
+  },
+  {
+    tahun: '1982',
+    judul: 'Kemarau Kedua (7 Bulan)',
+    cerita:
+      'Kemarau panjang kedua melanda. Pohon kelapa yang menjadi andalan ekonomi rakyat banyak yang mati. Petani merugi besar dan perekonomian desa terpuruk selama beberapa musim.',
+    tipe: 'bencana',
+  },
+  {
+    tahun: '1984',
+    judul: 'Pengaspalan Jalan Poros',
+    cerita:
+      'Untuk pertama kalinya jalan poros selebar 3 meter diaspal. Akses mobilisasi warga menjadi jauh lebih mudah, membuka pintu bagi pertumbuhan ekonomi lokal dan akses ke pasar yang lebih luas.',
+    tipe: 'pembangunan',
+  },
+  {
+    tahun: '1987',
+    judul: 'Banjir Besar',
+    cerita:
+      'Banjir besar menerjang pemukiman, mengakibatkan jalan putus dan kelangkaan pangan. Meski tidak ada korban jiwa, kejadian ini menggerakkan semangat gotong-royong masyarakat untuk saling membantu.',
+    tipe: 'bencana',
+  },
+  {
+    tahun: '2005',
+    judul: 'Pemekaran Desa Puttada',
+    cerita:
+      'Desa Puttada secara resmi dimekarkan menjadi dua: Desa Puttada (Paminggalan, Lalattedong, Puttada) dan Desa Pundau (Pundau, Binanga, Leppangan). Pelayanan pemerintahan menjadi lebih terjangkau dan efektif.',
+    tipe: 'administrasi',
+  },
+  {
+    tahun: '2007–2009',
+    judul: 'Hadirnya Sinyal Telkomsel',
+    cerita:
+      'Tower Telkomsel dibangun di kawasan ini, membuka era baru komunikasi digital bagi warga desa. Pertukaran informasi, akses berita, dan komunikasi jarak jauh menjadi mungkin dilakukan.',
+    tipe: 'pembangunan',
+  },
+  {
+    tahun: '2010',
+    judul: 'Desa Binanga Berdiri Sendiri',
+    cerita:
+      'Dusun Binanga dimekarkan dari Desa Pundau dan resmi berdiri sebagai Desa Binanga yang mandiri, terdiri dari 4 dusun: Bo\'di, Butungan, Naulluyo, dan Binanga. Jalan tani sepanjang 10 km dibangun.',
+    tipe: 'administrasi',
+  },
+  {
+    tahun: '2016',
+    judul: 'Wisata Mangrove Dikembangkan',
+    cerita:
+      'Potensi wisata alam mulai dikelola secara serius. Hutan mangrove di Dusun Bo\'di dikembangkan menjadi destinasi ekowisata yang menarik pengunjung dan mendatangkan pendapatan tambahan bagi warga.',
+    tipe: 'pembangunan',
+  },
+  {
+    tahun: '2020',
+    judul: 'Gempa 6,2 SR',
+    cerita:
+      'Gempa berkekuatan 6,2 skala Richter mengguncang wilayah ini. Banyak rumah warga mengalami keretakan dan tower Telkomsel roboh, memutus komunikasi sementara. Tidak ada korban jiwa yang dilaporkan.',
+    tipe: 'bencana',
+  },
+];
+
+/* ─── DATA DUSUN (sumber: Monografi Desa Binanga, Hal. 48) ──────────────── */
+const dataDusun = [
+  { nama: "Dusun Bo'di",     kk: 65,  jiwa: 240, luas: 51.04,  lakiLaki: 124, perempuan: 116, highlight: 'Wisata Mangrove & Cekdam' },
+  { nama: 'Dusun Butungan',  kk: 49,  jiwa: 165, luas: 9.29,   lakiLaki: 81,  perempuan: 84,  highlight: 'SDN 28 Inpres Puttada' },
+  { nama: 'Dusun Naulluyo',  kk: 45,  jiwa: 193, luas: 92.49,  lakiLaki: 84,  perempuan: 109, highlight: 'Wilayah Terluas (92 ha)' },
+  { nama: 'Dusun Binanga',   kk: 62,  jiwa: 251, luas: 38.18,  lakiLaki: 121, perempuan: 130, highlight: 'Pusat Pemerintahan Desa' },
+];
+
+/* ─── DATA FASILITAS (sumber: Monografi Desa Binanga, Hal. 41–42) ─────────*/
+const fasilitasData = [
+  {
+    id: 'f1',
+    nama: 'Kantor Desa Binanga',
+    kategori: 'Pemerintahan',
+    dusun: 'Dusun Binanga',
+    deskripsi: 'Pusat pelayanan administrasi dan tata kelola pemerintahan desa, menerima pelayanan setiap hari kerja.',
+    foto: 'https://images.unsplash.com/photo-1572016335967-0c7f2178afb4?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    id: 'f2',
+    nama: 'SDN No. 28 Inpres Puttada',
+    kategori: 'Pendidikan',
+    dusun: 'Dusun Butungan',
+    deskripsi: 'Sekolah dasar negeri yang menjadi fasilitas pendidikan utama bagi anak-anak Desa Binanga.',
+    foto: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    id: 'f3',
+    nama: 'SDN 07 Binanga',
+    kategori: 'Pendidikan',
+    dusun: 'Dusun Binanga',
+    deskripsi: 'Sekolah dasar negeri yang beroperasi di pusat desa, melayani anak-anak dari Dusun Binanga dan sekitarnya.',
+    foto: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    id: 'f4',
+    nama: 'Masjid Dusun Binanga',
+    kategori: 'Peribadatan',
+    dusun: 'Dusun Binanga',
+    deskripsi: 'Pusat kegiatan keagamaan Islam di Desa Binanga, melayani 848 jiwa penduduk yang beragama Islam.',
+    foto: 'https://images.unsplash.com/photo-1564683214965-3619addd900d?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    id: 'f5',
+    nama: 'Wisata Hutan Mangrove',
+    kategori: 'Pariwisata',
+    dusun: "Dusun Bo'di",
+    deskripsi: 'Destinasi ekowisata hutan mangrove yang dikembangkan sejak 2016, menjadi daya tarik wisata alam unggulan desa.',
+    foto: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    id: 'f6',
+    nama: 'Lapangan Sepak Bola',
+    kategori: 'Fasilitas Umum',
+    dusun: 'Dusun Binanga',
+    deskripsi: 'Arena olahraga masyarakat yang kerap menjadi pusat kegiatan sosial dan turnamen antar-dusun.',
+    foto: 'https://images.unsplash.com/photo-1518605368461-1e1e38ce8058?auto=format&fit=crop&w=800&q=80',
+  },
+];
+
+/* ─── DATA BATAS WILAYAH DESA (sumber: Monografi Desa Binanga, Hal. 40) ─── */
+const batasWilayah = [
+  { arah: 'Utara',   nilai: 'Desa Totolisi Sendana', icon: '↑' },
+  { arah: 'Barat',   nilai: 'Selat Makassar',         icon: '←' },
+  { arah: 'Selatan', nilai: 'Desa Leppangan',          icon: '↓' },
+  { arah: 'Timur',   nilai: 'Desa Pundau',             icon: '→' },
+];
+
+/* ─── DATA PENDIDIKAN per dusun (sumber: Monografi Desa Binanga, Tabel 8, Hal. 57) */
+const dataIjazah = [
+  { dusun: "Bo'di",    tidakPunya: 60, sd: 85, smp: 37, sma: 46, diploma: 3,  s1: 9,  s2: 0 },
+  { dusun: 'Butungan', tidakPunya: 37, sd: 29, smp: 19, sma: 61, diploma: 9,  s1: 9,  s2: 1 },
+  { dusun: 'Naulluyo', tidakPunya: 57, sd: 53, smp: 34, sma: 41, diploma: 1,  s1: 7,  s2: 0 },
+  { dusun: 'Binanga',  tidakPunya: 67, sd: 57, smp: 32, sma: 68, diploma: 9,  s1: 18, s2: 0 },
+  { dusun: 'TOTAL',    tidakPunya: 221, sd: 224, smp: 122, sma: 216, diploma: 22, s1: 43, s2: 1 },
+];
+
+const WARNA_TIPE: Record<string, string> = {
+  bencana:       '#ef4444',
+  administrasi:  '#3b82f6',
+  pembangunan:   '#10b981',
+  info:          '#8b5cf6',
+};
+
+import { getPengaturan } from '@/app/admin/pengaturan/actions';
+import { getPerangkat } from '@/app/admin/struktur/actions';
+import OrgChart from '@/components/OrgChart';
+
+export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalStats }: { dbSejarah?: any[], dbInfrastruktur?: any[], dbGlobalStats?: any }) {
+  const [perangkat, setPerangkat] = useState<any[]>([]);
+  const [activeTab, setActiveTab] = useState<'dusun' | 'pendidikan' | 'sosial'>('dusun');
+  
+  const kronologiData = dbSejarah && dbSejarah.length > 0 ? dbSejarah : kronologiSejarah;
+  const infrastrukturData = dbInfrastruktur && dbInfrastruktur.length > 0 ? dbInfrastruktur : fasilitasData;
+  const totalJiwa = dbGlobalStats?.totalPenduduk || 849;
+  const luasDesa = dbGlobalStats?.luasDesaHa || 191;
+  const totalKK = dbGlobalStats?.totalKk || 221;
+
+  const [pengaturan, setPengaturan] = useState<Record<string, string>>({});
+  useEffect(() => {
+    getPengaturan().then(setPengaturan);
+    getPerangkat().then(setPerangkat);
+  }, []);
+
+  const visi = pengaturan.VISI || 'Visi belum diatur di panel admin.';
+  const misiHTML = pengaturan.MISI || 'Misi belum diatur di panel admin.';
+
+  return (
+    <div className={styles.page}>
+
+      {/* ===== HERO ===== */}
+      <section className={styles.hero} id="sejarah">
+        <div className={`${styles.heroOrb} ${styles.heroOrb1}`} />
+        <div className={`${styles.heroOrb} ${styles.heroOrb2}`} />
+        <div className={styles.heroOverlay} />
+
+        <div className={styles.heroContent}>
+          <div className={styles.heroBadge}>
+            <Landmark size={14} />
+            Profil Resmi Desa
+          </div>
+          <h1 className={styles.heroTitle}>
+            Desa{' '}
+            <span className={styles.heroTitleAccent}>Binanga</span>
+          </h1>
+          <p className={styles.heroSubtitle}>
+            Kecamatan Sendana, Kabupaten Majene, Provinsi Sulawesi Barat — desa pesisir bersejarah di tepi Selat Makassar.
+          </p>
+
+          <div className={styles.heroStats}>
+            <div className={styles.heroStat}>
+              <div className={styles.heroStatValue}>{totalJiwa}</div>
+              <div className={styles.heroStatLabel}>Jiwa Penduduk</div>
+            </div>
+            <div className={styles.heroStat}>
+              <div className={styles.heroStatValue}>{luasDesa} ha</div>
+              <div className={styles.heroStatLabel}>Luas Wilayah</div>
+            </div>
+            <div className={styles.heroStat}>
+              <div className={styles.heroStatValue}>4</div>
+              <div className={styles.heroStatLabel}>Dusun</div>
+            </div>
+            <div className={styles.heroStat}>
+              <div className={styles.heroStatValue}>{totalKK}</div>
+              <div className={styles.heroStatLabel}>Kepala Keluarga</div>
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.heroScrollIndicator}>
+          <span>Scroll</span>
+          <div className={styles.heroScrollLine} />
+        </div>
+      </section>
+
+      {/* ===== MENGENAL DESA ===== */}
+      <section className={styles.section} id="mengenal-desa">
+        <div className={styles.sectionInner}>
+          <div className={styles.sectionLabel}>
+            <span className={styles.sectionLabelDot} />
+            Tentang Desa
+          </div>
+          <h2 className={styles.sectionTitle}>Mengenal Desa Binanga</h2>
+          <p className={styles.sectionDesc}>
+            Kisah, identitas, dan keunikan desa yang menjadi bagian tak terpisahkan dari sejarah Kecamatan Sendana.
+          </p>
+
+          <div className={styles.sejarahGrid}>
+            <div className={styles.sejarahImageBlock}>
+              <img
+                src="https://images.unsplash.com/photo-1596700078832-6e279dfd9e26?q=80&w=800"
+                alt="Desa Binanga, Kecamatan Sendana"
+                className={styles.sejarahImage}
+              />
+              <div className={styles.sejarahImageOverlay}>
+                <span className={styles.sejarahImageTag}>Pesisir Selat Makassar, Sulawesi Barat</span>
+              </div>
+            </div>
+
+            <div className={styles.sejarahTextCard}>
+              <div className={styles.sejarahTextContent}>
+                <p>
+                  <span className={styles.dropCap}>B</span>inanga adalah nama yang berasal dari bahasa
+                  Mandar, berarti <em>"muara sungai"</em> — pertemuan antara sungai dan laut. Nama ini
+                  mencerminkan posisi geografis desa yang tepat berada di bibir Selat Makassar.
+                </p>
+                <p>
+                  Desa Binanga resmi berdiri pada tahun <strong>2010</strong> sebagai hasil pemekaran dari
+                  Desa Pundau, setelah sebelumnya sempat menjadi bagian dari Desa Puttada sejak era 1950-an.
+                  Desa ini mencakup wilayah seluas <strong>{luasDesa} hektare</strong> yang terbagi ke dalam
+                  4 dusun: Bo'di, Butungan, Naulluyo, dan Binanga.
+                </p>
+                <p>
+                  Masyarakat Desa Binanga mayoritas beretnis Mandar,
+                  dengan ikatan adat dan bahasa daerah yang masih terjaga kuat. Hampir seluruh penduduk
+                  menganut agama Islam dan menggunakan bahasa Mandar sebagai bahasa sehari-hari.
+                </p>
+              </div>
+
+              {/* Sumber Resmi */}
+              <div className={fasStyles.sumberBox}>
+                <BookOpen size={14} />
+                <div>
+                  <strong>Sumber:</strong> Monografi Desa Binanga, Kecamatan Sendana, Kabupaten Majene —
+                  Data Desa Presisi (DDP), LPPM IPB University. Hal. 19–21 &amp; Hal. 56.
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.sejarahQuoteCard}>
+              <p className={styles.sejarahQuoteText}>
+                &ldquo;Binanga — dari kata bahasa Mandar yang berarti <em>muara sungai</em>. Sebuah
+                penamaan yang tepat untuk desa di tepi Selat Makassar yang telah berdiri sejak
+                sebelum kemerdekaan Indonesia.&rdquo;
+              </p>
+              <span className={fasStyles.quoteSource}>— Data Desa Presisi, LPPM IPB University (2022). Monografi Desa Binanga.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== STRUKTUR ORGANISASI (COMPACT) ===== */}
+      <section className={styles.section} id="bagan-struktur-mini" style={{ paddingBottom: '40px', overflowX: 'hidden' }}>
+        <div className={styles.sectionInner} style={{ maxWidth: '100%', padding: '0' }}>
+          <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+            <div className={styles.sectionLabel} style={{ justifyContent: 'center' }}>
+              <span className={styles.sectionLabelDot} />
+              Pemerintahan
+            </div>
+            <h2 className={styles.sectionTitle}>Ringkasan Aparatur Desa</h2>
+          </div>
+          
+          <div style={{ marginTop: '20px' }}>
+            <OrgChart data={perangkat} readOnly={true} compactWithPhoto={true} />
+          </div>
+        </div>
+      </section>
+
+      {/* ===== KRONOLOGI SEJARAH ===== */}
+      <section className={styles.sectionAlt} id="sejarah-kronologi">
+        <div className={styles.sectionInner}>
+          <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+            <div className={styles.sectionLabel} style={{ justifyContent: 'center' }}>
+              <span className={styles.sectionLabelDot} />
+              Sejarah
+            </div>
+            <h2 className={styles.sectionTitle}>Perjalanan Panjang Desa Binanga</h2>
+            <p className={styles.sectionDesc} style={{ margin: '0 auto' }}>
+              Dari bagian Desa Puttada hingga berdiri mandiri — rekam jejak peristiwa bersejarah yang membentuk identitas desa.
+            </p>
+          </div>
+
+          {/* Sumber Header */}
+          <div className={fasStyles.sumberBoxCenter}>
+            <BookOpen size={14} />
+            <span>
+              <strong>Sumber:</strong> Data Desa Presisi, LPPM IPB University (2022). Monografi Desa Binanga.
+            </span>
+          </div>
+
+          {/* Timeline */}
+          <div className={fasStyles.timeline}>
+            {kronologiData.map((item: any, idx: number) => (
+              <div key={idx} className={fasStyles.timelineItem}>
+                <div className={fasStyles.timelineLeft}>
+                  <div
+                    className={fasStyles.timelineYear}
+                    style={{ color: WARNA_TIPE[item.tipe] }}
+                  >
+                    {item.tahun}
+                  </div>
+                  <div className={fasStyles.timelineDot} style={{ background: WARNA_TIPE[item.tipe] }} />
+                </div>
+                <div className={fasStyles.timelineCard} style={{ borderLeftColor: WARNA_TIPE[item.tipe] }}>
+                  <div className={fasStyles.timelineBadge} style={{ background: `${WARNA_TIPE[item.tipe]}15`, color: WARNA_TIPE[item.tipe] }}>
+                    {item.tipe === 'bencana'       && <AlertTriangle size={12} />}
+                    {item.tipe === 'administrasi'  && <Landmark size={12} />}
+                    {item.tipe === 'pembangunan'   && <CheckCircle2 size={12} />}
+                    {item.tipe === 'info'          && <Star size={12} />}
+                    <span>
+                      {item.tipe === 'bencana'      && 'Bencana Alam'}
+                      {item.tipe === 'administrasi' && 'Administrasi Desa'}
+                      {item.tipe === 'pembangunan'  && 'Pembangunan'}
+                      {item.tipe === 'info'         && 'Informasi'}
+                    </span>
+                  </div>
+                  <h3 className={fasStyles.timelineTitle}>{item.judul}</h3>
+                  <p className={fasStyles.timelineCerita}>{item.cerita}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== VISI & MISI ===== */}
+      <section className={styles.sectionDark} id="visi-misi">
+        <div className={styles.sectionInner}>
+          <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+            <div className={`${styles.sectionLabel} ${styles.sectionLabelLight}`} style={{ justifyContent: 'center' }}>
+              <span className={`${styles.sectionLabelDot} ${styles.sectionLabelDotLight}`} />
+              Arah Kebijakan
+            </div>
+            <h2 className={`${styles.sectionTitle} ${styles.sectionTitleLight}`}>Visi &amp; Misi</h2>
+            <p className={`${styles.sectionDesc} ${styles.sectionDescLight}`} style={{ margin: '0 auto' }}>
+              Arah kebijakan dan tujuan pembangunan Desa Binanga menuju masa depan yang lebih cerah.
+            </p>
+          </div>
+
+          <div className={styles.visiMisiGrid}>
+            <div className={styles.visiCard}>
+              <div className={styles.visiIconWrapper}>
+                <Lightbulb size={26} />
+              </div>
+              <div className={styles.visiLabel}>Visi</div>
+              <div className={styles.visiText} dangerouslySetInnerHTML={{ __html: visi }} />
+            </div>
+
+            <div className={styles.misiCard}>
+              <div className={styles.misiIconWrapper}>
+                <Target size={26} />
+              </div>
+              <div className={styles.misiLabel}>Misi</div>
+              <div className={styles.misiHTML} dangerouslySetInnerHTML={{ __html: misiHTML }} />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== WILAYAH & GEOGRAFIS ===== */}
+      <section className={styles.sectionDark} id="wilayah-geografis">
+        <div className={styles.sectionInner}>
+          <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+            <div className={`${styles.sectionLabel} ${styles.sectionLabelLight}`} style={{ justifyContent: 'center' }}>
+              <span className={`${styles.sectionLabelDot} ${styles.sectionLabelDotLight}`} />
+              Data Wilayah
+            </div>
+            <h2 className={`${styles.sectionTitle} ${styles.sectionTitleLight}`}>Wilayah &amp; Geografis</h2>
+            <p className={`${styles.sectionDesc} ${styles.sectionDescLight}`} style={{ margin: '0 auto' }}>
+              Informasi letak geografis, batas administrasi, dan luas wilayah Desa Binanga berdasarkan data resmi.
+            </p>
+          </div>
+
+          <div className={styles.geoBento}>
+            {/* Stat cards */}
+            <div className={styles.geoStatCard}>
+              <div className={styles.geoStatIcon}><Map size={24} /></div>
+              <div className={styles.geoStatValue}>{luasDesa} ha</div>
+              <div className={styles.geoStatLabel}>Luas Wilayah Desa</div>
+            </div>
+
+            <div className={styles.geoStatCard}>
+              <div className={styles.geoStatIcon}><Waves size={24} /></div>
+              <div className={styles.geoStatValue}>80%</div>
+              <div className={styles.geoStatLabel}>Perkebunan</div>
+            </div>
+
+            <div className={styles.geoStatCard}>
+              <div className={styles.geoStatIcon}><Home size={24} /></div>
+              <div className={styles.geoStatValue}>20%</div>
+              <div className={styles.geoStatLabel}>Pemukiman</div>
+            </div>
+
+            <div className={styles.geoStatCard}>
+              <div className={styles.geoStatIcon}><Compass size={24} /></div>
+              <div className={styles.geoStatValue}>4</div>
+              <div className={styles.geoStatLabel}>Dusun</div>
+            </div>
+            
+            <div className={styles.geoStatCard}>
+              <div className={styles.geoStatIcon}><MapPin size={24} /></div>
+              <div className={styles.geoStatValue}>3,7 km</div>
+              <div className={styles.geoStatLabel}>Jarak ke Kec. Sendana</div>
+            </div>
+
+            <div className={styles.geoStatCard}>
+              <div className={styles.geoStatIcon}><Building2 size={24} /></div>
+              <div className={styles.geoStatValue}>26,7 km</div>
+              <div className={styles.geoStatLabel}>Jarak ke Kab. Majene</div>
+            </div>
+
+            {/* Batas Wilayah Desa */}
+            <div className={styles.geoBorderCard}>
+              <div className={styles.geoBorderTitle}>
+                <div className={styles.geoBorderTitleIcon}><Compass size={20} /></div>
+                Batas Wilayah Desa Binanga
+              </div>
+              <ul className={styles.geoBorderList}>
+                {batasWilayah.map((b) => (
+                  <li key={b.arah} className={styles.geoBorderItem}>
+                    <span className={styles.geoBorderDirection}>
+                      <strong>{b.icon}</strong> {b.arah}
+                    </span>
+                    <span className={styles.geoBorderValue}>{b.nilai}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Luas per dusun */}
+            <div className={styles.geoPopCard}>
+              <div className={styles.geoPopTitle}>
+                <div className={styles.geoBorderTitleIcon}><Ruler size={20} /></div>
+                Luas Wilayah per Dusun
+              </div>
+              <div className={styles.geoPopGrid}>
+                {dataDusun.map((d) => (
+                  <div key={d.nama} className={styles.geoPopItem}>
+                    <div className={styles.geoPopValue}>{d.luas} ha</div>
+                    <div className={styles.geoPopLabel}>{d.nama}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Sumber */}
+            <div className={styles.sourceCard}>
+              <strong>Sumber Data Geografis:</strong>
+              <ul>
+                <li>Batas Wilayah &amp; Luas Dusun — <em>Data Desa Presisi, LPPM IPB University (2022). Monografi Desa Binanga.</em></li>
+                <li>Koordinat Patok Batas Desa — <em>Data Desa Presisi, LPPM IPB University (2022). Monografi Desa Binanga.</em></li>
+                <li>Jarak ke Ibukota &amp; Administratif — <em>BPS Kabupaten Majene (2025). Kecamatan Sendana Dalam Angka 2025.</em></li>
+              </ul>
+              <p style={{ margin: '12px 0 0 0', fontSize: '0.8rem' }}>
+                Pengumpulan data spasial menggunakan teknologi drone <em>DJI Mavic 2 Pro</em> dan
+                pengolahan <em>ArcGIS 10.8</em> oleh Tim LPPM IPB University, 2022.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== DATA DUSUN — KARTU INTERAKTIF ===== */}
+      <section className={styles.sectionAlt} id="data-dusun">
+        <div className={styles.sectionInner}>
+          <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+            <div className={styles.sectionLabel} style={{ justifyContent: 'center' }}>
+              <span className={styles.sectionLabelDot} />
+              Kependudukan
+            </div>
+            <h2 className={styles.sectionTitle}>Data Statistik Dusun</h2>
+            <p className={styles.sectionDesc} style={{ margin: '0 auto' }}>
+              Rincian data kependudukan, demografi, dan pendidikan per dusun di Desa Binanga.
+            </p>
+          </div>
+
+          {/* Tab */}
+          <div className={fasStyles.tabRow}>
+            <button
+              className={`${fasStyles.tabBtn} ${activeTab === 'dusun' ? fasStyles.tabActive : ''}`}
+              onClick={() => setActiveTab('dusun')}
+            >
+              <Users size={16} /> Data Dusun
+            </button>
+            <button
+              className={`${fasStyles.tabBtn} ${activeTab === 'pendidikan' ? fasStyles.tabActive : ''}`}
+              onClick={() => setActiveTab('pendidikan')}
+            >
+              <GraduationCap size={16} /> Pendidikan
+            </button>
+            <button
+              className={`${fasStyles.tabBtn} ${activeTab === 'sosial' ? fasStyles.tabActive : ''}`}
+              onClick={() => setActiveTab('sosial')}
+            >
+              <Heart size={16} /> Sosial &amp; Budaya
+            </button>
+          </div>
+
+          {/* Panel: Dusun */}
+          {activeTab === 'dusun' && (
+            <div className={fasStyles.tabPanel}>
+              <div className={fasStyles.dusunGrid}>
+                {dataDusun.map((d, idx) => (
+                  <div key={idx} className={fasStyles.dusunCard}>
+                    <div className={fasStyles.dusunHeader}>
+                      <h3 className={fasStyles.dusunNama}>{d.nama}</h3>
+                      <span className={fasStyles.dusunHighlight}>{d.highlight}</span>
+                    </div>
+                    <div className={fasStyles.dusunStats}>
+                      <div className={fasStyles.dusunStat}>
+                        <div className={fasStyles.dusunStatVal}>{d.kk}</div>
+                        <div className={fasStyles.dusunStatLbl}>Kepala Keluarga</div>
+                      </div>
+                      <div className={fasStyles.dusunStat}>
+                        <div className={fasStyles.dusunStatVal}>{d.jiwa}</div>
+                        <div className={fasStyles.dusunStatLbl}>Jiwa</div>
+                      </div>
+                      <div className={fasStyles.dusunStat}>
+                        <div className={fasStyles.dusunStatVal}>{d.luas}</div>
+                        <div className={fasStyles.dusunStatLbl}>Hektare</div>
+                      </div>
+                    </div>
+                    {/* Gender bar */}
+                    <div className={fasStyles.genderBar}>
+                      <div
+                        className={fasStyles.genderBarLaki}
+                        style={{ width: `${Math.round((d.lakiLaki / d.jiwa) * 100)}%` }}
+                      />
+                      <div className={fasStyles.genderBarPerempuan} style={{ flex: 1 }} />
+                    </div>
+                    <div className={fasStyles.genderLegend}>
+                      <span className={fasStyles.legendLaki}>♂ {d.lakiLaki} Laki-laki</span>
+                      <span className={fasStyles.legendPerempuan}>♀ {d.perempuan} Perempuan</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className={fasStyles.sumberBox} style={{ marginTop: '24px' }}>
+                <BookOpen size={14} />
+                <div>
+                  <strong>Sumber:</strong> Data Desa Presisi, LPPM IPB University (2022). Monografi Desa Binanga.
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Panel: Pendidikan */}
+          {activeTab === 'pendidikan' && (
+            <div className={fasStyles.tabPanel}>
+              <div className={fasStyles.eduSummary}>
+                <div className={fasStyles.eduSumItem}>
+                  <GraduationCap size={24} className={fasStyles.eduIcon} />
+                  <div className={fasStyles.eduSumVal}>224</div>
+                  <div className={fasStyles.eduSumLbl}>Lulusan SD — Terbanyak</div>
+                </div>
+                <div className={fasStyles.eduSumItem}>
+                  <BookOpen size={24} className={fasStyles.eduIcon} />
+                  <div className={fasStyles.eduSumVal}>221</div>
+                  <div className={fasStyles.eduSumLbl}>Tanpa Ijazah</div>
+                </div>
+                <div className={fasStyles.eduSumItem}>
+                  <Award size={24} className={fasStyles.eduIcon} />
+                  <div className={fasStyles.eduSumVal}>1</div>
+                  <div className={fasStyles.eduSumLbl}>Lulusan S2 (Tertinggi)</div>
+                </div>
+                <div className={fasStyles.eduSumItem}>
+                  <Users size={24} className={fasStyles.eduIcon} />
+                  <div className={fasStyles.eduSumVal}>261</div>
+                  <div className={fasStyles.eduSumLbl}>Sedang Bersekolah</div>
+                </div>
+              </div>
+
+              <div className={fasStyles.eduTableWrap}>
+                <table className={fasStyles.eduTable}>
+                  <thead>
+                    <tr>
+                      <th>Dusun</th>
+                      <th>Tdk Ijazah</th>
+                      <th>SD</th>
+                      <th>SMP</th>
+                      <th>SMA</th>
+                      <th>Diploma</th>
+                      <th>S1</th>
+                      <th>S2</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {dataIjazah.map((row, i) => (
+                      <tr key={i} className={row.dusun === 'TOTAL' ? fasStyles.totalRow : ''}>
+                        <td><strong>{row.dusun}</strong></td>
+                        <td>{row.tidakPunya}</td>
+                        <td>{row.sd}</td>
+                        <td>{row.smp}</td>
+                        <td>{row.sma}</td>
+                        <td>{row.diploma}</td>
+                        <td>{row.s1}</td>
+                        <td>{row.s2}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className={fasStyles.sumberBox} style={{ marginTop: '16px' }}>
+                <BookOpen size={14} />
+                <div>
+                  <strong>Sumber:</strong> Data Desa Presisi, LPPM IPB University (2022). Monografi Desa Binanga.
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Panel: Sosial & Budaya */}
+          {activeTab === 'sosial' && (
+            <div className={fasStyles.tabPanel}>
+              <div className={fasStyles.sosialGrid}>
+                <div className={fasStyles.sosialCard}>
+                  <div className={fasStyles.sosialIcon} style={{ background: '#f59e0b20', color: '#f59e0b' }}>
+                    <Users size={28} />
+                  </div>
+                  <h3>Etnis Dominan</h3>
+                  <div className={fasStyles.sosialVal}>Mandar</div>
+                  <div className={fasStyles.sosialSub}>693 jiwa dari total 849 jiwa (81,6%)</div>
+                </div>
+                <div className={fasStyles.sosialCard}>
+                  <div className={fasStyles.sosialIcon} style={{ background: '#3b82f620', color: '#3b82f6' }}>
+                    <Star size={28} />
+                  </div>
+                  <h3>Agama</h3>
+                  <div className={fasStyles.sosialVal}>Islam</div>
+                  <div className={fasStyles.sosialSub}>848 jiwa (99,9%); 1 jiwa Kristen</div>
+                </div>
+                <div className={fasStyles.sosialCard}>
+                  <div className={fasStyles.sosialIcon} style={{ background: '#10b98120', color: '#10b981' }}>
+                    <BookOpen size={28} />
+                  </div>
+                  <h3>Bahasa Utama</h3>
+                  <div className={fasStyles.sosialVal}>Mandar</div>
+                  <div className={fasStyles.sosialSub}>Digunakan 627 jiwa (73,9%) sebagai bahasa sehari-hari</div>
+                </div>
+                <div className={fasStyles.sosialCard}>
+                  <div className={fasStyles.sosialIcon} style={{ background: '#8b5cf620', color: '#8b5cf6' }}>
+                    <Clock size={28} />
+                  </div>
+                  <h3>Ikatan Tempat Tinggal</h3>
+                  <div className={fasStyles.sosialVal}>≥10 Tahun</div>
+                  <div className={fasStyles.sosialSub}>185 KK (dari 221 KK) telah tinggal lebih dari 10 tahun</div>
+                </div>
+              </div>
+
+              {/* Status Perkawinan */}
+              <div className={fasStyles.perkawinanCard}>
+                <h3 className={fasStyles.perkawinanTitle}>
+                  <Heart size={18} /> Status Perkawinan Kepala Keluarga
+                </h3>
+                <div className={fasStyles.perkawinanGrid}>
+                  {[
+                    { label: 'Kawin',       val: 166, pct: 75, color: '#10b981' },
+                    { label: 'Cerai Mati',  val: 39,  pct: 18, color: '#f59e0b' },
+                    { label: 'Cerai Hidup', val: 9,   pct: 4,  color: '#ef4444' },
+                    { label: 'Belum Kawin', val: 7,   pct: 3,  color: '#8b5cf6' },
+                  ].map((item) => (
+                    <div key={item.label} className={fasStyles.perkawinanItem}>
+                      <div className={fasStyles.perkawinanLabel}>{item.label}</div>
+                      <div className={fasStyles.perkawinanBar}>
+                        <div
+                          className={fasStyles.perkawinanBarFill}
+                          style={{ width: `${item.pct}%`, background: item.color }}
+                        />
+                      </div>
+                      <div className={fasStyles.perkawinanVal} style={{ color: item.color }}>{item.val} KK</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className={fasStyles.sumberBox} style={{ marginTop: '16px' }}>
+                <BookOpen size={14} />
+                <div>
+                  <strong>Sumber:</strong> Data Desa Presisi, LPPM IPB University (2022). Monografi Desa Binanga.
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ===== FASILITAS ===== */}
+      <section className={styles.sectionDark} id="fasilitas-desa">
+        <div className={styles.sectionInner}>
+          <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+            <div className={`${styles.sectionLabel} ${styles.sectionLabelLight}`} style={{ justifyContent: 'center' }}>
+              <span className={`${styles.sectionLabelDot} ${styles.sectionLabelDotLight}`} />
+              Infrastruktur
+            </div>
+            <h2 className={`${styles.sectionTitle} ${styles.sectionTitleLight}`}>
+              Fasilitas Publik &amp; Bangunan Penting
+            </h2>
+            <p className={`${styles.sectionDesc} ${styles.sectionDescLight}`} style={{ margin: '0 auto' }}>
+              68 fasilitas umum tersebar di 4 dusun — termasuk sarana pendidikan, peribadatan, kesehatan, dan wisata. 
+              Desa Binanga juga tercatat memiliki jumlah Musala terbanyak (4 bangunan) di Kecamatan Sendana.
+            </p>
+          </div>
+
+          {/* Ringkasan fasilitas */}
+          <div className={fasStyles.fasRingkasanGrid}>
+            {[
+              { icon: <Building2 size={22} />, val: '68', label: 'Total Fasilitas', color: '#3b82f6' },
+              { icon: <GraduationCap size={22} />, val: '4', label: 'Sekolah (SD & TK/RA)', color: '#10b981' },
+              { icon: <Heart size={22} />, val: '2', label: 'Posyandu', color: '#ef4444' },
+              { icon: <TreePine size={22} />, val: '2', label: 'Destinasi Wisata', color: '#f59e0b' },
+              { icon: <Landmark size={22} />, val: '3', label: 'Tempat Ibadah', color: '#8b5cf6' },
+              { icon: <Home size={22} />, val: '42', label: 'Usaha Jasa & Perdagangan', color: '#06b6d4' },
+            ].map((item, i) => (
+              <div key={i} className={fasStyles.fasRingkasanItem}>
+                <div className={fasStyles.fasRingkasanIcon} style={{ color: item.color }}>{item.icon}</div>
+                <div className={fasStyles.fasRingkasanVal} style={{ color: item.color }}>{item.val}</div>
+                <div className={fasStyles.fasRingkasanLbl}>{item.label}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className={fasStyles.fasilitasGrid}>
+            {infrastrukturData.map((item: any) => (
+              <div key={item.id} className={fasStyles.fasilitasCard}>
+                <div className={fasStyles.fasImgWrap}>
+                  <img src={item.fotoUrl || item.foto || 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80'} alt={item.nama} className={fasStyles.fasImg} loading="lazy" />
+                  <div className={fasStyles.fasBadge}>{item.kategori}</div>
+                </div>
+                <div className={fasStyles.fasBody}>
+                  <div className={fasStyles.fasDusunTag}>
+                    <MapPin size={12} /> {item.dusun}
+                  </div>
+                  <h3 className={fasStyles.fasTitle}>{item.nama}</h3>
+                  <p className={fasStyles.fasDesc}>{item.deskripsi}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className={fasStyles.sumberBoxDark}>
+            <BookOpen size={14} />
+            <div>
+              <strong>Sumber:</strong> Data Desa Presisi, LPPM IPB University (2022). Monografi Desa Binanga; BPS Kabupaten Majene (2025). Kecamatan Sendana Dalam Angka 2025.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== PERANGKAT DESA ===== */}
+      <section className={styles.section} id="perangkat-desa" style={{ overflowX: 'hidden' }}>
+        <div className={styles.sectionInner} style={{ maxWidth: '100%', padding: '0' }}>
+          <div className={styles.perangkatHeader}>
+            <div className={styles.sectionLabel} style={{ justifyContent: 'center' }}>
+              <span className={styles.sectionLabelDot} />
+              Pemerintahan
+            </div>
+            <h2 className={styles.sectionTitle} style={{ textAlign: 'center' }}>
+              Struktur Organisasi
+            </h2>
+            <p className={styles.sectionDesc} style={{ margin: '0 auto', textAlign: 'center' }}>
+              Bagan lengkap susunan perangkat pemerintahan Desa Binanga.
+            </p>
+          </div>
+
+          <div style={{ marginTop: '40px' }}>
+            <OrgChart data={perangkat} readOnly={true} compact={false} />
+          </div>
+        </div>
+      </section>
+
+      {/* ===== PRESTASI ===== */}
+      <section className={styles.sectionDark} id="prestasi-penghargaan">
+        <div className={styles.sectionInner}>
+          <div className={styles.prestasiContent}>
+            <div className={`${styles.sectionLabel} ${styles.sectionLabelLight}`} style={{ justifyContent: 'center' }}>
+              <span className={`${styles.sectionLabelDot} ${styles.sectionLabelDotLight}`} />
+              Pencapaian
+            </div>
+            <h2 className={`${styles.sectionTitle} ${styles.sectionTitleLight}`}>
+              Prestasi &amp; Penghargaan
+            </h2>
+            <p className={`${styles.sectionDesc} ${styles.sectionDescLight}`} style={{ margin: '0 auto' }}>
+              Daftar pencapaian dan apresiasi yang telah diraih oleh desa kami.
+            </p>
+
+            <div className={styles.prestasiEmpty}>
+              <div className={styles.prestasiEmptyIcon}>
+                <Award size={28} />
+              </div>
+              Masih dalam tahap pembaruan data penghargaan.
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  );
+}

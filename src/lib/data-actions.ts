@@ -1,0 +1,149 @@
+'use server';
+
+import { prisma } from '@/lib/prisma';
+import { Post, UMKM, Wisata, Statistik, PerangkatDesa as OldPerangkatDesa } from './api';
+
+// ==============================
+// 1. STATISTIK
+// ==============================
+export async function getStatistikDB(): Promise<Statistik> {
+  // Ambil tahun terkini dari data penduduk
+  const latestPenduduk = await prisma.penduduk.findFirst({
+    orderBy: { tahunData: 'desc' },
+    select: { tahunData: true }
+  });
+
+  let totalPenduduk = 0;
+  let totalKk = 0;
+
+  if (latestPenduduk) {
+    const tahun = latestPenduduk.tahunData;
+    totalPenduduk = await prisma.penduduk.count({ where: { tahunData: tahun, status: 'AKTIF' } });
+    
+    // Total KK = jumlah unique KK
+    const kks = await prisma.penduduk.findMany({
+      where: { tahunData: tahun, status: 'AKTIF' },
+      select: { noKk: true },
+      distinct: ['noKk']
+    });
+    totalKk = kks.length;
+  } else {
+    // Fallback ke StatistikGlobal manual jika belum ada data penduduk
+    const stat = await prisma.statistikGlobal.findFirst({
+      orderBy: { tahun: 'desc' }
+    });
+    if (stat) {
+      totalPenduduk = stat.totalPenduduk;
+      totalKk = stat.totalKk;
+    }
+  }
+
+  // Luas wilayah tetap ambil dari StatistikGlobal atau fallback default
+  const statGlobal = await prisma.statistikGlobal.findFirst({ orderBy: { tahun: 'desc' }});
+  
+  return {
+    penduduk: totalPenduduk,
+    kepala_keluarga: totalKk,
+    luas_wilayah: statGlobal?.luasDesaHa || 0,
+    realisasi_anggaran: 0
+  };
+}
+
+// ==============================
+// 2. POSTS (Berita & Agenda)
+// ==============================
+export async function getPostsDB(limit?: number, kategori?: string): Promise<Post[]> {
+  const filter = kategori ? { kategori } : {};
+  const data = await prisma.berita.findMany({
+    where: filter,
+    orderBy: { publishedAt: 'desc' },
+    take: limit
+  });
+  
+  return data.map(b => ({
+    id: b.id,
+    type: (b.kategori === 'AGENDA' ? 'agenda' : 'berita') as any,
+    judul: b.judul,
+    slug: b.slug,
+    kategori: b.kategori,
+    tanggal: b.publishedAt.toISOString(),
+    cover: b.fotoUrl || '',
+    ringkasan: b.konten.substring(0, 100) + '...',
+    created_at: b.createdAt.toISOString()
+  }));
+}
+
+// ==============================
+// 3. UMKM
+// ==============================
+export async function getUmkmDB(limit?: number): Promise<UMKM[]> {
+  const data = await prisma.umkm.findMany({
+    orderBy: { createdAt: 'desc' },
+    take: limit
+  });
+
+  return data.map(u => ({
+    id: u.id,
+    nama: u.nama,
+    kategori: u.kategori,
+    foto: u.fotoUrl || '',
+    deskripsi: u.deskripsi,
+    kontak: u.kontakWa || '',
+    created_at: u.createdAt.toISOString()
+  }));
+}
+
+// ==============================
+// 4. WISATA
+// ==============================
+export async function getWisataDB(limit?: number): Promise<Wisata[]> {
+  const data = await prisma.wisata.findMany({
+    orderBy: { createdAt: 'desc' },
+    take: limit
+  });
+
+  return data.map(w => ({
+    id: w.id,
+    nama: w.nama,
+    kategori: w.kategori,
+    foto: w.fotoUrl || '',
+    deskripsi: w.deskripsi,
+  }));
+}
+
+// ==============================
+// 5. PERANGKAT DESA
+// ==============================
+export async function getPerangkatDesaDB(): Promise<OldPerangkatDesa[]> {
+  const data = await prisma.perangkatDesa.findMany({
+    orderBy: { createdAt: 'asc' }
+  });
+
+  return data.map(p => ({
+    id: p.id,
+    nama: p.nama,
+    jabatan: p.jabatan,
+    foto: p.fotoUrl || '',
+  }));
+}
+
+// ==============================
+// 6. APBDES (Aktif)
+// ==============================
+export async function getApbdesActiveDB(): Promise<any> {
+  const active = await prisma.apbdes.findFirst({
+    where: { isAktif: true },
+    include: { rincian: true }
+  });
+
+  if (!active) return null;
+
+  return {
+    ...active,
+    rincian: active.rincian.map(r => ({
+      ...r,
+      anggaran: Number(r.anggaran),
+      realisasi: Number(r.realisasi)
+    }))
+  };
+}

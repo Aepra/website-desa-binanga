@@ -1,0 +1,292 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ==========================================
+// PENGGUNA (ADMIN)
+// ==========================================
+model User {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String   // Hashed password
+  name      String
+  role      String   @default("ADMIN") // ADMIN, KADES
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  berita    Berita[] // Relation: User can author many Berita
+}
+
+// ==========================================
+// PENGATURAN GLOBAL (Key-Value)
+// ==========================================
+model Pengaturan {
+  key       String   @id // e.g., "KADES_NAME", "KADES_WELCOME", "VISI", "MISI"
+  value     String   @db.Text
+  updatedAt DateTime @updatedAt
+}
+
+// ==========================================
+// STRUKTUR ORGANISASI (Self-Relation)
+// ==========================================
+model PerangkatDesa {
+  id              String   @id @default(cuid())
+  nama            String
+  kategoriJabatan String   @default("STAF") // KADES, SEKDES, KAUR, KASI, KADUS, STAF
+  jabatan         String
+  fotoUrl         String?
+  
+  // Hirarki (Bawahan Dari)
+  atasanId  String?
+  atasan    PerangkatDesa?  @relation("BawahanDari", fields: [atasanId], references: [id])
+  bawahan   PerangkatDesa[] @relation("BawahanDari")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ==========================================
+// KONTEN UTAMA
+// ==========================================
+model Berita {
+  id          String   @id @default(cuid())
+  judul       String
+  slug        String   @unique
+  konten      String   @db.Text
+  fotoUrl     String?
+  penulisId   String
+  penulis     User     @relation(fields: [penulisId], references: [id])
+  kategori    String   @default("BERITA") // BERITA, AGENDA
+  
+  // Galeri Dokumentasi Tambahan
+  galeri      BeritaImage[]
+
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model BeritaImage {
+  id        String   @id @default(cuid())
+  beritaId  String
+  berita    Berita   @relation(fields: [beritaId], references: [id], onDelete: Cascade)
+  url       String
+  caption   String?
+  createdAt DateTime @default(now())
+}
+
+model Wisata {
+  id        String   @id @default(cuid())
+  nama      String
+  kategori  String   // ALAM, SEJARAH, AGROWISATA
+  deskripsi String   @db.Text
+  fotoUrl   String?
+  harga     Int?
+  jamBuka   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Umkm {
+  id          String   @id @default(cuid())
+  nama        String
+  kategori    String   // KULINER, KERAJINAN, JASA
+  pemilik     String
+  deskripsi   String   @db.Text
+  kontakWa    String?
+  fotoUrl     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ==========================================
+// DATA STATISTIK LENGKAP
+// ==========================================
+model StatistikGlobal {
+  id              String   @id @default(cuid())
+  tahun           Int      @unique
+  totalPenduduk   Int
+  lakiLaki        Int
+  perempuan       Int
+  totalKk         Int
+  kepadatan       Float?
+  luasDesaHa      Float?
+  sumber          String   // e.g., "BPS 2024", "DDP 2022"
+  
+  // Status Perkawinan KK
+  kawin           Int @default(0)
+  ceraiMati       Int @default(0)
+  ceraiHidup      Int @default(0)
+  belumKawin      Int @default(0)
+
+  // JSON Data untuk fleksibilitas Etnis, Agama, Bahasa, dan Piramida Penduduk
+  dataEtnis       Json? 
+  dataAgama       Json? 
+  dataBahasa      Json? 
+  piramidaUsia    Json? 
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Dusun {
+  id          String   @id @default(cuid())
+  nama        String   @unique // e.g., "Bo'di", "Butungan"
+  luasHa      Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  penduduk    StatistikPendudukDusun[]
+  pendidikan  StatistikPendidikanDusun[]
+}
+
+model StatistikPendudukDusun {
+  id          String   @id @default(cuid())
+  dusunId     String
+  dusun       Dusun    @relation(fields: [dusunId], references: [id])
+  tahun       Int
+  lakiLaki    Int
+  perempuan   Int
+  totalJiwa   Int
+  totalKk     Int
+  
+  // Kepemilikan KTP
+  ktpPunya         Int @default(0)
+  ktpBelum         Int @default(0)
+
+  // Lama Tinggal
+  tinggalDiBawah10 Int @default(0)
+  tinggalDiAtas10  Int @default(0)
+
+  // Lahan (%)
+  lahanPerkebunan  Float @default(0)
+  lahanPemukiman   Float @default(0)
+  lahanLainnya     Float @default(0)
+  
+  @@unique([dusunId, tahun])
+}
+
+model StatistikDusun {
+  id              String   @id @default(cuid())
+  tahun           String
+  namaDusun       String
+  kepalaDusun     String?
+  totalPenduduk   Int      @default(0)
+  totalKk         Int      @default(0)
+  pria            Int      @default(0)
+  wanita          Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([tahun, namaDusun])
+}
+
+// ==========================================
+// DATA BANTUAN SOSIAL (BANSOS)
+// ==========================================
+model Bansos {
+  id           String   @id @default(cuid())
+  nik          String   @unique
+  nama         String
+  jenisBantuan String   // e.g. "PKH", "BLT Dana Desa", "BPNT"
+  status       String   @default("AKTIF") // "AKTIF", "SELESAI"
+  keterangan   String?  @db.Text
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// ==========================================
+// DATA PENDUDUK INDIVIDUAL
+// ==========================================
+model Penduduk {
+  id            String   @id @default(cuid())
+  nik           String
+  noKk          String
+  nama          String
+  jenisKelamin  String   // "LAKI_LAKI" / "PEREMPUAN"
+  dusun         String   // Nama dusun
+  tahunData     Int      // Tahun pendataan (misal: 2026)
+  pendidikan    String?
+  pekerjaan     String?
+  status        String   @default("AKTIF") // AKTIF, PINDAH, MENINGGAL
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([nik, tahunData])
+}
+
+model StatistikPendidikanDusun {
+  id          String   @id @default(cuid())
+  dusunId     String
+  dusun       Dusun    @relation(fields: [dusunId], references: [id])
+  tahun       Int
+  tanpaIjazah Int      @default(0)
+  sd          Int      @default(0)
+  smp         Int      @default(0)
+  sma         Int      @default(0)
+  diploma     Int      @default(0)
+  s1          Int      @default(0)
+  s2          Int      @default(0)
+
+  @@unique([dusunId, tahun])
+}
+
+model Infrastruktur {
+  id          String   @id @default(cuid())
+  nama        String
+  kategori    String   // SEKOLAH, IBADAH, KESEHATAN, WISATA
+  dusun       String
+  deskripsi   String?  @db.Text
+  fotoUrl     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ==========================================
+// SEJARAH DESA
+// ==========================================
+model Sejarah {
+  id        String   @id @default(cuid())
+  tahun     String   // e.g., "~1950an", "1969"
+  judul     String
+  cerita    String   @db.Text
+  tipe      String   // info, bencana, pembangunan, administrasi
+  order     Int      @default(0) // Untuk sorting manual
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ==========================================
+// APBDES (Transparansi Anggaran)
+// ==========================================
+model Apbdes {
+  id         String   @id @default(cuid())
+  tahun      String   @unique
+  fotoUrl    String?
+  isAktif    Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  rincian    ApbdesRincian[]
+}
+
+model ApbdesRincian {
+  id         String   @id @default(cuid())
+  apbdesId   String
+  apbdes     Apbdes   @relation(fields: [apbdesId], references: [id], onDelete: Cascade)
+  
+  tipe       String   // PENDAPATAN, BELANJA, PEMBIAYAAN
+  kategori   String   // Contoh: "Dana Desa", "Pembangunan Desa"
+  anggaran   BigInt
+  realisasi  BigInt
+  
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}

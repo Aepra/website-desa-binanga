@@ -1,75 +1,1455 @@
-.container {
-  padding: 60px 20px;
+/* ============================================
+   Profil Desa — Modern & Innovative Design
+   ============================================ */
+
+/* --- Animations --- */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* --- Page Wrapper --- */
+.page {
   background-color: #f8fafc;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
-.header {
+/* === HERO SECTION === */
+.hero {
+  position: relative;
+  /* Account for 70px sticky navbar */
+  height: calc(100vh - 70px);
+  min-height: 400px;
+  max-height: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 40%, #0f172a 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 8s ease infinite;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  z-index: 1;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
   text-align: center;
-  margin-bottom: 50px;
+  padding: 0 5%;
+  animation: fadeInUp 0.8s ease-out;
 }
 
-.title {
-  font-size: 2.5rem;
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 100px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  backdrop-filter: blur(8px);
+}
+
+.heroTitle {
+  font-size: clamp(2.2rem, 5vw, 4.5rem);
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1.1;
+  margin: 0 0 16px 0;
+  letter-spacing: -1px;
+}
+
+.heroTitleAccent {
+  background: linear-gradient(135deg, #60a5fa, #a78bfa, #60a5fa);
+  background-size: 200% auto;
+  animation: shimmer 3s linear infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.heroSubtitle {
+  font-size: clamp(0.9rem, 1.8vw, 1.15rem);
+  color: rgba(255, 255, 255, 0.55);
+  max-width: 520px;
+  margin: 0 auto 0 auto;
+  line-height: 1.7;
+}
+
+/* Quick stats row inside hero */
+.heroStats {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 36px;
+  flex-wrap: wrap;
+}
+
+.heroStat {
+  text-align: center;
+}
+
+.heroStatValue {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #60a5fa;
+  line-height: 1.2;
+}
+
+.heroStatLabel {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.heroScrollIndicator {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  animation: float 2.5s ease-in-out infinite;
+}
+
+.heroScrollLine {
+  width: 1px;
+  height: 28px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.35), transparent);
+}
+
+/* Floating decorative orbs */
+.heroOrb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: 0;
+}
+
+.heroOrb1 {
+  width: 350px;
+  height: 350px;
+  background: rgba(96, 165, 250, 0.12);
+  top: -80px;
+  right: -80px;
+  animation: float 6s ease-in-out infinite;
+}
+
+.heroOrb2 {
+  width: 250px;
+  height: 250px;
+  background: rgba(167, 139, 250, 0.08);
+  bottom: -40px;
+  left: -60px;
+  animation: float 8s ease-in-out infinite reverse;
+}
+
+/* === SECTION COMMON === */
+.section {
+  padding: 80px 5%;
+}
+
+.sectionAlt {
+  padding: 80px 5%;
+  background: #ffffff;
+}
+
+.sectionDark {
+  padding: 80px 5%;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: #ffffff;
+}
+
+.sectionInner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.sectionLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #3b82f6;
+  margin-bottom: 12px;
+}
+
+.sectionLabelLight {
+  color: #60a5fa;
+}
+
+.sectionLabelDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #3b82f6;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.sectionLabelDotLight {
+  background: #60a5fa;
+}
+
+.sectionTitle {
+  font-size: clamp(1.6rem, 3.5vw, 2.5rem);
   font-weight: 800;
   color: #0f172a;
-  margin-bottom: 8px;
+  line-height: 1.2;
+  margin: 0 0 12px 0;
+  letter-spacing: -0.5px;
 }
 
-.subtitle {
+.sectionTitleLight {
+  color: #ffffff;
+}
+
+.sectionDesc {
+  font-size: 0.95rem;
   color: #64748b;
+  line-height: 1.6;
+  max-width: 520px;
+}
+
+.sectionDescLight {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* === SEJARAH — BENTO GRID LAYOUT === */
+.sejarahGrid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.sejarahImageBlock {
+  grid-row: 1 / 3;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  min-height: 420px;
+}
+
+.sejarahImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.sejarahImageBlock:hover .sejarahImage {
+  transform: scale(1.04);
+}
+
+.sejarahImageOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px;
+  background: linear-gradient(to top, rgba(15, 23, 42, 0.85), transparent);
+}
+
+.sejarahImageTag {
+  display: inline-block;
+  padding: 5px 12px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  border-radius: 100px;
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.sejarahTextCard {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 28px;
+  transition: all 0.3s ease;
+}
+
+.sejarahTextCard:hover {
+  box-shadow: 0 16px 48px rgba(15, 23, 42, 0.07);
+  transform: translateY(-3px);
+}
+
+.sejarahTextContent {
+  font-size: 0.92rem;
+  line-height: 1.8;
+  color: #475569;
+}
+
+.sejarahTextContent p {
+  margin-bottom: 12px;
+}
+
+.sejarahTextContent p:last-child {
+  margin-bottom: 0;
+}
+
+.sejarahQuoteCard {
+  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+  border-radius: 16px;
+  padding: 28px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.sejarahQuoteCard::before {
+  content: '\201C';
+  position: absolute;
+  top: -16px;
+  left: 14px;
+  font-size: 8rem;
+  color: rgba(255, 255, 255, 0.07);
+  font-family: Georgia, serif;
+  line-height: 1;
+}
+
+.sejarahQuoteText {
+  font-size: 1.05rem;
+  color: #ffffff;
+  line-height: 1.7;
+  font-style: italic;
+  position: relative;
+  z-index: 1;
+}
+
+/* Drop cap */
+.dropCap {
+  font-size: 3.2rem;
+  float: left;
+  line-height: 0.78;
+  padding-top: 6px;
+  padding-right: 10px;
+  color: #1e3a8a;
+  font-weight: 900;
+}
+
+/* === VISI MISI === */
+.visiMisiGrid {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.visiCard {
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  border-radius: 20px;
+  padding: 36px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+}
+
+.visiCard::after {
+  content: '';
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 240px;
+  height: 240px;
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: 50%;
+  filter: blur(50px);
+}
+
+.visiIconWrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: rgba(59, 130, 246, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #60a5fa;
+  margin-bottom: 18px;
+}
+
+.visiLabel {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #60a5fa;
+  margin-bottom: 14px;
+}
+
+.visiText {
   font-size: 1.1rem;
+  color: #ffffff;
+  line-height: 1.7;
+  font-style: italic;
+  position: relative;
+  z-index: 1;
+}
+
+.visiText p {
+  margin: 0 0 12px 0;
+}
+.visiText p:last-child {
+  margin-bottom: 0;
+}
+
+.misiCard {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 36px;
+  min-width: 0;
+  word-wrap: break-word;
+}
+
+.misiIconWrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1e3a8a;
+  margin-bottom: 18px;
+}
+
+.misiLabel {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #1e3a8a;
+  margin-bottom: 18px;
+}
+
+.misiHTML {
+  color: #334155;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.misiHTML p {
+  margin: 0 0 12px 0;
+}
+
+.misiHTML ol, .misiHTML ul {
+  padding-left: 20px;
+  margin: 0 0 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.misiHTML li {
+  padding-left: 8px;
+}
+
+.misiHTML li::marker {
+  color: #1e3a8a;
+  font-weight: 700;
+}
+
+/* === GEO STATS BENTO === */
+.geoBento {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 40px;
+}
+
+.geoStatCard {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  transition: all 0.35s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.geoStatCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), transparent);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.geoStatCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(59, 130, 246, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.geoStatCard:hover::before {
+  opacity: 1;
+}
+
+.geoStatIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(59, 130, 246, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #60a5fa;
+  margin: 0 auto 14px auto;
+  position: relative;
+  z-index: 1;
+}
+
+.geoStatValue {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 4px;
+  position: relative;
+  z-index: 1;
+}
+
+.geoStatLabel {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.45);
+  position: relative;
+  z-index: 1;
+}
+
+/* Wide cards span 2 columns */
+.geoBorderCard {
+  grid-column: span 2;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 28px;
+  backdrop-filter: blur(10px);
+}
+
+.geoBorderTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.geoBorderTitleIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(59, 130, 246, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #60a5fa;
+  flex-shrink: 0;
+}
+
+.geoBorderList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.geoBorderItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: padding 0.25s ease;
+}
+
+.geoBorderItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.geoBorderItem:hover {
+  padding-left: 6px;
+}
+
+.geoBorderDirection {
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+}
+
+.geoBorderValue {
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 0.88rem;
+}
+
+/* Population card */
+.geoPopCard {
+  grid-column: span 2;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 28px;
+  backdrop-filter: blur(10px);
+}
+
+.geoPopTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.geoPopGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.geoPopItem {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 16px 12px;
+  text-align: center;
+  transition: all 0.25s ease;
+}
+
+.geoPopItem:hover {
+  background: rgba(59, 130, 246, 0.1);
+  transform: translateY(-2px);
+}
+
+.geoPopValue {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #60a5fa;
+  margin-bottom: 3px;
+}
+
+.geoPopLabel {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* Source data */
+.sourceCard {
+  grid-column: 1 / -1;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 20px 22px;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.4);
+  line-height: 1.7;
+}
+
+.sourceCard strong {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.sourceCard ul {
+  margin: 6px 0 0 0;
+  padding-left: 18px;
+}
+
+.sourceCard a {
+  color: #60a5fa;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.sourceCard a:hover {
+  color: #93c5fd;
+}
+
+/* === PERANGKAT DESA === */
+.perangkatHeader {
+  text-align: center;
+  margin-bottom: 40px;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
-  max-width: 1000px;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
 .card {
   background: white;
-  border-radius: 8px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid #e2e8f0;
+  position: relative;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.03), transparent);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 1;
+  pointer-events: none;
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(15, 23, 42, 0.08);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+}
+
+.card:hover::before {
+  opacity: 1;
 }
 
 .imageWrapper {
-  height: 300px;
+  height: 260px;
   width: 100%;
   overflow: hidden;
   background: #e2e8f0;
+  position: relative;
 }
 
 .image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.card:hover .image {
+  transform: scale(1.06);
 }
 
 .info {
-  padding: 24px;
+  padding: 18px;
   text-align: center;
+  position: relative;
+  z-index: 2;
 }
 
 .name {
-  font-size: 1.25rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: #0f172a;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .role {
-  color: #1e3a8a;
+  display: inline-block;
+  padding: 3px 12px;
+  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+  color: #ffffff;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.78rem;
+  border-radius: 100px;
+}
+
+/* === PRESTASI === */
+.prestasiContent {
+  text-align: center;
+}
+
+.prestasiEmpty {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 48px 28px;
+  margin-top: 32px;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.92rem;
+}
+
+.prestasiEmptyIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.2);
+  margin: 0 auto 16px auto;
+}
+
+/* =============================================
+   RESPONSIVE — Tablet (≤ 1024px)
+   ============================================= */
+@media (max-width: 1024px) {
+  .hero {
+    height: calc(100vh - 70px);
+    max-height: 550px;
+  }
+
+  .section,
+  .sectionAlt,
+  .sectionDark {
+    padding: 60px 5%;
+  }
+
+  .sejarahGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 28px;
+  }
+
+  .sejarahImageBlock {
+    grid-row: auto;
+    min-height: 280px;
+  }
+
+  .visiMisiGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 28px;
+  }
+
+  .geoBento {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  .geoBorderCard,
+  .geoPopCard {
+    grid-column: span 2;
+  }
+
+  .geoPopGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* =============================================
+   RESPONSIVE — Mobile (≤ 768px)
+   ============================================= */
+@media (max-width: 768px) {
+  .hero {
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    padding: 48px 5% 60px 5%;
+  }
+
+  .heroContent {
+    padding: 0;
+  }
+
+  .heroBadge {
+    padding: 5px 12px;
+    font-size: 0.65rem;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  .heroTitle {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+
+  .heroSubtitle {
+    font-size: 0.82rem;
+    line-height: 1.6;
+  }
+
+  .heroStats {
+    gap: 20px;
+    margin-top: 24px;
+  }
+
+  .heroStatValue {
+    font-size: 1.2rem;
+  }
+
+  .heroStatLabel {
+    font-size: 0.6rem;
+  }
+
+  .heroScrollIndicator {
+    display: none;
+  }
+
+  .heroOrb1 {
+    width: 200px;
+    height: 200px;
+  }
+
+  .heroOrb2 {
+    width: 150px;
+    height: 150px;
+  }
+
+  /* Sections — compact padding for mobile */
+  .section,
+  .sectionAlt,
+  .sectionDark {
+    padding: 36px 4%;
+  }
+
+  .sectionLabel {
+    font-size: 0.65rem;
+    margin-bottom: 8px;
+    gap: 6px;
+  }
+
+  .sectionLabelDot {
+    width: 5px;
+    height: 5px;
+  }
+
+  .sectionTitle {
+    font-size: 1.35rem;
+    margin-bottom: 8px;
+  }
+
+  .sectionDesc {
+    font-size: 0.82rem;
+    line-height: 1.55;
+  }
+
+  /* Sejarah mobile compact */
+  .sejarahGrid {
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .sejarahImageBlock {
+    min-height: 180px;
+    border-radius: 12px;
+  }
+
+  .sejarahImageOverlay {
+    padding: 16px;
+  }
+
+  .sejarahImageTag {
+    font-size: 0.65rem;
+    padding: 4px 10px;
+  }
+
+  .sejarahTextCard {
+    padding: 18px;
+    border-radius: 12px;
+  }
+
+  .sejarahTextContent {
+    font-size: 0.82rem;
+    line-height: 1.7;
+  }
+
+  .sejarahTextContent p {
+    margin-bottom: 8px;
+  }
+
+  .dropCap {
+    font-size: 2.4rem;
+    padding-right: 8px;
+    padding-top: 4px;
+  }
+
+  .sejarahQuoteCard {
+    padding: 18px;
+    border-radius: 12px;
+  }
+
+  .sejarahQuoteCard::before {
+    font-size: 5rem;
+    top: -10px;
+    left: 8px;
+  }
+
+  .sejarahQuoteText {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  /* Visi Misi mobile compact */
+  .visiMisiGrid {
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .visiCard {
+    padding: 20px;
+    border-radius: 14px;
+  }
+
+  .visiCard::after {
+    width: 160px;
+    height: 160px;
+    top: -50px;
+    right: -50px;
+  }
+
+  .visiIconWrapper {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+  }
+
+  .visiIconWrapper svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .visiLabel {
+    font-size: 0.62rem;
+    margin-bottom: 10px;
+  }
+
+  .visiText {
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+
+  .misiCard {
+    padding: 20px;
+    border-radius: 14px;
+  }
+
+  .misiIconWrapper {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+  }
+
+  .misiIconWrapper svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .misiLabel {
+    font-size: 0.62rem;
+    margin-bottom: 14px;
+  }
+
+  .misiItem {
+    padding: 10px 0;
+    gap: 10px;
+  }
+
+  .misiNumber {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+  }
+
+  .misiText {
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+
+  /* Geo bento mobile — 2 cols stays */
+  .geoBento {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .geoStatCard {
+    padding: 16px 10px;
+    border-radius: 12px;
+  }
+
+  .geoStatIcon {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    margin-bottom: 10px;
+  }
+
+  .geoStatIcon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .geoStatValue {
+    font-size: 1.15rem;
+    margin-bottom: 2px;
+  }
+
+  .geoStatLabel {
+    font-size: 0.62rem;
+  }
+
+  .geoBorderCard,
+  .geoPopCard {
+    grid-column: span 2;
+    padding: 18px;
+    border-radius: 12px;
+  }
+
+  .geoBorderTitle,
+  .geoPopTitle {
+    font-size: 0.92rem;
+    margin-bottom: 12px;
+    gap: 8px;
+  }
+
+  .geoBorderTitleIcon {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+  }
+
+  .geoBorderTitleIcon svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .geoBorderItem {
+    padding: 9px 0;
+  }
+
+  .geoBorderDirection {
+    font-size: 0.78rem;
+  }
+
+  .geoBorderValue {
+    font-size: 0.78rem;
+  }
+
+  .geoPopGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .geoPopItem {
+    padding: 12px 8px;
+    border-radius: 10px;
+  }
+
+  .geoPopValue {
+    font-size: 1rem;
+    margin-bottom: 2px;
+  }
+
+  .geoPopLabel {
+    font-size: 0.6rem;
+  }
+
+  .sourceCard {
+    padding: 14px 16px;
+    font-size: 0.7rem;
+    border-radius: 10px;
+  }
+
+  .sourceCard ul {
+    padding-left: 14px;
+  }
+
+  /* Perangkat grid — 2 columns on mobile */
+  .perangkatHeader {
+    margin-bottom: 20px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .imageWrapper {
+    height: 160px;
+  }
+
+  .info {
+    padding: 12px 10px;
+  }
+
+  .name {
+    font-size: 0.82rem;
+    margin-bottom: 4px;
+  }
+
+  .role {
+    font-size: 0.65rem;
+    padding: 2px 10px;
+  }
+
+  .card {
+    border-radius: 12px;
+  }
+
+  .card::before {
+    border-radius: 12px;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+  }
+
+  /* Prestasi */
+  .prestasiEmpty {
+    padding: 32px 20px;
+    margin-top: 20px;
+    border-radius: 12px;
+    font-size: 0.82rem;
+  }
+
+  .prestasiEmptyIcon {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 12px;
+  }
+
+  .prestasiEmptyIcon svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* =============================================
+   RESPONSIVE — Small Mobile (≤ 420px)
+   ============================================= */
+@media (max-width: 420px) {
+  .hero {
+    padding: 36px 4% 48px 4%;
+  }
+
+  .heroTitle {
+    font-size: 1.7rem;
+  }
+
+  .heroSubtitle {
+    font-size: 0.78rem;
+  }
+
+  .heroStats {
+    gap: 12px;
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .heroStatValue {
+    font-size: 1.2rem;
+  }
+
+  .section,
+  .sectionAlt,
+  .sectionDark {
+    padding: 28px 4%;
+  }
+
+  .sectionTitle {
+    font-size: 1.2rem;
+  }
+
+  .sectionDesc {
+    font-size: 0.78rem;
+  }
+
+  .sejarahImageBlock {
+    min-height: 150px;
+  }
+
+  .sejarahTextContent {
+    font-size: 0.78rem;
+  }
+
+  .sejarahQuoteText {
+    font-size: 0.8rem;
+  }
+
+  .dropCap {
+    font-size: 2rem;
+  }
+
+  .visiText {
+    font-size: 0.82rem;
+  }
+
+  .misiText {
+    font-size: 0.75rem;
+  }
+
+  .misiNumber {
+    width: 22px;
+    height: 22px;
+    font-size: 0.65rem;
+    border-radius: 5px;
+  }
+
+  .misiItem {
+    gap: 8px;
+    padding: 8px 0;
+  }
+
+  /* Geo — keep 2 col but ultra compact */
+  .geoBento {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .geoStatCard {
+    padding: 12px 8px;
+    grid-column: span 1 !important;
+  }
+
+  .geoStatIcon {
+    width: 28px;
+    height: 28px;
+    margin-bottom: 8px;
+    border-radius: 7px;
+  }
+
+  .geoStatIcon svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .geoStatValue {
+    font-size: 1rem;
+  }
+
+  .geoStatLabel {
+    font-size: 0.58rem;
+  }
+
+  .geoPopGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+
+  .geoPopItem {
+    padding: 10px 6px;
+  }
+
+  .geoPopValue {
+    font-size: 0.88rem;
+  }
+
+  .geoPopLabel {
+    font-size: 0.55rem;
+  }
+
+  .geoBorderCard,
+  .geoPopCard {
+    padding: 14px;
+    grid-column: span 2 !important;
+  }
+
+  .geoBorderTitle,
+  .geoPopTitle {
+    font-size: 0.85rem;
+  }
+
+  .geoBorderDirection,
+  .geoBorderValue {
+    font-size: 0.72rem;
+  }
+
+  /* Perangkat — still 2 cols but tighter */
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .imageWrapper {
+    height: 130px;
+  }
+
+  .info {
+    padding: 10px 8px;
+  }
+
+  .name {
+    font-size: 0.75rem;
+  }
+
+  .role {
+    font-size: 0.6rem;
+    padding: 2px 8px;
+  }
 }

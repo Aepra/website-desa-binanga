@@ -16,6 +16,7 @@ export interface Post {
   id: string;
   type: PostType;
   judul: string;
+  slug?: string;
   kategori?: string;
   tanggal: string;
   cover?: string;
