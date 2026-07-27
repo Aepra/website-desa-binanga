@@ -282,9 +282,16 @@
   overflow-x: hidden;
   padding-right: 20px;
   position: relative;
+  width: 100%;
+  
+  /* Rata kiri kanan & pemotongan kata otomatis */
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
   word-wrap: break-word;
   overflow-wrap: break-word;
-  width: 100%;
+  letter-spacing: -0.01em; /* Meminimalisir jarak spasi yang terlalu lebar */
 }
 
 .welcomeText::-webkit-scrollbar { width: 6px; }
@@ -898,7 +905,12 @@
     line-height: 1.7;
     max-height: 250px;
     padding-right: 8px;
+    
     text-align: justify;
+    text-justify: inter-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    letter-spacing: -0.01em;
     overflow-x: hidden;
     overflow-y: auto;
     word-wrap: break-word;
