@@ -1,7 +1,50 @@
 'use server';
 
 import { prisma } from '@/lib/prisma';
-import { Post, UMKM, Wisata, Statistik, PerangkatDesa as OldPerangkatDesa } from './api';
+
+export interface Post {
+  id: string;
+  type: 'berita' | 'agenda';
+  judul: string;
+  slug: string;
+  kategori: string;
+  tanggal: string;
+  cover: string;
+  ringkasan: string;
+  created_at: string;
+}
+
+export interface UMKM {
+  id: string;
+  nama: string;
+  kategori: string;
+  foto: string;
+  deskripsi: string;
+  kontak: string;
+  created_at: string;
+}
+
+export interface Wisata {
+  id: string;
+  nama: string;
+  kategori: string;
+  foto: string;
+  deskripsi: string;
+}
+
+export interface Statistik {
+  penduduk: number;
+  kepala_keluarga: number;
+  luas_wilayah: number;
+  realisasi_anggaran: number;
+}
+
+export interface PerangkatDesa {
+  id: string;
+  nama: string;
+  jabatan: string;
+  foto: string;
+}
 
 // ==============================
 // 1. STATISTIK
@@ -114,7 +157,7 @@ export async function getWisataDB(limit?: number): Promise<Wisata[]> {
 // ==============================
 // 5. PERANGKAT DESA
 // ==============================
-export async function getPerangkatDesaDB(): Promise<OldPerangkatDesa[]> {
+export async function getPerangkatDesaDB(): Promise<PerangkatDesa[]> {
   const data = await prisma.perangkatDesa.findMany({
     orderBy: { createdAt: 'asc' }
   });

@@ -1,9 +1,13 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, HTMLMotionProps } from 'framer-motion';
 
-export function FadeUp({ children, delay = 0, className = '' }: { children: React.ReactNode, delay?: number, className?: string }) {
+interface FadeProps extends HTMLMotionProps<"div"> {
+  delay?: number;
+}
+
+export function FadeUp({ children, delay = 0, className = '', ...props }: FadeProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -11,13 +15,14 @@ export function FadeUp({ children, delay = 0, className = '' }: { children: Reac
       viewport={{ once: true, margin: "-10%" }}
       transition={{ duration: 0.6, delay, ease: "easeOut" }}
       className={className}
+      {...props}
     >
       {children}
     </motion.div>
   );
 }
 
-export function FadeIn({ children, delay = 0, className = '' }: { children: React.ReactNode, delay?: number, className?: string }) {
+export function FadeIn({ children, delay = 0, className = '', ...props }: FadeProps) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -25,13 +30,14 @@ export function FadeIn({ children, delay = 0, className = '' }: { children: Reac
       viewport={{ once: true, margin: "-10%" }}
       transition={{ duration: 0.8, delay, ease: "easeOut" }}
       className={className}
+      {...props}
     >
       {children}
     </motion.div>
   );
 }
 
-export function StaggerContainer({ children, className = '' }: { children: React.ReactNode, className?: string }) {
+export function StaggerContainer({ children, className = '', ...props }: HTMLMotionProps<"div">) {
   return (
     <motion.div
       initial="hidden"
@@ -42,13 +48,14 @@ export function StaggerContainer({ children, className = '' }: { children: React
         hidden: {}
       }}
       className={className}
+      {...props}
     >
       {children}
     </motion.div>
   );
 }
 
-export function StaggerItem({ children, className = '' }: { children: React.ReactNode, className?: string }) {
+export function StaggerItem({ children, className = '', ...props }: HTMLMotionProps<"div">) {
   return (
     <motion.div
       variants={{
@@ -56,6 +63,7 @@ export function StaggerItem({ children, className = '' }: { children: React.Reac
         visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
       }}
       className={className}
+      {...props}
     >
       {children}
     </motion.div>

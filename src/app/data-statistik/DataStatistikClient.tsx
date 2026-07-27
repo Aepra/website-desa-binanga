@@ -674,7 +674,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                             <Cell key={`cell-${index}`} fill={['#ef4444', '#f59e0b', '#3b82f6', '#8b5cf6', '#ec4899', '#10b981'][index % 6]} />
                           ))}
                         </Pie>
-                        <Tooltip formatter={(value: number) => `Rp ${value.toLocaleString('id-ID')}`} />
+                        <Tooltip formatter={(value: any) => `Rp ${Number(value).toLocaleString('id-ID')}`} />
                         <Legend />
                       </PieChart>
                     </ResponsiveContainer>
