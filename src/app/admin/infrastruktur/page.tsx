@@ -1,4 +1,4 @@
-import { getInfrastrukturList } from './actions';
+import { getInfrastrukturList } from '@/server/actions/infrastruktur.action';
 import InfrastrukturClient from './InfrastrukturClient';
 import { Metadata } from 'next';
 import { prisma } from '@/lib/prisma';

@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getBansos, addBansos, updateBansos, deleteBansos } from './actions';
+import { getBansos, addBansos, updateBansos, deleteBansos } from '@/server/actions/bansos.action';
 import { Edit2, Trash2, Plus, Search, Check, X } from 'lucide-react';
-import styles from '../Admin.module.css'; // Reuse generic admin styles or create specific ones
+import styles from '../Admin.module.css';
 
 type BansosItem = {
   id: string;

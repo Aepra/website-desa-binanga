@@ -1,5 +1,5 @@
 
-import { getUMKM, createUMKM, deleteUMKM } from './actions';
+import { getUMKM, createUMKM, deleteUMKM } from '@/server/actions/umkm.action';
 import SubmitButton from '@/components/SubmitButton';
 
 export default async function UMKMPage() {

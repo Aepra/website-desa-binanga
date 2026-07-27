@@ -1,4 +1,4 @@
-import { getApbdesById, createRincian, deleteRincian } from '../actions';
+import { getApbdesById, createRincian, deleteRincian } from '@/server/actions/apbdes.action';
 import SubmitButton from '@/components/SubmitButton';
 import { ArrowLeft, PlusCircle, Trash2, Tag, ArrowUpRight, ArrowDownRight, Wallet } from 'lucide-react';
 import Link from 'next/link';

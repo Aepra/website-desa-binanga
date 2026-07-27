@@ -1,4 +1,4 @@
-import { getBerita, createBerita, deleteBerita } from './actions';
+import { getBerita, createBerita, deleteBerita } from '@/server/actions/berita.action';
 import { Image as ImageIcon, Trash2, PlusCircle, FileText } from 'lucide-react';
 import SubmitButton from '@/components/SubmitButton';
 

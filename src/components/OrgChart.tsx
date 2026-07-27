@@ -91,13 +91,38 @@ export default function OrgChart({ data, onCreate, onDelete, readOnly = false, c
     <div className={`org-wrapper ${compact || compactWithPhoto ? 'org-compact-mode' : ''} ${compactWithPhoto ? 'org-compact-photo' : ''}`}>
       <style>{`
         .org-wrapper {
-          overflow-x: auto;
-          padding: 40px 20px;
+          position: relative;
+          width: 100%;
+          background: transparent;
+        }
+        .org-canvas-container {
+          position: relative;
+          width: 100%;
+          height: 70vh;
+          min-height: 500px;
+          max-height: 800px;
+          overflow: auto;
           background: #f8fafc;
+          background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+          background-size: 20px 20px;
           border-radius: 12px;
           border: 1px solid #e2e8f0;
-          min-height: 500px;
-          container-type: inline-size;
+          box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+          cursor: grab;
+        }
+        .org-canvas-container:active {
+          cursor: grabbing;
+        }
+        .org-canvas-container::-webkit-scrollbar {
+          width: 8px; height: 8px;
+        }
+        .org-canvas-container::-webkit-scrollbar-thumb {
+          background: #94a3b8; border-radius: 4px;
+        }
+        .org-canvas-content {
+          padding: 40px;
+          min-width: max-content;
+          min-height: max-content;
         }
         .org-tree ul {
           padding-top: 20px; position: relative;
@@ -291,7 +316,13 @@ export default function OrgChart({ data, onCreate, onDelete, readOnly = false, c
         </div>
       )}
 
-      <div style={{ transform: `scale(${compact || compactWithPhoto ? 0.8 : zoom})`, transformOrigin: 'top center', transition: 'transform 0.25s ease-out', width: 'max-content', minWidth: '100%', margin: '0 auto' }}>
+      <div className="org-canvas-container">
+        <div className="org-canvas-content" style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{ 
+            zoom: compact || compactWithPhoto ? 0.8 : zoom, 
+            width: 'max-content', 
+            margin: '0 auto' 
+          }}>
         <div className="org-tree">
           <ul>
             {kades ? (
@@ -396,6 +427,8 @@ export default function OrgChart({ data, onCreate, onDelete, readOnly = false, c
         </div>
       )}
       
+      </div>
+      </div>
       </div>
 
       {/* Modal ... */}

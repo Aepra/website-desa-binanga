@@ -1,5 +1,5 @@
 
-import { getWisata, createWisata, deleteWisata } from './actions';
+import { getWisata, createWisata, deleteWisata } from '@/server/actions/wisata.action';
 import SubmitButton from '@/components/SubmitButton';
 
 export default async function WisataPage() {

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { getStatistikByTahun, upsertBulkStatistik, getAllStatistikHistory } from './actions';
+import { getStatistikByTahun, upsertBulkStatistik, getAllStatistikHistory } from '@/server/actions/statistik.action';
 import { Save, AlertCircle, Database, Calendar, Users, BookOpen } from 'lucide-react';
 
 type StatistikClientProps = {

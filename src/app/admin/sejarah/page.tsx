@@ -1,4 +1,4 @@
-import { getSejarahList } from './actions';
+import { getSejarahList } from '@/server/actions/sejarah.action';
 import SejarahClient from './SejarahClient';
 import { Metadata } from 'next';
 

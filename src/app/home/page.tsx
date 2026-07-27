@@ -6,9 +6,9 @@ import { Landmark, BarChart3, TrendingUp, Newspaper, HeartHandshake, Image, File
 import styles from './page.module.css';
 
 import { useState, useEffect } from 'react';
-import { getPengaturan } from '@/app/admin/pengaturan/actions';
-import { getStatistikDB, getPostsDB, getUmkmDB, getWisataDB, getApbdesActiveDB } from '@/lib/data-actions';
-import { getPerangkat } from '@/app/admin/struktur/actions';
+import { getPengaturan } from '@/server/actions/pengaturan.action';
+import { getStatistikDB, getPostsDB, getUmkmDB, getWisataDB, getApbdesActiveDB } from '@/server/queries/public.query';
+import { getPerangkat } from '@/server/actions/struktur.action';
 import OrgChart from '@/components/OrgChart';
 import type { Post, UMKM, Wisata, Statistik } from '@/lib/api';
 
@@ -261,17 +261,34 @@ export default function Home() {
             <h2 className={styles.sectionTitle}>UMKM Lokal</h2>
             <p style={{ color: '#475569' }}>Dukung perekonomian dan kreativitas warga Desa Binanga</p>
           </motion.div>
-          <div className={styles.potensiGrid}>
+          <motion.div 
+            className={styles.potensiGrid}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-10%" }}
+            variants={{
+              visible: { transition: { staggerChildren: 0.15 } },
+              hidden: {}
+            }}
+          >
             {umkmList.map((item) => (
-              <Link href="/umkm" key={item.id} className={styles.potensiCard}>
-                <div className={styles.potensiImage} style={{backgroundImage: `url(${item.foto})`}}></div>
-                <div className={styles.potensiContent}>
-                  <h3>{item.nama}</h3>
-                  <p>{item.deskripsi}</p>
-                </div>
-              </Link>
+              <motion.div 
+                key={item.id} 
+                variants={{
+                  hidden: { opacity: 0, y: 30 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+                }}
+              >
+                <Link href="/umkm" className={styles.potensiCard}>
+                  <div className={styles.potensiImage} style={{backgroundImage: `url(${item.foto})`}}></div>
+                  <div className={styles.potensiContent}>
+                    <h3>{item.nama}</h3>
+                    <p>{item.deskripsi}</p>
+                  </div>
+                </Link>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -495,3 +512,4 @@ export default function Home() {
     </div>
   );
 }
+

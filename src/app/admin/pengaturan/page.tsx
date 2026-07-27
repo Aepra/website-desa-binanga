@@ -1,4 +1,4 @@
-import { getPengaturan, savePengaturan } from './actions';
+import { getPengaturan, savePengaturan } from '@/server/actions/pengaturan.action';
 import { Save, Clock } from 'lucide-react';
 import KadesPhotoUploader from '@/components/KadesPhotoUploader';
 import SubmitButton from '@/components/SubmitButton';

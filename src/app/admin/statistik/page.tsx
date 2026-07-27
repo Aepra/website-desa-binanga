@@ -1,6 +1,6 @@
 import React from 'react';
 import StatistikClient from './StatistikClient';
-import { getStatistikByTahun, getAllStatistikHistory } from './actions';
+import { getStatistikByTahun, getAllStatistikHistory } from '@/server/actions/statistik.action';
 
 export const metadata = {
   title: 'Data & Statistik - Admin Binanga',

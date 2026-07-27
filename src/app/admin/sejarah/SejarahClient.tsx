@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { createSejarah, updateSejarah, deleteSejarah } from './actions';
+import { createSejarah, updateSejarah, deleteSejarah } from '@/server/actions/sejarah.action';
 import { Plus, Edit2, Trash2, Save, X, BookOpen } from 'lucide-react';
 
 export default function SejarahClient({ initialData }: { initialData: any[] }) {

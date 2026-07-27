@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { createInfrastruktur, updateInfrastruktur, deleteInfrastruktur } from './actions';
+import { createInfrastruktur, updateInfrastruktur, deleteInfrastruktur } from '@/server/actions/infrastruktur.action';
 import { Plus, Edit2, Trash2, Save, X, Building2 } from 'lucide-react';
 
 export default function InfrastrukturClient({ initialData, dusunList }: { initialData: any[], dusunList: any[] }) {

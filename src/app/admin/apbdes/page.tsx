@@ -1,4 +1,4 @@
-import { getSemuaApbdes, createApbdes, deleteApbdes, setActiveApbdes } from './actions';
+import { getSemuaApbdes, createApbdes, deleteApbdes, setActiveApbdes } from '@/server/actions/apbdes.action';
 import SubmitButton from '@/components/SubmitButton';
 import { PieChart, PlusCircle, Trash2, CheckCircle, Image as ImageIcon, Settings } from 'lucide-react';
 import Link from 'next/link';

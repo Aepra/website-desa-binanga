@@ -1,6 +1,7 @@
 'use client';
 
 import { Target, Lightbulb, Map, Compass, MapPin, Ruler, Users, Award, Landmark, BookOpen, Clock, TreePine, Waves, Building2, Heart, GraduationCap, Home, AlertTriangle, CheckCircle2, Star, ChevronRight } from 'lucide-react';
+import { FadeUp, FadeIn, StaggerContainer, StaggerItem } from '@/components/Animate';
 import styles from './profil.module.css';
 import fasStyles from './fasilitas.module.css';
 import { useState, useEffect } from 'react';
@@ -170,13 +171,18 @@ const WARNA_TIPE: Record<string, string> = {
   info:          '#8b5cf6',
 };
 
-import { getPengaturan } from '@/app/admin/pengaturan/actions';
-import { getPerangkat } from '@/app/admin/struktur/actions';
+import { getPengaturan } from '@/server/actions/pengaturan.action';
+import { getPerangkat } from '@/server/actions/struktur.action';
 import OrgChart from '@/components/OrgChart';
 
 export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalStats }: { dbSejarah?: any[], dbInfrastruktur?: any[], dbGlobalStats?: any }) {
   const [perangkat, setPerangkat] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState<'dusun' | 'pendidikan' | 'sosial'>('dusun');
+  const [expandedTimeline, setExpandedTimeline] = useState<Record<number, boolean>>({});
+
+  const toggleTimeline = (idx: number) => {
+    setExpandedTimeline(prev => ({ ...prev, [idx]: !prev[idx] }));
+  };
   
   const kronologiData = dbSejarah && dbSejarah.length > 0 ? dbSejarah : kronologiSejarah;
   const infrastrukturData = dbInfrastruktur && dbInfrastruktur.length > 0 ? dbInfrastruktur : fasilitasData;
@@ -243,7 +249,7 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
 
       {/* ===== MENGENAL DESA ===== */}
       <section className={styles.section} id="mengenal-desa">
-        <div className={styles.sectionInner}>
+        <FadeUp className={styles.sectionInner}>
           <div className={styles.sectionLabel}>
             <span className={styles.sectionLabelDot} />
             Tentang Desa
@@ -304,120 +310,46 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
               <span className={fasStyles.quoteSource}>— Data Desa Presisi, LPPM IPB University (2022). Monografi Desa Binanga.</span>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* ===== STRUKTUR ORGANISASI (COMPACT) ===== */}
-      <section className={styles.section} id="bagan-struktur-mini" style={{ paddingBottom: '40px', overflowX: 'hidden' }}>
-        <div className={styles.sectionInner} style={{ maxWidth: '100%', padding: '0' }}>
-          <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-            <div className={styles.sectionLabel} style={{ justifyContent: 'center' }}>
-              <span className={styles.sectionLabelDot} />
-              Pemerintahan
-            </div>
-            <h2 className={styles.sectionTitle}>Ringkasan Aparatur Desa</h2>
-          </div>
-          
-          <div style={{ marginTop: '20px' }}>
-            <OrgChart data={perangkat} readOnly={true} compactWithPhoto={true} />
-          </div>
-        </div>
-      </section>
-
-      {/* ===== KRONOLOGI SEJARAH ===== */}
-      <section className={styles.sectionAlt} id="sejarah-kronologi">
-        <div className={styles.sectionInner}>
-          <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-            <div className={styles.sectionLabel} style={{ justifyContent: 'center' }}>
-              <span className={styles.sectionLabelDot} />
-              Sejarah
-            </div>
-            <h2 className={styles.sectionTitle}>Perjalanan Panjang Desa Binanga</h2>
-            <p className={styles.sectionDesc} style={{ margin: '0 auto' }}>
-              Dari bagian Desa Puttada hingga berdiri mandiri — rekam jejak peristiwa bersejarah yang membentuk identitas desa.
-            </p>
-          </div>
-
-          {/* Sumber Header */}
-          <div className={fasStyles.sumberBoxCenter}>
-            <BookOpen size={14} />
-            <span>
-              <strong>Sumber:</strong> Data Desa Presisi, LPPM IPB University (2022). Monografi Desa Binanga.
-            </span>
-          </div>
-
-          {/* Timeline */}
-          <div className={fasStyles.timeline}>
-            {kronologiData.map((item: any, idx: number) => (
-              <div key={idx} className={fasStyles.timelineItem}>
-                <div className={fasStyles.timelineLeft}>
-                  <div
-                    className={fasStyles.timelineYear}
-                    style={{ color: WARNA_TIPE[item.tipe] }}
-                  >
-                    {item.tahun}
-                  </div>
-                  <div className={fasStyles.timelineDot} style={{ background: WARNA_TIPE[item.tipe] }} />
-                </div>
-                <div className={fasStyles.timelineCard} style={{ borderLeftColor: WARNA_TIPE[item.tipe] }}>
-                  <div className={fasStyles.timelineBadge} style={{ background: `${WARNA_TIPE[item.tipe]}15`, color: WARNA_TIPE[item.tipe] }}>
-                    {item.tipe === 'bencana'       && <AlertTriangle size={12} />}
-                    {item.tipe === 'administrasi'  && <Landmark size={12} />}
-                    {item.tipe === 'pembangunan'   && <CheckCircle2 size={12} />}
-                    {item.tipe === 'info'          && <Star size={12} />}
-                    <span>
-                      {item.tipe === 'bencana'      && 'Bencana Alam'}
-                      {item.tipe === 'administrasi' && 'Administrasi Desa'}
-                      {item.tipe === 'pembangunan'  && 'Pembangunan'}
-                      {item.tipe === 'info'         && 'Informasi'}
-                    </span>
-                  </div>
-                  <h3 className={fasStyles.timelineTitle}>{item.judul}</h3>
-                  <p className={fasStyles.timelineCerita}>{item.cerita}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        </FadeUp>
       </section>
 
       {/* ===== VISI & MISI ===== */}
-      <section className={styles.sectionDark} id="visi-misi">
-        <div className={styles.sectionInner}>
+      <section className={styles.sectionAlt} id="visi-misi">
+        <FadeUp className={styles.sectionInner}>
           <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-            <div className={`${styles.sectionLabel} ${styles.sectionLabelLight}`} style={{ justifyContent: 'center' }}>
-              <span className={`${styles.sectionLabelDot} ${styles.sectionLabelDotLight}`} />
+            <div className={styles.sectionLabel} style={{ justifyContent: 'center' }}>
+              <span className={styles.sectionLabelDot} />
               Arah Kebijakan
             </div>
-            <h2 className={`${styles.sectionTitle} ${styles.sectionTitleLight}`}>Visi &amp; Misi</h2>
-            <p className={`${styles.sectionDesc} ${styles.sectionDescLight}`} style={{ margin: '0 auto' }}>
+            <h2 className={styles.sectionTitle}>Visi &amp; Misi</h2>
+            <p className={styles.sectionDesc} style={{ margin: '0 auto' }}>
               Arah kebijakan dan tujuan pembangunan Desa Binanga menuju masa depan yang lebih cerah.
             </p>
           </div>
 
-          <div className={styles.visiMisiGrid}>
-            <div className={styles.visiCard}>
+          <StaggerContainer className={styles.visiMisiGrid}>
+            <StaggerItem className={styles.visiCard}>
               <div className={styles.visiIconWrapper}>
                 <Lightbulb size={26} />
               </div>
               <div className={styles.visiLabel}>Visi</div>
               <div className={styles.visiText} dangerouslySetInnerHTML={{ __html: visi }} />
-            </div>
+            </StaggerItem>
 
-            <div className={styles.misiCard}>
+            <StaggerItem className={styles.misiCard}>
               <div className={styles.misiIconWrapper}>
                 <Target size={26} />
               </div>
               <div className={styles.misiLabel}>Misi</div>
               <div className={styles.misiHTML} dangerouslySetInnerHTML={{ __html: misiHTML }} />
-            </div>
-          </div>
-        </div>
+            </StaggerItem>
+          </StaggerContainer>
+        </FadeUp>
       </section>
 
       {/* ===== WILAYAH & GEOGRAFIS ===== */}
       <section className={styles.sectionDark} id="wilayah-geografis">
-        <div className={styles.sectionInner}>
+        <FadeUp className={styles.sectionInner}>
           <div style={{ textAlign: 'center', marginBottom: '20px' }}>
             <div className={`${styles.sectionLabel} ${styles.sectionLabelLight}`} style={{ justifyContent: 'center' }}>
               <span className={`${styles.sectionLabelDot} ${styles.sectionLabelDotLight}`} />
@@ -429,46 +361,46 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
             </p>
           </div>
 
-          <div className={styles.geoBento}>
+          <StaggerContainer className={styles.geoBento}>
             {/* Stat cards */}
-            <div className={styles.geoStatCard}>
+            <StaggerItem className={styles.geoStatCard}>
               <div className={styles.geoStatIcon}><Map size={24} /></div>
               <div className={styles.geoStatValue}>{luasDesa} ha</div>
               <div className={styles.geoStatLabel}>Luas Wilayah Desa</div>
-            </div>
+            </StaggerItem>
 
-            <div className={styles.geoStatCard}>
+            <StaggerItem className={styles.geoStatCard}>
               <div className={styles.geoStatIcon}><Waves size={24} /></div>
               <div className={styles.geoStatValue}>80%</div>
               <div className={styles.geoStatLabel}>Perkebunan</div>
-            </div>
+            </StaggerItem>
 
-            <div className={styles.geoStatCard}>
+            <StaggerItem className={styles.geoStatCard}>
               <div className={styles.geoStatIcon}><Home size={24} /></div>
               <div className={styles.geoStatValue}>20%</div>
               <div className={styles.geoStatLabel}>Pemukiman</div>
-            </div>
+            </StaggerItem>
 
-            <div className={styles.geoStatCard}>
+            <StaggerItem className={styles.geoStatCard}>
               <div className={styles.geoStatIcon}><Compass size={24} /></div>
               <div className={styles.geoStatValue}>4</div>
               <div className={styles.geoStatLabel}>Dusun</div>
-            </div>
+            </StaggerItem>
             
-            <div className={styles.geoStatCard}>
+            <StaggerItem className={styles.geoStatCard}>
               <div className={styles.geoStatIcon}><MapPin size={24} /></div>
               <div className={styles.geoStatValue}>3,7 km</div>
               <div className={styles.geoStatLabel}>Jarak ke Kec. Sendana</div>
-            </div>
+            </StaggerItem>
 
-            <div className={styles.geoStatCard}>
+            <StaggerItem className={styles.geoStatCard}>
               <div className={styles.geoStatIcon}><Building2 size={24} /></div>
               <div className={styles.geoStatValue}>26,7 km</div>
               <div className={styles.geoStatLabel}>Jarak ke Kab. Majene</div>
-            </div>
+            </StaggerItem>
 
             {/* Batas Wilayah Desa */}
-            <div className={styles.geoBorderCard}>
+            <StaggerItem className={styles.geoBorderCard}>
               <div className={styles.geoBorderTitle}>
                 <div className={styles.geoBorderTitleIcon}><Compass size={20} /></div>
                 Batas Wilayah Desa Binanga
@@ -483,10 +415,10 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
                   </li>
                 ))}
               </ul>
-            </div>
+            </StaggerItem>
 
             {/* Luas per dusun */}
-            <div className={styles.geoPopCard}>
+            <StaggerItem className={styles.geoPopCard}>
               <div className={styles.geoPopTitle}>
                 <div className={styles.geoBorderTitleIcon}><Ruler size={20} /></div>
                 Luas Wilayah per Dusun
@@ -499,10 +431,10 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
                   </div>
                 ))}
               </div>
-            </div>
+            </StaggerItem>
 
             {/* Sumber */}
-            <div className={styles.sourceCard}>
+            <StaggerItem className={styles.sourceCard}>
               <strong>Sumber Data Geografis:</strong>
               <ul>
                 <li>Batas Wilayah &amp; Luas Dusun — <em>Data Desa Presisi, LPPM IPB University (2022). Monografi Desa Binanga.</em></li>
@@ -513,14 +445,36 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
                 Pengumpulan data spasial menggunakan teknologi drone <em>DJI Mavic 2 Pro</em> dan
                 pengolahan <em>ArcGIS 10.8</em> oleh Tim LPPM IPB University, 2022.
               </p>
+            </StaggerItem>
+          </StaggerContainer>
+        </FadeUp>
+      </section>
+
+      {/* ===== PERANGKAT DESA ===== */}
+      <section className={styles.section} id="perangkat-desa" style={{ overflowX: 'hidden' }}>
+        <FadeUp className={styles.sectionInner} style={{ maxWidth: '100%', padding: '0' }}>
+          <div className={styles.perangkatHeader}>
+            <div className={styles.sectionLabel} style={{ justifyContent: 'center' }}>
+              <span className={styles.sectionLabelDot} />
+              Pemerintahan
             </div>
+            <h2 className={styles.sectionTitle} style={{ textAlign: 'center' }}>
+              Struktur Organisasi
+            </h2>
+            <p className={styles.sectionDesc} style={{ margin: '0 auto', textAlign: 'center' }}>
+              Bagan lengkap susunan perangkat pemerintahan Desa Binanga.
+            </p>
           </div>
-        </div>
+
+          <div style={{ marginTop: '40px' }}>
+            <OrgChart data={perangkat} readOnly={true} compact={false} />
+          </div>
+        </FadeUp>
       </section>
 
       {/* ===== DATA DUSUN — KARTU INTERAKTIF ===== */}
       <section className={styles.sectionAlt} id="data-dusun">
-        <div className={styles.sectionInner}>
+        <FadeUp className={styles.sectionInner}>
           <div style={{ textAlign: 'center', marginBottom: '20px' }}>
             <div className={styles.sectionLabel} style={{ justifyContent: 'center' }}>
               <span className={styles.sectionLabelDot} />
@@ -739,12 +693,12 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
               </div>
             </div>
           )}
-        </div>
+        </FadeUp>
       </section>
 
       {/* ===== FASILITAS ===== */}
       <section className={styles.sectionDark} id="fasilitas-desa">
-        <div className={styles.sectionInner}>
+        <FadeUp className={styles.sectionInner}>
           <div style={{ textAlign: 'center', marginBottom: '20px' }}>
             <div className={`${styles.sectionLabel} ${styles.sectionLabelLight}`} style={{ justifyContent: 'center' }}>
               <span className={`${styles.sectionLabelDot} ${styles.sectionLabelDotLight}`} />
@@ -801,34 +755,74 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
               <strong>Sumber:</strong> Data Desa Presisi, LPPM IPB University (2022). Monografi Desa Binanga; BPS Kabupaten Majene (2025). Kecamatan Sendana Dalam Angka 2025.
             </div>
           </div>
-        </div>
+        </FadeUp>
       </section>
 
-      {/* ===== PERANGKAT DESA ===== */}
-      <section className={styles.section} id="perangkat-desa" style={{ overflowX: 'hidden' }}>
-        <div className={styles.sectionInner} style={{ maxWidth: '100%', padding: '0' }}>
-          <div className={styles.perangkatHeader}>
+      {/* ===== KRONOLOGI SEJARAH ===== */}
+      <section className={styles.section} id="sejarah-kronologi">
+        <FadeUp className={styles.sectionInner}>
+          <div style={{ textAlign: 'center', marginBottom: '20px' }}>
             <div className={styles.sectionLabel} style={{ justifyContent: 'center' }}>
               <span className={styles.sectionLabelDot} />
-              Pemerintahan
+              Sejarah
             </div>
-            <h2 className={styles.sectionTitle} style={{ textAlign: 'center' }}>
-              Struktur Organisasi
-            </h2>
-            <p className={styles.sectionDesc} style={{ margin: '0 auto', textAlign: 'center' }}>
-              Bagan lengkap susunan perangkat pemerintahan Desa Binanga.
+            <h2 className={styles.sectionTitle}>Perjalanan Panjang Desa Binanga</h2>
+            <p className={styles.sectionDesc} style={{ margin: '0 auto' }}>
+              Dari bagian Desa Puttada hingga berdiri mandiri — rekam jejak peristiwa bersejarah yang membentuk identitas desa.
             </p>
           </div>
 
-          <div style={{ marginTop: '40px' }}>
-            <OrgChart data={perangkat} readOnly={true} compact={false} />
+          {/* Sumber Header */}
+          <div className={fasStyles.sumberBoxCenter}>
+            <BookOpen size={14} />
+            <span>
+              <strong>Sumber:</strong> Data Desa Presisi, LPPM IPB University (2022). Monografi Desa Binanga.
+            </span>
           </div>
-        </div>
+
+          {/* Timeline */}
+          <div className={fasStyles.timeline}>
+            {kronologiData.map((item: any, idx: number) => (
+              <div key={idx} className={fasStyles.timelineItem}>
+                <div className={fasStyles.timelineLeft}>
+                  <div
+                    className={fasStyles.timelineYear}
+                    style={{ color: WARNA_TIPE[item.tipe] }}
+                  >
+                    {item.tahun}
+                  </div>
+                  <div className={fasStyles.timelineDot} style={{ background: WARNA_TIPE[item.tipe] }} />
+                </div>
+                <div className={fasStyles.timelineCard} style={{ borderLeftColor: WARNA_TIPE[item.tipe] }}>
+                  <div className={fasStyles.timelineBadge} style={{ background: `${WARNA_TIPE[item.tipe]}15`, color: WARNA_TIPE[item.tipe] }}>
+                    {item.tipe === 'bencana'       && <AlertTriangle size={12} />}
+                    {item.tipe === 'administrasi'  && <Landmark size={12} />}
+                    {item.tipe === 'pembangunan'   && <CheckCircle2 size={12} />}
+                    {item.tipe === 'info'          && <Star size={12} />}
+                    <span>
+                      {item.tipe === 'bencana'      && 'Bencana Alam'}
+                      {item.tipe === 'administrasi' && 'Administrasi Desa'}
+                      {item.tipe === 'pembangunan'  && 'Pembangunan'}
+                      {item.tipe === 'info'         && 'Informasi'}
+                    </span>
+                  </div>
+                  <h3 className={fasStyles.timelineTitle}>{item.judul}</h3>
+                  <div className={`${fasStyles.timelineCeritaWrapper} ${expandedTimeline[idx] ? fasStyles.expanded : ''}`}>
+                    <p className={fasStyles.timelineCerita}>{item.cerita}</p>
+                  </div>
+                  <button className={fasStyles.timelineToggle} onClick={() => toggleTimeline(idx)}>
+                    {expandedTimeline[idx] ? 'Sembunyikan' : 'Baca Selengkapnya'}
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </FadeUp>
       </section>
 
       {/* ===== PRESTASI ===== */}
       <section className={styles.sectionDark} id="prestasi-penghargaan">
-        <div className={styles.sectionInner}>
+        <FadeUp className={styles.sectionInner}>
           <div className={styles.prestasiContent}>
             <div className={`${styles.sectionLabel} ${styles.sectionLabelLight}`} style={{ justifyContent: 'center' }}>
               <span className={`${styles.sectionLabelDot} ${styles.sectionLabelDotLight}`} />
@@ -848,7 +842,7 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
               Masih dalam tahap pembaruan data penghargaan.
             </div>
           </div>
-        </div>
+        </FadeUp>
       </section>
 
     </div>

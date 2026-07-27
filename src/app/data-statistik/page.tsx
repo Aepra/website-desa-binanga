@@ -1,6 +1,6 @@
 import React from 'react';
 import DataStatistikClient from './DataStatistikClient';
-import { getLatestStatistikTahun, getStatistikByTahun } from '@/app/admin/statistik/actions';
+import { getLatestStatistikTahun, getStatistikByTahun } from '@/server/actions/statistik.action';
 import { prisma } from '@/lib/prisma';
 
 export const metadata = {

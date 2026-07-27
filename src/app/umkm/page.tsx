@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { UMKM } from '@/lib/api';
-import { getUmkmDB } from '@/lib/data-actions';
+import { getUmkmDB } from '@/server/queries/public.query';
 import { ShoppingBag, MessageCircle, Star } from 'lucide-react';
+import { FadeUp, StaggerContainer, StaggerItem } from '@/components/Animate';
 import styles from './umkm.module.css';
 
 export default function UMKMPotensi() {
@@ -24,7 +25,7 @@ export default function UMKMPotensi() {
       <div className={styles.container}>
         
         {/* Spotlight Banner (Mini Hero) */}
-        <div className={styles.spotlight}>
+        <FadeUp className={styles.spotlight}>
           <div className={styles.spotlightOverlay} />
           <div className={styles.spotlightContent}>
             <span className={styles.sBadge}>100% Produk Lokal</span>
@@ -34,10 +35,10 @@ export default function UMKMPotensi() {
             </p>
           </div>
           <ShoppingBag size={120} color="#fff" opacity={0.2} style={{ position: 'absolute', right: '-20px', bottom: '-20px', transform: 'rotate(-15deg)' }} />
-        </div>
+        </FadeUp>
 
         {/* Categories Horizontal Scroll */}
-        <div className={styles.catWrapper}>
+        <FadeUp delay={0.2} className={styles.catWrapper}>
           {categories.map((cat, idx) => (
             <button 
               key={idx} 
@@ -47,12 +48,12 @@ export default function UMKMPotensi() {
               {cat}
             </button>
           ))}
-        </div>
+        </FadeUp>
 
         {/* Product Grid */}
-        <div className={styles.productGrid}>
+        <StaggerContainer className={styles.productGrid}>
           {filteredData.map(item => (
-            <div key={item.id} className={styles.productCard}>
+            <StaggerItem key={item.id} className={styles.productCard}>
               <div className={styles.productImageWrap}>
                 <img src={item.foto} alt={item.nama} className={styles.productImage} />
                 <span className={styles.productKat}>{item.kategori}</span>
@@ -70,9 +71,9 @@ export default function UMKMPotensi() {
                   <span>Pesan Sekarang</span>
                 </a>
               </div>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
 
         {filteredData.length === 0 && (
           <div style={{ textAlign: 'center', padding: '60px 20px', color: '#94a3b8' }}>
@@ -85,3 +86,4 @@ export default function UMKMPotensi() {
     </div>
   );
 }
+

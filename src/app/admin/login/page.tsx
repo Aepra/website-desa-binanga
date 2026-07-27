@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Lock, User } from 'lucide-react';
-import { loginAction } from './actions';
+import { loginAction } from '@/server/actions/login.action';
 
 export default function AdminLogin() {
   const router = useRouter();

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getSemuaPenduduk, addPenduduk, updatePenduduk, deletePenduduk } from './actions';
+import { getSemuaPenduduk, addPenduduk, updatePenduduk, deletePenduduk } from '@/server/actions/penduduk.action';
 import { Edit2, Trash2, Plus, Search, Check, X, FileText, Download } from 'lucide-react';
 import styles from '../Admin.module.css';
 

@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { Wisata } from '@/lib/api';
-import { getWisataDB } from '@/lib/data-actions';
+import { getWisataDB } from '@/server/queries/public.query';
 import { CloudSun, Navigation, Tent, Users, Map, Clock, Ticket, ZoomIn } from 'lucide-react';
+import { FadeUp, StaggerContainer, StaggerItem } from '@/components/Animate';
 import styles from './wisata.module.css';
 
 export default function WisataDesa() {
@@ -13,6 +14,9 @@ export default function WisataDesa() {
   useEffect(() => {
     getWisataDB().then(setWisata);
   }, []);
+
+  const destinasiList = wisata.filter(w => w.kategori.toLowerCase().includes('wisata'));
+  const potensiList = wisata.filter(w => !w.kategori.toLowerCase().includes('wisata') || w.kategori === 'Potensi Wisata');
 
   const scrollTo = (id: string) => {
     setActiveTab(id);
@@ -45,58 +49,54 @@ export default function WisataDesa() {
       <div className={styles.container}>
         
         {/* Header Bersih */}
-        <div className={styles.headerTitle} id="bento">
+        <FadeUp className={styles.headerTitle} id="bento">
           <span className={styles.hBadge}>Pusat Informasi</span>
           <h1 className={styles.hMain}>Pariwisata & Potensi Desa</h1>
           <p className={styles.hDesc}>
             Temukan semua informasi lengkap mengenai destinasi unggulan, peta geografis terpadu, hingga kekayaan agrowisata Desa Binanga.
           </p>
-        </div>
+        </FadeUp>
 
         {/* Bento Grid (Clean & Bright) */}
-        <div className={styles.bentoGrid}>
+        <StaggerContainer className={styles.bentoGrid}>
           
           {/* Highlight Image (span 2x2) */}
-          <div className={`${styles.bentoCard} ${styles.bentoHighlight}`}>
-            <img src="https://images.unsplash.com/photo-1542662565-7e4fd56f5604?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Pesona Binanga" className={styles.bBg} />
+          <StaggerItem className={`${styles.bentoCard} ${styles.bentoHighlight}`}>
+            <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Pesona Binanga" className={styles.bImg} />
             <div className={styles.bOverlay}>
-              <h2 className={styles.bTitleBig}>Pesona Alam Binanga</h2>
-              <p className={styles.bDesc}>Menikmati udara pegunungan segar dan hamparan lanskap hijau di Sulawesi Barat.</p>
+              <h3 className={styles.bTitle}>Pesona Alam Asri</h3>
+              <p className={styles.bDesc}>Nikmati kesejukan udara pegunungan dan panorama hijau yang memanjakan mata.</p>
             </div>
-          </div>
+          </StaggerItem>
 
-          {/* Weather / Climate */}
-          <div className={`${styles.bentoCard} ${styles.bentoWeather}`}>
-            <div className={styles.wTop}>
-              <CloudSun size={48} />
-              <span style={{ fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', color: '#0f172a' }}>Hari Ini</span>
-            </div>
-            <div>
-              <h3 className={styles.wTemp}>22°C</h3>
-              <p className={styles.wDesc}>Cerah Berawan • Sejuk</p>
-            </div>
-          </div>
-
-          {/* Quick Stats (Tent/Fasilitas) */}
-          <div className={`${styles.bentoCard} ${styles.bentoStat}`}>
-            <div className={styles.sIconWrap} style={{ background: '#d1fae5', color: '#10b981' }}>
+          {/* Mini Cards */}
+          <StaggerItem className={`${styles.bentoCard} ${styles.bentoMini}`}>
+            <div className={styles.mIconWrap} style={{ background: '#dcfce7', color: '#16a34a' }}>
               <Tent size={24} />
             </div>
-            <span className={styles.sVal}>12</span>
-            <span className={styles.sLbl}>Homestay & Camping Ground Terdaftar</span>
-          </div>
+            <h4 className={styles.mTitle}>Camping Ground</h4>
+            <p className={styles.mDesc}>Area perkemahan aman dan nyaman.</p>
+          </StaggerItem>
+          
+          <StaggerItem className={`${styles.bentoCard} ${styles.bentoMini}`}>
+            <div className={styles.mIconWrap} style={{ background: '#e0e7ff', color: '#4f46e5' }}>
+              <CloudSun size={24} />
+            </div>
+            <h4 className={styles.mTitle}>Cuaca Cerah</h4>
+            <p className={styles.mDesc}>Cocok untuk aktivitas outdoor.</p>
+          </StaggerItem>
 
-          {/* Quick Stats (Pemandu) */}
-          <div className={`${styles.bentoCard} ${styles.bentoStat}`}>
-            <div className={styles.sIconWrap} style={{ background: '#eff6ff', color: '#3b82f6' }}>
+          {/* Statistic/Info Card */}
+          <StaggerItem className={`${styles.bentoCard} ${styles.bentoStat}`}>
+            <div className={styles.sIconWrap} style={{ background: '#fee2e2', color: '#ef4444' }}>
               <Users size={24} />
             </div>
-            <span className={styles.sVal}>25+</span>
-            <span className={styles.sLbl}>Pemandu Wisata Lokal Tersertifikasi</span>
-          </div>
+            <span className={styles.sVal}>12+</span>
+            <span className={styles.sLbl}>Kelompok Sadar Wisata (Pokdarwis) Aktif</span>
+          </StaggerItem>
 
-          {/* Map Preview (span 1x2 vertical) */}
-          <div className={`${styles.bentoCard} ${styles.bentoMap}`} onClick={() => scrollTo('peta')}>
+          {/* Map Link Card */}
+          <StaggerItem className={`${styles.bentoCard} ${styles.bentoMap}`} onClick={() => scrollTo('peta')}>
             <div className={styles.mapThumbWrap}>
               <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Peta ArcGIS Preview" />
             </div>
@@ -104,29 +104,29 @@ export default function WisataDesa() {
               <Map size={18} color="#3b82f6" />
               Lihat Peta ArcGIS
             </div>
-          </div>
+          </StaggerItem>
 
           {/* Distance Info */}
-          <div className={`${styles.bentoCard} ${styles.bentoStat}`}>
+          <StaggerItem className={`${styles.bentoCard} ${styles.bentoStat}`}>
             <div className={styles.sIconWrap} style={{ background: '#fef3c7', color: '#f59e0b' }}>
               <Navigation size={24} />
             </div>
             <span className={styles.sVal}>45</span>
             <span className={styles.sLbl}>Menit Berkendara dari Pusat Kota Majene</span>
-          </div>
+          </StaggerItem>
 
-        </div>
+        </StaggerContainer>
 
         {/* Destinasi Wisata */}
         <div id="destinasi" className={styles.section}>
-          <div className={styles.secHeader}>
+          <FadeUp className={styles.secHeader}>
             <span className={styles.secSub}>Eksplorasi Keindahan</span>
             <h2 className={styles.secTitle}>Destinasi Wisata</h2>
-          </div>
+          </FadeUp>
           
-          <div className={styles.destGrid}>
-            {wisata.length > 0 ? wisata.map(item => (
-              <div key={item.id} className={styles.destCard}>
+          <StaggerContainer className={styles.destGrid}>
+            {destinasiList.length > 0 ? destinasiList.map(item => (
+              <StaggerItem key={item.id} className={styles.destCard}>
                 <div className={styles.dImgWrap}>
                   <img src={item.foto} alt={item.nama} className={styles.dImg} loading="lazy" />
                   <div className={styles.dBadge}>{item.kategori}</div>
@@ -145,47 +145,35 @@ export default function WisataDesa() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </StaggerItem>
             )) : <p style={{ color: '#64748b' }}>Belum ada data destinasi wisata.</p>}
-          </div>
+          </StaggerContainer>
         </div>
 
         {/* Potensi Desa */}
         <div id="potensi" className={styles.section}>
-          <div className={styles.secHeader}>
+          <FadeUp className={styles.secHeader}>
             <span className={styles.secSub}>Pemberdayaan Masyarakat</span>
             <h2 className={styles.secTitle}>Potensi & Agrowisata</h2>
-          </div>
+          </FadeUp>
           
-          <div className={styles.potensiList}>
-            <div className={styles.potensiRow}>
-              <div className={styles.pImgWrap}>
-                <img src="https://images.unsplash.com/photo-1596727262306-38435d03e5c9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Kopi Khas Binanga" className={styles.pImg} loading="lazy" />
-              </div>
-              <div className={styles.pContent}>
-                <h3 className={styles.pTitle}>Agrowisata Perkebunan Kopi & Kakao</h3>
-                <p className={styles.pDesc}>
-                  Selain pesona alamnya, Desa Binanga terkenal dengan hamparan kebun kopi dan kakao yang dikelola langsung oleh kelompok tani lokal. Pengunjung dapat mengikuti tur edukasi, mulai dari proses pemetikan biji kopi hingga menyeduh dan menikmati hasil panen segar langsung dari kebunnya.
-                </p>
-              </div>
-            </div>
-            
-            <div className={styles.potensiRow}>
-              <div className={styles.pImgWrap}>
-                <img src="https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Kerajinan Tangan" className={styles.pImg} loading="lazy" />
-              </div>
-              <div className={styles.pContent}>
-                <h3 className={styles.pTitle}>Pusat Kerajinan Anyaman Lokal</h3>
-                <p className={styles.pDesc}>
-                  Temukan cendera mata khas berupa kerajinan tangan berbahan dasar bambu dan rotan. Produk-produk ini merupakan hasil dari pemberdayaan masyarakat dan UMKM desa yang tidak hanya estetik, tetapi juga mendukung keberlanjutan ekonomi warga.
-                </p>
-              </div>
-            </div>
-          </div>
+          <StaggerContainer className={styles.potensiList}>
+            {potensiList.length > 0 ? potensiList.map(item => (
+              <StaggerItem key={item.id} className={styles.potensiRow}>
+                <div className={styles.pImgWrap}>
+                  <img src={item.foto} alt={item.nama} className={styles.pImg} loading="lazy" />
+                </div>
+                <div className={styles.pContent}>
+                  <h3 className={styles.pTitle}>{item.nama} <span style={{ fontSize: '0.8rem', padding: '4px 8px', background: '#fef3c7', color: '#f59e0b', borderRadius: '4px', marginLeft: '12px', verticalAlign: 'middle' }}>{item.kategori}</span></h3>
+                  <p className={styles.pDesc}>{item.deskripsi}</p>
+                </div>
+              </StaggerItem>
+            )) : <p style={{ color: '#64748b' }}>Belum ada data potensi desa.</p>}
+          </StaggerContainer>
         </div>
 
         {/* ArcGIS Map Container (Static) */}
-        <div id="peta" className={styles.section} style={{ paddingBottom: '100px' }}>
+        <FadeUp id="peta" className={styles.section} style={{ paddingBottom: '100px' }}>
           <div className={styles.secHeader}>
             <span className={styles.secSub}>Sistem Informasi Geografis</span>
             <h2 className={styles.secTitle}>Peta Wisata Terpadu (ArcGIS)</h2>
@@ -206,9 +194,10 @@ export default function WisataDesa() {
               </button>
             </div>
           </div>
-        </div>
+        </FadeUp>
 
       </div>
     </div>
   );
 }
+

@@ -116,8 +116,11 @@
 }
 
 @media (max-width: 768px) {
-  .mainTitle { font-size: 2.2rem; }
-  .ctaGroup { flex-direction: row; width: 100%; }
+  .mainTitle { font-size: 2rem; }
+  .subTitle { font-size: 1rem; margin-bottom: 16px; }
+  .tagline { font-size: 0.9rem; margin-bottom: 24px; }
+  .ctaGroup { flex-direction: column; width: 100%; gap: 10px; }
+  .primaryBtn, .secondaryBtn { width: 100%; text-align: center; }
 }
 
 /* ===== QUICK SERVICES ===== */

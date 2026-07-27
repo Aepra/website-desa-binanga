@@ -1,4 +1,4 @@
-import { getPerangkat, createPerangkat, deletePerangkat } from './actions';
+import { getPerangkat, createPerangkat, deletePerangkat } from '@/server/actions/struktur.action';
 import OrgChart from '@/components/OrgChart';
 
 export default async function PerangkatPage() {
