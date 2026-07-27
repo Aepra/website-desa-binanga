@@ -186,14 +186,12 @@ export default function Home() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-              <div style={{ width: '40px', height: '4px', backgroundColor: '#1e3a8a', borderRadius: '2px' }}></div>
-              <h2 style={{ fontSize: '2rem', fontWeight: 800, color: '#0f172a', margin: 0 }}>Sambutan Kepala Desa</h2>
-            </div>
+            <h2 className={styles.sectionTitle}>
+              <span>Sambutan</span> Kepala Desa
+            </h2>
             
             <div className={styles.welcomeText}>
               <div 
-                style={{ lineHeight: '1.8' }} 
                 dangerouslySetInnerHTML={{ __html: pengaturan.KADES_WELCOME ? kadesWelcome : '<p>Sambutan dari Kepala Desa belum diatur di panel admin.</p>' }} 
               />
 
