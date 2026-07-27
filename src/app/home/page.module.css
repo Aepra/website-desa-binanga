@@ -864,7 +864,8 @@
   .welcomeText {
     font-size: 0.85rem;
     text-align: left;
-    max-height: 180px; /* Batasi tinggi untuk memicu scroll */
+    aspect-ratio: 2/3; /* Memaksa kotak teks memiliki rasio lebar 2 : tinggi 3 */
+    max-height: none; /* Hapus batasan tinggi sebelumnya */
     overflow-y: auto; /* Sistem scroll aktif */
     overflow-x: hidden; /* Hindari scroll horizontal */
     word-wrap: break-word; /* Pastikan kata turun ke bawah */
