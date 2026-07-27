@@ -49,6 +49,11 @@
   to { opacity: 1; transform: translateX(0); }
 }
 
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* --- Page Wrapper --- */
 .page {
   background-color: #f8fafc;
@@ -350,7 +355,12 @@
 
 .sejarahTextContent p {
   margin-bottom: 12px;
+  animation: revealUp 0.5s ease both;
 }
+
+.sejarahTextContent p:nth-child(1) { animation-delay: 0.1s; }
+.sejarahTextContent p:nth-child(2) { animation-delay: 0.2s; }
+.sejarahTextContent p:nth-child(3) { animation-delay: 0.3s; }
 
 .sejarahTextContent p:last-child {
   margin-bottom: 0;
@@ -909,6 +919,29 @@
 }
 
 /* =============================================
+   RESPONSIVE — Tablet (≤ 900px)
+   ============================================= */
+@media (max-width: 900px) {
+  .sejarahGrid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .sejarahImageBlock {
+    grid-row: auto;
+    min-height: 280px;
+  }
+
+  .visiMisiGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .geoBento {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* =============================================
    RESPONSIVE — Mobile (≤ 768px)
    ============================================= */
 @media (max-width: 768px) {
@@ -916,33 +949,106 @@
     height: auto;
     min-height: 0;
     max-height: none;
-    padding: 48px 5% 60px 5%;
+    padding: 0; /* Tidak ada padding — full ke atas & samping */
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #1e293b 100%);
+    display: block;
+    /* Hanya sudut bawah yang membulat */
+    border-radius: 0 0 28px 28px;
+    overflow: hidden;
   }
 
   .heroContent {
-    padding: 0;
+    width: 100%;
+    padding: 28px 20px 24px 20px;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    position: relative;
+    text-align: left;
   }
 
+  .heroContent::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 160px;
+    height: 160px;
+    background: rgba(96, 165, 250, 0.12);
+    border-radius: 50%;
+    filter: blur(35px);
+    pointer-events: none;
+  }
+
+  .heroContent::after {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    left: -30px;
+    width: 100px;
+    height: 100px;
+    background: rgba(167, 139, 250, 0.1);
+    border-radius: 50%;
+    filter: blur(28px);
+    pointer-events: none;
+  }
+
+  .heroOrb1, .heroOrb2 {
+    display: none;
+  }
+
+  /* Baris atas: badge + judul + subjudul */
   .heroBadge {
-    padding: 5px 12px;
-    font-size: 0.65rem;
-    gap: 6px;
-    margin-bottom: 14px;
+    padding: 4px 10px;
+    font-size: 0.6rem;
+    gap: 5px;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
   }
 
   .heroTitle {
-    font-size: 2rem;
-    margin-bottom: 10px;
+    font-size: 1.75rem;
+    margin-bottom: 6px;
+    line-height: 1.1;
+    position: relative;
+    z-index: 2;
+    letter-spacing: -0.5px;
   }
 
   .heroSubtitle {
-    font-size: 0.82rem;
-    line-height: 1.6;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    position: relative;
+    z-index: 2;
+    max-width: 100%;
+    margin: 0;
   }
 
+  /* Stats di bawah dalam 1 baris horizontal */
   .heroStats {
-    gap: 20px;
-    margin-top: 24px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    position: relative;
+    z-index: 2;
+  }
+
+  .heroStat {
+    flex: 1;
+    text-align: center;
+    padding: 0 4px;
+    border-right: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .heroStat:last-child {
+    border-right: none;
   }
 
   .heroStatValue {
@@ -985,43 +1091,65 @@
     height: 5px;
   }
 
+  /* ── SECTION UMUM ── */
+  .section,
+  .sectionAlt,
+  .sectionDark {
+    padding: 32px 4%;
+  }
+
+  .sectionLabel {
+    font-size: 0.65rem;
+    margin-bottom: 8px;
+    gap: 6px;
+  }
+
+  .sectionLabelDot {
+    width: 5px;
+    height: 5px;
+  }
+
   .sectionTitle {
-    font-size: 1.35rem;
+    font-size: 1.25rem;
     margin-bottom: 8px;
   }
 
   .sectionDesc {
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     line-height: 1.55;
   }
 
-  /* Sejarah mobile compact */
+  /* ── SEJARAH ── */
   .sejarahGrid {
-    gap: 12px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 14px;
     margin-top: 20px;
   }
 
   .sejarahImageBlock {
-    min-height: 180px;
-    border-radius: 12px;
+    min-height: 200px;
+    border-radius: 14px;
+    grid-row: auto;
   }
 
   .sejarahImageOverlay {
-    padding: 16px;
+    padding: 14px;
   }
 
   .sejarahImageTag {
-    font-size: 0.65rem;
-    padding: 4px 10px;
+    font-size: 0.62rem;
+    padding: 3px 10px;
   }
 
   .sejarahTextCard {
     padding: 18px;
-    border-radius: 12px;
+    border-radius: 14px;
   }
 
   .sejarahTextContent {
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     line-height: 1.7;
   }
 
@@ -1030,198 +1158,198 @@
   }
 
   .dropCap {
-    font-size: 2.4rem;
-    padding-right: 8px;
+    font-size: 2.2rem;
+    padding-right: 6px;
     padding-top: 4px;
   }
 
   .sejarahQuoteCard {
     padding: 18px;
-    border-radius: 12px;
+    border-radius: 14px;
   }
 
   .sejarahQuoteCard::before {
-    font-size: 5rem;
-    top: -10px;
+    font-size: 4.5rem;
+    top: -8px;
     left: 8px;
   }
 
   .sejarahQuoteText {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     line-height: 1.6;
   }
 
-  /* Visi Misi mobile compact */
+  /* ── VISI MISI ── */
   .visiMisiGrid {
-    gap: 12px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
     margin-top: 20px;
   }
 
   .visiCard {
     padding: 20px;
-    border-radius: 14px;
+    border-radius: 16px;
   }
 
   .visiCard::after {
-    width: 160px;
-    height: 160px;
-    top: -50px;
-    right: -50px;
+    width: 140px;
+    height: 140px;
+    top: -40px;
+    right: -40px;
   }
 
-  .visiIconWrapper {
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-    margin-bottom: 12px;
+  .visiIconWrapper,
+  .misiIconWrapper {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    margin-bottom: 10px;
   }
 
-  .visiIconWrapper svg {
-    width: 18px;
-    height: 18px;
+  .visiIconWrapper svg,
+  .misiIconWrapper svg {
+    width: 16px;
+    height: 16px;
   }
 
-  .visiLabel {
-    font-size: 0.62rem;
+  .visiLabel,
+  .misiLabel {
+    font-size: 0.6rem;
     margin-bottom: 10px;
   }
 
   .visiText {
-    font-size: 0.88rem;
+    font-size: 0.82rem;
     line-height: 1.6;
   }
 
   .misiCard {
     padding: 20px;
-    border-radius: 14px;
+    border-radius: 16px;
   }
 
-  .misiIconWrapper {
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-    margin-bottom: 12px;
+  .misiHTML {
+    font-size: 0.8rem;
+    line-height: 1.55;
   }
 
-  .misiIconWrapper svg {
-    width: 18px;
-    height: 18px;
+  .misiHTML ol,
+  .misiHTML ul {
+    gap: 7px;
+    padding-left: 16px;
   }
 
-  .misiLabel {
-    font-size: 0.62rem;
-    margin-bottom: 14px;
+  .misiHTML li {
+    padding-left: 4px;
   }
 
   .misiItem {
-    padding: 10px 0;
-    gap: 10px;
+    padding: 8px 0;
+    gap: 8px;
   }
 
   .misiNumber {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     border-radius: 6px;
-    font-size: 0.7rem;
+    font-size: 0.68rem;
   }
 
   .misiText {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     line-height: 1.5;
   }
 
-  /* Geo bento mobile — 2 cols stays */
+  /* ── GEO STATS ── */
   .geoBento {
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-    margin-top: 20px;
+    margin-top: 18px;
   }
 
   .geoStatCard {
-    padding: 16px 10px;
+    padding: 14px 10px;
     border-radius: 12px;
   }
 
   .geoStatIcon {
-    width: 34px;
-    height: 34px;
-    border-radius: 9px;
-    margin-bottom: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    margin-bottom: 8px;
   }
 
   .geoStatIcon svg {
-    width: 16px;
-    height: 16px;
+    width: 15px;
+    height: 15px;
   }
 
   .geoStatValue {
-    font-size: 1.15rem;
+    font-size: 1.05rem;
     margin-bottom: 2px;
   }
 
   .geoStatLabel {
-    font-size: 0.62rem;
+    font-size: 0.6rem;
   }
 
   .geoBorderCard,
   .geoPopCard {
     grid-column: span 2;
-    padding: 18px;
+    padding: 16px;
     border-radius: 12px;
   }
 
   .geoBorderTitle,
   .geoPopTitle {
-    font-size: 0.92rem;
-    margin-bottom: 12px;
+    font-size: 0.85rem;
+    margin-bottom: 10px;
     gap: 8px;
   }
 
   .geoBorderTitleIcon {
-    width: 30px;
-    height: 30px;
-    border-radius: 8px;
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
   }
 
   .geoBorderTitleIcon svg {
-    width: 15px;
-    height: 15px;
+    width: 13px;
+    height: 13px;
   }
 
   .geoBorderItem {
-    padding: 9px 0;
+    padding: 8px 0;
   }
 
-  .geoBorderDirection {
-    font-size: 0.78rem;
-  }
-
+  .geoBorderDirection,
   .geoBorderValue {
-    font-size: 0.78rem;
+    font-size: 0.75rem;
   }
 
   .geoPopGrid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
+    gap: 7px;
   }
 
   .geoPopItem {
-    padding: 12px 8px;
-    border-radius: 10px;
+    padding: 10px 6px;
+    border-radius: 9px;
   }
 
   .geoPopValue {
-    font-size: 1rem;
+    font-size: 0.92rem;
     margin-bottom: 2px;
   }
 
   .geoPopLabel {
-    font-size: 0.6rem;
+    font-size: 0.58rem;
   }
 
   .sourceCard {
-    padding: 14px 16px;
-    font-size: 0.7rem;
+    padding: 12px 14px;
+    font-size: 0.68rem;
     border-radius: 10px;
   }
 
@@ -1229,32 +1357,32 @@
     padding-left: 14px;
   }
 
-  /* Perangkat grid — 2 columns on mobile */
+  /* ── PERANGKAT DESA ── */
   .perangkatHeader {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
   }
 
   .grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 10px;
   }
 
   .imageWrapper {
-    height: 160px;
+    height: 140px;
   }
 
   .info {
-    padding: 12px 10px;
+    padding: 10px 9px;
   }
 
   .name {
-    font-size: 0.82rem;
-    margin-bottom: 4px;
+    font-size: 0.78rem;
+    margin-bottom: 3px;
   }
 
   .role {
-    font-size: 0.65rem;
-    padding: 2px 10px;
+    font-size: 0.62rem;
+    padding: 2px 8px;
   }
 
   .card {
@@ -1266,28 +1394,35 @@
   }
 
   .card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
   }
 
-  /* Prestasi */
+  /* ── INFRASTRUKTUR / FASILITAS ── */
+  .fasilitasGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* ── PRESTASI ── */
   .prestasiEmpty {
-    padding: 32px 20px;
-    margin-top: 20px;
+    padding: 28px 18px;
+    margin-top: 18px;
     border-radius: 12px;
-    font-size: 0.82rem;
+    font-size: 0.8rem;
   }
 
   .prestasiEmptyIcon {
-    width: 44px;
-    height: 44px;
-    margin-bottom: 12px;
+    width: 40px;
+    height: 40px;
+    margin-bottom: 10px;
   }
 
   .prestasiEmptyIcon svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
   }
 }
+
 
 /* =============================================
    RESPONSIVE — Small Mobile (≤ 420px)

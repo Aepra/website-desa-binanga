@@ -26,7 +26,7 @@ export default function OrgChart({ data, onCreate, onDelete, readOnly = false, c
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalAtasan, setModalAtasan] = useState<{ id: string | null; defaultKategori: string }>({ id: null, defaultKategori: 'KADES' });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [zoom, setZoom] = useState(1);
+  const [zoom, setZoom] = useState(0.75);
 
   const handleZoomIn = () => setZoom(prev => Math.min(prev + 0.1, 2.0));
   const handleZoomOut = () => setZoom(prev => Math.max(prev - 0.1, 0.3));
@@ -98,9 +98,9 @@ export default function OrgChart({ data, onCreate, onDelete, readOnly = false, c
         .org-canvas-container {
           position: relative;
           width: 100%;
-          height: 70vh;
-          min-height: 500px;
-          max-height: 800px;
+          height: 55vh;
+          min-height: 380px;
+          max-height: 600px;
           overflow: auto;
           background: #f8fafc;
           background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
@@ -181,11 +181,11 @@ export default function OrgChart({ data, onCreate, onDelete, readOnly = false, c
         .org-group-title { font-weight: 700; font-size: clamp(0.7rem, 1.5cqi, 0.9rem); letter-spacing: 0.5px; text-transform: uppercase; line-height: 1.4; }
 
         .org-photo {
-          width: 90px;
-          height: 120px;
-          border-radius: 6px;
+          width: 70px;
+          height: 70px;
+          border-radius: 8px;
           object-fit: cover;
-          margin: 0 auto 12px auto;
+          margin: 0 auto 8px auto;
           border: 1px solid #cbd5e1;
           display: block;
         }
@@ -193,12 +193,12 @@ export default function OrgChart({ data, onCreate, onDelete, readOnly = false, c
         .org-node {
           background: #ffffff;
           border: 1px solid #cbd5e1;
-          padding: 12px 8px;
+          padding: 10px 8px;
           border-radius: 10px;
           display: inline-flex;
           flex-direction: column;
           align-items: center;
-          width: 120px;
+          width: 95px;
           white-space: normal;
           word-wrap: break-word;
           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
@@ -229,9 +229,9 @@ export default function OrgChart({ data, onCreate, onDelete, readOnly = false, c
         }
 
         .org-photo-placeholder {
-          width: 90px; height: 120px; border-radius: 6px;
+          width: 70px; height: 70px; border-radius: 8px;
           background: #f1f5f9; display: flex; align-items: center; justify-content: center;
-          font-size: 0.8rem; color: #94a3b8; margin-bottom: 12px;
+          font-size: 0.7rem; color: #94a3b8; margin-bottom: 8px;
         }
         
         .org-actions {

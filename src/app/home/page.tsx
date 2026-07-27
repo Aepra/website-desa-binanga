@@ -246,9 +246,57 @@ export default function Home() {
           )}
         </div>
       </section>
-      
+      {/* WISATA SECTION (MENGGUNAKAN DATA DATABASE) */}
+      <section className={styles.potensiSection} style={{ background: '#ffffff' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <motion.div 
+            className={styles.sectionHeader}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className={styles.sectionTitle}>Destinasi Wisata</h2>
+            <p style={{ color: '#475569' }}>Jelajahi keindahan alam dan pesona budaya Desa Binanga</p>
+          </motion.div>
+          <motion.div 
+            className={styles.potensiGrid}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-10%" }}
+            variants={{
+              visible: { transition: { staggerChildren: 0.15 } },
+              hidden: {}
+            }}
+          >
+            {wisataList.length > 0 ? wisataList.map((item) => (
+              <motion.div 
+                key={item.id} 
+                variants={{
+                  hidden: { opacity: 0, y: 30 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+                }}
+              >
+                <Link href="/wisata" className={styles.potensiCard}>
+                  <div className={styles.potensiImage} style={{backgroundImage: `url(${item.foto || '/pic/kantor-desa.jpeg'})`}}></div>
+                  <div className={styles.potensiContent}>
+                    <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0f172a', marginBottom: '8px' }}>{item.nama}</h3>
+                    <p style={{ fontSize: '0.9rem', color: '#64748b', lineHeight: 1.6 }}>
+                      {item.deskripsi.length > 80 ? item.deskripsi.substring(0, 80) + '...' : item.deskripsi}
+                    </p>
+                  </div>
+                </Link>
+              </motion.div>
+            )) : (
+              <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px', background: '#f8fafc', borderRadius: '16px', border: '1px dashed #cbd5e1' }}>
+                <p style={{ color: '#64748b', fontSize: '1.1rem' }}>Belum ada destinasi wisata yang ditambahkan.</p>
+              </div>
+            )}
+          </motion.div>
+        </div>
+      </section>
+
       {/* POTENSI DESA SECTION (MENGGUNAKAN DATA UMKM API) */}
-      <section className={styles.potensiSection}>
+      <section className={styles.potensiSection} style={{ background: '#f8fafc' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <motion.div 
             className={styles.sectionHeader}
