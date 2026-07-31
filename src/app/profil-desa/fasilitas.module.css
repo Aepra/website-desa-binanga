@@ -5,8 +5,8 @@
 /* ── FASILITAS GRID ─────────────────────────────────────── */
 .fasilitasGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
 }
 
 .fasilitasCard {
@@ -23,7 +23,7 @@
 
 .fasImgWrap {
   position: relative;
-  height: 190px;
+  height: 165px;
   overflow: hidden;
 }
 .fasImg {
@@ -49,7 +49,7 @@
 }
 
 .fasBody {
-  padding: 16px 20px 20px;
+  padding: 14px 16px 16px;
 }
 
 .fasDusunTag {
@@ -150,7 +150,7 @@
   display: flex;
   gap: 0;
   align-items: flex-start;
-  padding-bottom: 28px;
+  padding-bottom: 20px;
 }
 
 .timelineLeft {
@@ -249,7 +249,7 @@
   display: flex;
   gap: 8px;
   justify-content: center;
-  margin-bottom: 32px;
+  margin-bottom: 20px;
   flex-wrap: wrap;
 }
 
@@ -290,13 +290,13 @@
 .dusunGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 20px;
+  gap: 14px;
 }
 
 .dusunCard {
   background: white;
-  border-radius: 16px;
-  padding: 20px;
+  border-radius: 14px;
+  padding: 16px;
   border: 1px solid #e2e8f0;
   box-shadow: 0 2px 12px rgba(0,0,0,0.05);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -307,7 +307,7 @@
 }
 
 .dusunHeader {
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .dusunNama {
@@ -329,8 +329,8 @@
 
 .dusunStats {
   display: flex;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: 10px;
+  margin-bottom: 12px;
 }
 
 .dusunStat {
