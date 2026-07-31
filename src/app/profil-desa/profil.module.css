@@ -66,8 +66,8 @@
   position: relative;
   /* Account for 70px sticky navbar */
   height: calc(100vh - 70px);
-  min-height: 350px;
-  max-height: 550px;
+  min-height: 400px;
+  max-height: 700px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -214,16 +214,16 @@
 
 /* === SECTION COMMON === */
 .section {
-  padding: 50px 5%;
+  padding: 56px 5%;
 }
 
 .sectionAlt {
-  padding: 50px 5%;
+  padding: 56px 5%;
   background: #ffffff;
 }
 
 .sectionDark {
-  padding: 50px 5%;
+  padding: 56px 5%;
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
   color: #ffffff;
 }
@@ -237,12 +237,12 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: #3b82f6;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .sectionLabelLight {
@@ -262,11 +262,11 @@
 }
 
 .sectionTitle {
-  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-size: clamp(1.35rem, 2.8vw, 2rem);
   font-weight: 800;
   color: #0f172a;
-  line-height: 1.2;
-  margin: 0 0 8px 0;
+  line-height: 1.15;
+  margin: 0 0 6px 0;
   letter-spacing: -0.5px;
 }
 
@@ -275,9 +275,9 @@
 }
 
 .sectionDesc {
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   color: #64748b;
-  line-height: 1.6;
+  line-height: 1.55;
   max-width: 520px;
 }
 
@@ -299,7 +299,7 @@
   border-radius: 16px;
   overflow: hidden;
   position: relative;
-  min-height: 420px;
+  min-height: 360px;
 }
 
 .sejarahImage {
@@ -348,8 +348,8 @@
 }
 
 .sejarahTextContent {
-  font-size: 0.92rem;
-  line-height: 1.8;
+  font-size: 0.86rem;
+  line-height: 1.65;
   color: #475569;
 }
 
@@ -388,9 +388,9 @@
 }
 
 .sejarahQuoteText {
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   color: #ffffff;
-  line-height: 1.7;
+  line-height: 1.6;
   font-style: italic;
   position: relative;
   z-index: 1;
@@ -398,11 +398,11 @@
 
 /* Drop cap */
 .dropCap {
-  font-size: 3.2rem;
+  font-size: 2.8rem;
   float: left;
   line-height: 0.78;
-  padding-top: 6px;
-  padding-right: 10px;
+  padding-top: 5px;
+  padding-right: 8px;
   color: #1e3a8a;
   font-weight: 900;
 }
@@ -440,30 +440,30 @@
 }
 
 .visiIconWrapper {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
   background: rgba(59, 130, 246, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #60a5fa;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 
 .visiLabel {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: #60a5fa;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 
 .visiText {
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   color: #ffffff;
-  line-height: 1.7;
+  line-height: 1.6;
   font-style: italic;
   position: relative;
   z-index: 1;
@@ -486,30 +486,30 @@
 }
 
 .misiIconWrapper {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
   background: #f1f5f9;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #1e3a8a;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 
 .misiLabel {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: #1e3a8a;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 
 .misiHTML {
   color: #334155;
-  font-size: 1.05rem;
-  line-height: 1.7;
+  font-size: 0.92rem;
+  line-height: 1.6;
 }
 
 .misiHTML p {
@@ -517,11 +517,11 @@
 }
 
 .misiHTML ol, .misiHTML ul {
-  padding-left: 20px;
-  margin: 0 0 12px 0;
+  padding-left: 18px;
+  margin: 0 0 10px 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .misiHTML li {
@@ -574,30 +574,30 @@
 }
 
 .geoStatIcon {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
   background: rgba(59, 130, 246, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #60a5fa;
-  margin: 0 auto 14px auto;
+  margin: 0 auto 10px auto;
   position: relative;
   z-index: 1;
 }
 
 .geoStatValue {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-weight: 800;
   color: #ffffff;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
   position: relative;
   z-index: 1;
 }
 
 .geoStatLabel {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: rgba(255, 255, 255, 0.45);
   position: relative;
   z-index: 1;
@@ -701,8 +701,8 @@
 
 .geoPopItem {
   background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 16px 12px;
+  border-radius: 10px;
+  padding: 12px 10px;
   text-align: center;
   transition: all 0.25s ease;
 }
@@ -713,10 +713,10 @@
 }
 
 .geoPopValue {
-  font-size: 1.3rem;
+  font-size: 1.15rem;
   font-weight: 800;
   color: #60a5fa;
-  margin-bottom: 3px;
+  margin-bottom: 2px;
 }
 
 .geoPopLabel {
@@ -729,11 +729,11 @@
   grid-column: 1 / -1;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 20px 22px;
-  font-size: 0.78rem;
+  border-radius: 10px;
+  padding: 16px 18px;
+  font-size: 0.75rem;
   color: rgba(255, 255, 255, 0.4);
-  line-height: 1.7;
+  line-height: 1.6;
 }
 
 .sourceCard strong {
@@ -763,15 +763,15 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
   max-width: 1400px;
   margin: 0 auto;
 }
 
 .card {
   background: white;
-  border-radius: 16px;
+  border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
@@ -801,7 +801,7 @@
 }
 
 .imageWrapper {
-  height: 220px;
+  height: 200px;
   width: 100%;
   overflow: hidden;
   background: #e2e8f0;
@@ -820,26 +820,26 @@
 }
 
 .info {
-  padding: 18px;
+  padding: 14px;
   text-align: center;
   position: relative;
   z-index: 2;
 }
 
 .name {
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 700;
   color: #0f172a;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 
 .role {
   display: inline-block;
-  padding: 3px 12px;
+  padding: 3px 10px;
   background: linear-gradient(135deg, #1e3a8a, #3b82f6);
   color: #ffffff;
   font-weight: 600;
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   border-radius: 100px;
 }
 
@@ -876,7 +876,7 @@
 @media (max-width: 1024px) {
   .hero {
     height: calc(100vh - 70px);
-    max-height: 550px;
+    max-height: 600px;
   }
 
   .section,

@@ -212,10 +212,10 @@
 }
 
 .timelineTitle {
-  font-size: 1rem;
+  font-size: 0.92rem;
   font-weight: 700;
   color: #0f172a;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .timelineCeritaWrapper {
@@ -224,9 +224,9 @@
 }
 
 .timelineCerita {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: #475569;
-  line-height: 1.7;
+  line-height: 1.6;
 }
 
 .timelineToggle {
@@ -311,10 +311,10 @@
 }
 
 .dusunNama {
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 700;
   color: #0f172a;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .dusunHighlight {
@@ -337,20 +337,20 @@
   flex: 1;
   text-align: center;
   background: #f8fafc;
-  border-radius: 10px;
-  padding: 10px 6px;
+  border-radius: 8px;
+  padding: 8px 4px;
 }
 
 .dusunStatVal {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 800;
   color: #1e3a8a;
 }
 
 .dusunStatLbl {
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   color: #94a3b8;
-  margin-top: 2px;
+  margin-top: 1px;
 }
 
 .genderBar {
@@ -379,16 +379,16 @@
 /* ── PENDIDIKAN PANEL ────────────────────────────────────── */
 .eduSummary {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 16px;
-  margin-bottom: 28px;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
 }
 
 .eduSumItem {
   background: white;
   border: 1px solid #e2e8f0;
-  border-radius: 14px;
-  padding: 20px 16px;
+  border-radius: 12px;
+  padding: 16px 12px;
   text-align: center;
   transition: transform 0.2s ease;
 }
@@ -400,7 +400,7 @@
 }
 
 .eduSumVal {
-  font-size: 1.6rem;
+  font-size: 1.35rem;
   font-weight: 800;
   color: #0f172a;
 }
@@ -455,15 +455,15 @@
 /* ── SOSIAL PANEL ────────────────────────────────────────── */
 .sosialGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
-  margin-bottom: 28px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
 }
 
 .sosialCard {
   background: white;
-  border-radius: 16px;
-  padding: 24px 20px;
+  border-radius: 14px;
+  padding: 18px 16px;
   border: 1px solid #e2e8f0;
   text-align: center;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -474,13 +474,13 @@
 }
 
 .sosialIcon {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 14px;
+  margin: 0 auto 10px;
 }
 
 .sosialCard h3 {
@@ -493,10 +493,10 @@
 }
 
 .sosialVal {
-  font-size: 1.3rem;
+  font-size: 1.15rem;
   font-weight: 800;
   color: #0f172a;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .sosialSub {
