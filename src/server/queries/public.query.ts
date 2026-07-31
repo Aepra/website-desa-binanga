@@ -201,3 +201,13 @@ export async function getApbdesActiveDB(): Promise<any> {
     }))
   };
 }
+
+// ==============================
+// 7. INFRASTRUKTUR / FASILITAS
+// ==============================
+export async function getInfrastrukturDB(limit?: number): Promise<any[]> {
+  return await prisma.infrastruktur.findMany({
+    orderBy: [{ kategori: 'asc' }, { nama: 'asc' }],
+    take: limit
+  });
+}

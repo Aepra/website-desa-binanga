@@ -7,7 +7,7 @@ import styles from './page.module.css';
 
 import { useState, useEffect } from 'react';
 import { getPengaturan } from '@/server/actions/pengaturan.action';
-import { getStatistikDB, getPostsDB, getUmkmDB, getWisataDB, getApbdesActiveDB } from '@/server/queries/public.query';
+import { getStatistikDB, getPostsDB, getUmkmDB, getWisataDB, getApbdesActiveDB, getInfrastrukturDB } from '@/server/queries/public.query';
 import { getPerangkat } from '@/server/actions/struktur.action';
 import OrgChart from '@/components/OrgChart';
 import type { Post, UMKM, Wisata, Statistik } from '@/lib/api';
@@ -20,6 +20,7 @@ export default function Home() {
   const [wisataList, setWisataList] = useState<Wisata[]>([]);
   const [perangkat, setPerangkat] = useState<any[]>([]);
   const [apbdes, setApbdes] = useState<any>(null);
+  const [infrastrukturList, setInfrastrukturList] = useState<any[]>([]);
 
   useEffect(() => {
     getPengaturan().then(setPengaturan);
@@ -29,6 +30,7 @@ export default function Home() {
     getWisataDB(4).then(setWisataList);
     getPerangkat().then(setPerangkat);
     getApbdesActiveDB().then(setApbdes);
+    getInfrastrukturDB(6).then(setInfrastrukturList);
   }, []);
 
   const kadesName = pengaturan.KADES_NAME || 'Nama Kepala Desa';
@@ -331,6 +333,104 @@ export default function Home() {
               </motion.div>
             ))}
           </motion.div>
+        </div>
+      </section>
+
+      {/* FASILITAS & INFRASTRUKTUR DESA SECTION */}
+      <section className={styles.potensiSection} style={{ background: '#f8fafc', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <motion.div 
+            className={styles.sectionHeader}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <span style={{ display: 'inline-block', padding: '6px 16px', background: '#eff6ff', color: '#2563eb', borderRadius: '20px', fontWeight: 600, fontSize: '0.85rem', marginBottom: '12px' }}>
+              SARANA & PRASARANA PUBLIK
+            </span>
+            <h2 className={styles.sectionTitle}>Fasilitas &amp; Infrastruktur Desa</h2>
+            <p style={{ color: '#475569' }}>Fasilitas publik, pendidikan, kesehatan, peribadatan, dan sarana umum di Desa Binanga</p>
+          </motion.div>
+
+          {infrastrukturList.length > 0 ? (
+            <motion.div 
+              className={styles.potensiGrid}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={{
+                visible: { transition: { staggerChildren: 0.15 } },
+                hidden: {}
+              }}
+            >
+              {infrastrukturList.map((item, idx) => (
+                <motion.div 
+                  key={item.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: idx * 0.08, ease: "easeOut" }}
+                >
+                  <div className={styles.potensiCard} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                    <div className={styles.potensiImage} style={{ backgroundImage: `url(${item.fotoUrl || 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80'})`, position: 'relative' }}>
+                      <span style={{ position: 'absolute', top: '12px', right: '12px', background: 'rgba(15, 23, 42, 0.85)', color: '#fff', fontSize: '0.75rem', fontWeight: 700, padding: '4px 10px', borderRadius: '20px', backdropFilter: 'blur(4px)' }}>
+                        {item.kategori}
+                      </span>
+                    </div>
+                    <div className={styles.potensiContent} style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '20px' }}>
+                      <div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', color: '#2563eb', fontWeight: 600, marginBottom: '6px' }}>
+                          <MapPin size={13} /> Dusun {item.dusun}
+                        </div>
+                        <h3 style={{ margin: '0 0 8px 0', fontSize: '1.15rem', color: '#0f172a', fontWeight: 700 }}>{item.nama}</h3>
+                        <p style={{ margin: 0, fontSize: '0.875rem', color: '#64748b', lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{item.deskripsi}</p>
+                      </div>
+
+                      {item.linkMaps && (
+                        <a 
+                          href={item.linkMaps} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '6px',
+                            fontSize: '0.8rem',
+                            color: '#2563eb',
+                            background: '#eff6ff',
+                            border: '1px solid #bfdbfe',
+                            padding: '8px 14px',
+                            borderRadius: '8px',
+                            fontWeight: 600,
+                            marginTop: '16px',
+                            textDecoration: 'none',
+                            width: 'fit-content',
+                            transition: 'all 0.2s'
+                          }}
+                        >
+                          <MapPin size={14} /> Lihat di Google Maps
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          ) : (
+            <div style={{ textAlign: 'center', padding: '40px', background: '#ffffff', borderRadius: '16px', border: '1px dashed #cbd5e1', color: '#64748b' }}>
+              Belum ada data fasilitas/infrastruktur yang diinputkan.
+            </div>
+          )}
+
+          <div style={{ textAlign: 'center', marginTop: '40px' }}>
+            <Link 
+              href="/profil-desa#fasilitas" 
+              className={styles.secondaryBtn} 
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: '#ffffff', color: '#0f172a', border: '1px solid #cbd5e1', padding: '12px 24px', borderRadius: '10px', fontWeight: 600, textDecoration: 'none' }}
+            >
+              Lihat Selengkapnya di Profil Desa <ChevronRight size={18} />
+            </Link>
+          </div>
         </div>
       </section>
 
