@@ -1,22 +1,20 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getSemuaPenduduk, addPenduduk, updatePenduduk, deletePenduduk } from '@/server/actions/penduduk.action';
+import { getSemuaPenduduk, addPenduduk, updatePenduduk, deletePenduduk, PendudukData } from '@/server/actions/penduduk.action';
 import { Edit2, Trash2, Plus, Search, Check, X, FileText, Download } from 'lucide-react';
-import styles from '../Admin.module.css';
+import styles from './penduduk.module.css';
 
-type PendudukItem = {
-  id: string;
-  nik: string;
-  noKk: string;
-  nama: string;
-  jenisKelamin: string;
-  dusun: string;
-  tahunData: number;
-  pendidikan: string | null;
-  pekerjaan: string | null;
-  status: string;
-};
+type PendudukItem = PendudukData & { id: string };
+
+const AGAMA_OPTIONS = ["Islam", "Kristen", "Katolik", "Hindu", "Buddha", "Konghucu"];
+const PENDIDIKAN_OPTIONS = ["Tidak/Belum Sekolah", "Belum Tamat SD/Sederajat", "Tamat SD/Sederajat", "SLTP/Sederajat", "SLTA/Sederajat", "Diploma I/II", "Akademi/Diploma III/S.Muda", "Diploma IV/Strata I", "Strata II", "Strata III"];
+const GOLONGAN_DARAH_OPTIONS = ["A", "B", "AB", "O", "Tidak Tahu"];
+const STATUS_KAWIN_OPTIONS = ["Belum Kawin", "Kawin", "Cerai Hidup", "Cerai Mati"];
+const SHDK_OPTIONS = ["Kepala Keluarga", "Istri", "Anak", "Famili Lain"];
+const DUSUN_OPTIONS = ["Naulluyo", "Butungan", "Binanga", "Bo'di"];
+const STATUS_KENDUDUKAN_OPTIONS = ["AKTIF", "PINDAH", "MENINGGAL"];
+const PEKERJAAN_OPTIONS = ["Belum/Tidak Bekerja", "Mengurus Rumah Tangga", "Pelajar/Mahasiswa", "Pensiunan", "PNS", "TNI", "POLRI", "Petani/Pekebun", "Nelayan", "Wiraswasta", "Karyawan Swasta", "Buruh Harian Lepas", "Lainnya"];
 
 export default function PendudukAdminPage() {
   const [items, setItems] = useState<PendudukItem[]>([]);
@@ -28,18 +26,26 @@ export default function PendudukAdminPage() {
   // Form State
   const [isOpen, setIsOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [formData, setFormData] = useState({
-    nik: '',
+  
+  const initialForm: PendudukData = {
     noKk: '',
-    nama: '',
-    jenisKelamin: 'LAKI_LAKI',
-    dusun: 'Naulluyo',
-    tahunData: new Date().getFullYear(),
-    pendidikan: '',
-    pekerjaan: '',
-    status: 'AKTIF'
-  });
-
+    nik: '',
+    namaLengkap: '',
+    jenisKelamin: 'LAKI-LAKI',
+    tempatLahir: '',
+    tanggalLahir: '',
+    agama: 'Islam',
+    pendidikanTerakhir: 'Tidak/Belum Sekolah',
+    pekerjaanUtama: 'Petani/Pekebun',
+    golonganDarah: 'Tidak Tahu',
+    statusPerkawinan: 'Belum Kawin',
+    shdk: 'Kepala Keluarga',
+    dusunDomisili: 'Naulluyo',
+    statusKependudukan: 'AKTIF',
+    tahunData: filterTahun,
+  };
+  
+  const [formData, setFormData] = useState<PendudukData>(initialForm);
   const [search, setSearch] = useState('');
 
   const loadData = async () => {
@@ -57,29 +63,25 @@ export default function PendudukAdminPage() {
     if (item) {
       setEditingId(item.id);
       setFormData({
-        nik: item.nik,
         noKk: item.noKk,
-        nama: item.nama,
+        nik: item.nik,
+        namaLengkap: item.namaLengkap,
         jenisKelamin: item.jenisKelamin,
-        dusun: item.dusun,
+        tempatLahir: item.tempatLahir,
+        tanggalLahir: item.tanggalLahir,
+        agama: item.agama,
+        pendidikanTerakhir: item.pendidikanTerakhir,
+        pekerjaanUtama: item.pekerjaanUtama,
+        golonganDarah: item.golonganDarah,
+        statusPerkawinan: item.statusPerkawinan,
+        shdk: item.shdk,
+        dusunDomisili: item.dusunDomisili,
+        statusKependudukan: item.statusKependudukan,
         tahunData: item.tahunData,
-        pendidikan: item.pendidikan || '',
-        pekerjaan: item.pekerjaan || '',
-        status: item.status
       });
     } else {
       setEditingId(null);
-      setFormData({
-        nik: '',
-        noKk: '',
-        nama: '',
-        jenisKelamin: 'LAKI_LAKI',
-        dusun: 'Naulluyo',
-        tahunData: filterTahun,
-        pendidikan: '',
-        pekerjaan: '',
-        status: 'AKTIF'
-      });
+      setFormData({ ...initialForm, tahunData: filterTahun });
     }
     setIsOpen(true);
   };
@@ -101,103 +103,114 @@ export default function PendudukAdminPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm('Yakin ingin menghapus data penduduk ini? (Tindakan ini akan mempengaruhi total statistik)')) {
+    if (confirm('Apakah Anda yakin ingin menghapus data penduduk ini?')) {
       await deletePenduduk(id);
       loadData();
     }
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   const filteredItems = items.filter(item => 
+    item.namaLengkap.toLowerCase().includes(search.toLowerCase()) ||
     item.nik.includes(search) || 
-    item.nama.toLowerCase().includes(search.toLowerCase()) || 
     item.noKk.includes(search)
   );
 
   return (
     <div className={styles.adminPage}>
       <div className={styles.adminHeader}>
-        <div className={styles.headerTitle}>
-          <h2>Database Penduduk ({filterTahun})</h2>
-          <p>Data individual warga yang menjadi sumber kalkulasi total statistik demografi desa.</p>
+        <div>
+          <h1 className={styles.adminTitle}>Data Penduduk (Individu)</h1>
+          <p className={styles.adminSubtitle}>Kelola detail data penduduk berdasarkan NIK & KK secara lengkap.</p>
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
           <select 
             value={filterTahun} 
-            onChange={(e) => setFilterTahun(Number(e.target.value))}
-            className={styles.input}
-            style={{ padding: '8px 16px', width: 'auto' }}
+            onChange={(e) => setFilterTahun(parseInt(e.target.value))}
+            className={styles.filterSelect}
           >
-            {[...Array(5)].map((_, i) => {
-              const year = new Date().getFullYear() - i;
-              return <option key={year} value={year}>Tahun {year}</option>;
-            })}
+            {[new Date().getFullYear() + 1, new Date().getFullYear(), new Date().getFullYear() - 1].map(y => (
+              <option key={y} value={y}>Tahun {y}</option>
+            ))}
           </select>
-          <button onClick={() => handleOpenForm()} className={styles.primaryBtn}>
-            <Plus size={18} /> Tambah Warga
+          <button className={styles.btnPrimary} onClick={() => handleOpenForm()}>
+            <Plus size={18} /> Tambah Data
           </button>
         </div>
       </div>
 
-      <div className={styles.card}>
-        <div style={{ padding: '20px', borderBottom: '1px solid #e2e8f0', display: 'flex', gap: '10px' }}>
-          <Search size={20} color="#64748b" />
+      <div className={styles.adminContent}>
+        <div className={styles.searchBar}>
+          <Search size={18} color="#64748b" />
           <input 
             type="text" 
-            placeholder="Cari berdasarkan NIK, No. KK, atau Nama Warga..." 
+            placeholder="Cari berdasarkan NIK, No. KK, atau Nama..." 
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            style={{ border: 'none', outline: 'none', width: '100%', fontSize: '15px' }}
           />
         </div>
-        
+
         {loading ? (
-          <div style={{ padding: '40px', textAlign: 'center', color: '#64748b' }}>Memuat data penduduk...</div>
+          <div className={styles.loading}>Memuat data...</div>
         ) : (
-          <div className={styles.tableResponsive}>
-            <table className={styles.table}>
+          <div className={styles.tableContainer} style={{ overflowX: 'auto' }}>
+            <table className={styles.table} style={{ minWidth: '1500px' }}>
               <thead>
                 <tr>
-                  <th>NIK / KK</th>
+                  <th>No</th>
+                  <th>No. KK</th>
+                  <th>NIK</th>
                   <th>Nama Lengkap</th>
                   <th>L/P</th>
+                  <th>Tempat Lahir</th>
+                  <th>Tgl Lahir</th>
+                  <th>Agama</th>
+                  <th>Pendidikan</th>
+                  <th>Pekerjaan</th>
+                  <th>Gol. Darah</th>
+                  <th>Status Kawin</th>
+                  <th>SHDK</th>
                   <th>Dusun</th>
                   <th>Status</th>
-                  <th style={{ width: '120px', textAlign: 'center' }}>Aksi</th>
+                  <th style={{ position: 'sticky', right: 0, background: '#f8fafc', zIndex: 1 }}>Aksi</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredItems.length === 0 ? (
                   <tr>
-                    <td colSpan={6} style={{ textAlign: 'center', padding: '30px', color: '#94a3b8' }}>
-                      Belum ada data penduduk yang tersimpan untuk tahun {filterTahun}.
-                    </td>
+                    <td colSpan={16} style={{ textAlign: 'center', padding: '2rem' }}>Belum ada data.</td>
                   </tr>
                 ) : (
-                  filteredItems.map(item => (
+                  filteredItems.map((item, index) => (
                     <tr key={item.id}>
+                      <td>{index + 1}</td>
+                      <td>{item.noKk}</td>
+                      <td>{item.nik}</td>
+                      <td style={{ fontWeight: 600 }}>{item.namaLengkap}</td>
+                      <td>{item.jenisKelamin === 'LAKI-LAKI' ? 'L' : 'P'}</td>
+                      <td>{item.tempatLahir}</td>
+                      <td>{item.tanggalLahir}</td>
+                      <td>{item.agama}</td>
+                      <td>{item.pendidikanTerakhir}</td>
+                      <td>{item.pekerjaanUtama}</td>
+                      <td>{item.golonganDarah}</td>
+                      <td>{item.statusPerkawinan}</td>
+                      <td>{item.shdk}</td>
+                      <td>{item.dusunDomisili}</td>
                       <td>
-                        <div style={{ fontWeight: '600' }}>{item.nik}</div>
-                        <div style={{ fontSize: '0.8rem', color: '#64748b' }}>KK: {item.noKk}</div>
-                      </td>
-                      <td style={{ fontWeight: '500', color: '#1e3a8a' }}>{item.nama}</td>
-                      <td>{item.jenisKelamin === 'LAKI_LAKI' ? 'L' : 'P'}</td>
-                      <td>{item.dusun}</td>
-                      <td>
-                        <span style={{ 
-                          display: 'inline-flex', alignItems: 'center', gap: '4px',
-                          background: item.status === 'AKTIF' ? '#dcfce7' : (item.status === 'PINDAH' ? '#fef3c7' : '#fee2e2'),
-                          color: item.status === 'AKTIF' ? '#16a34a' : (item.status === 'PINDAH' ? '#d97706' : '#ef4444'),
-                          padding: '4px 10px', borderRadius: '12px', fontSize: '12px', fontWeight: '600'
-                        }}>
-                          {item.status}
+                        <span className={`${styles.badge} ${item.statusKependudukan === 'AKTIF' ? styles.badgeSuccess : styles.badgeDanger}`}>
+                          {item.statusKependudukan}
                         </span>
                       </td>
-                      <td>
-                        <div className={styles.actionGroup}>
-                          <button onClick={() => handleOpenForm(item)} className={styles.iconBtn} title="Edit">
+                      <td style={{ position: 'sticky', right: 0, background: '#fff', zIndex: 1 }}>
+                        <div className={styles.actionButtons}>
+                          <button className={styles.btnIcon} onClick={() => handleOpenForm(item)} title="Edit">
                             <Edit2 size={16} />
                           </button>
-                          <button onClick={() => handleDelete(item.id)} className={`${styles.iconBtn} ${styles.danger}`} title="Hapus">
+                          <button className={`${styles.btnIcon} ${styles.btnDanger}`} onClick={() => handleDelete(item.id)} title="Hapus">
                             <Trash2 size={16} />
                           </button>
                         </div>
@@ -211,158 +224,111 @@ export default function PendudukAdminPage() {
         )}
       </div>
 
-      {/* FOOTER STATISTIK */}
-      <div style={{ marginTop: '20px', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
-        <div className={styles.card} style={{ padding: '20px' }}>
-          <div style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: 600 }}>Total Penduduk</div>
-          <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#1e293b' }}>{items.length}</div>
-        </div>
-        <div className={styles.card} style={{ padding: '20px' }}>
-          <div style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: 600 }}>Total KK</div>
-          <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#1e293b' }}>{new Set(items.map(i => i.noKk)).size}</div>
-        </div>
-        <div className={styles.card} style={{ padding: '20px' }}>
-          <div style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: 600 }}>Laki-laki</div>
-          <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#1e293b' }}>{items.filter(i => i.jenisKelamin === 'LAKI_LAKI').length}</div>
-        </div>
-        <div className={styles.card} style={{ padding: '20px' }}>
-          <div style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: 600 }}>Perempuan</div>
-          <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#1e293b' }}>{items.filter(i => i.jenisKelamin === 'PEREMPUAN').length}</div>
-        </div>
-      </div>
-
       {isOpen && (
         <div className={styles.modalOverlay}>
-          <div className={styles.modalContent} style={{ maxWidth: '600px' }}>
+          <div className={styles.modal} style={{ maxWidth: '800px' }}>
             <div className={styles.modalHeader}>
-              <h3>{editingId ? 'Edit Data Penduduk' : 'Tambah Data Penduduk Baru'}</h3>
-              <button onClick={handleCloseForm} className={styles.closeBtn}><X size={20} /></button>
+              <h2 className={styles.modalTitle}>{editingId ? 'Edit Data Penduduk' : 'Tambah Data Penduduk'}</h2>
+              <button className={styles.modalClose} onClick={handleCloseForm}><X size={24} /></button>
             </div>
             
             <form onSubmit={handleSubmit} className={styles.modalBody}>
-              <div className={styles.formRow}>
+              <div className={styles.formGrid}>
                 <div className={styles.formGroup}>
-                  <label>Nomor Induk Kependudukan (NIK)</label>
-                  <input 
-                    type="text" 
-                    value={formData.nik} 
-                    onChange={(e) => setFormData({...formData, nik: e.target.value})} 
-                    className={styles.input} 
-                    required 
-                    minLength={16}
-                    maxLength={16}
-                  />
+                  <label className={styles.formLabel}>Nomor Kartu Keluarga (No. KK) *</label>
+                  <input type="text" name="noKk" className={styles.formInput} value={formData.noKk} onChange={handleChange} required maxLength={16} minLength={16} placeholder="16 digit angka" />
                 </div>
+                
                 <div className={styles.formGroup}>
-                  <label>Nomor Kartu Keluarga (KK)</label>
-                  <input 
-                    type="text" 
-                    value={formData.noKk} 
-                    onChange={(e) => setFormData({...formData, noKk: e.target.value})} 
-                    className={styles.input} 
-                    required 
-                    minLength={16}
-                    maxLength={16}
-                  />
+                  <label className={styles.formLabel}>NIK *</label>
+                  <input type="text" name="nik" className={styles.formInput} value={formData.nik} onChange={handleChange} required maxLength={16} minLength={16} placeholder="16 digit angka" />
                 </div>
-              </div>
-
-              <div className={styles.formGroup}>
-                <label>Nama Lengkap</label>
-                <input 
-                  type="text" 
-                  value={formData.nama} 
-                  onChange={(e) => setFormData({...formData, nama: e.target.value})} 
-                  className={styles.input} 
-                  required 
-                />
-              </div>
-
-              <div className={styles.formRow}>
+                
                 <div className={styles.formGroup}>
-                  <label>Jenis Kelamin</label>
-                  <select 
-                    value={formData.jenisKelamin} 
-                    onChange={(e) => setFormData({...formData, jenisKelamin: e.target.value})} 
-                    className={styles.input}
-                  >
-                    <option value="LAKI_LAKI">Laki-Laki</option>
+                  <label className={styles.formLabel}>Nama Lengkap (Sesuai KTP) *</label>
+                  <input type="text" name="namaLengkap" className={styles.formInput} value={formData.namaLengkap} onChange={handleChange} required />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Jenis Kelamin *</label>
+                  <select name="jenisKelamin" className={styles.formInput} value={formData.jenisKelamin} onChange={handleChange} required>
+                    <option value="LAKI-LAKI">Laki-laki</option>
                     <option value="PEREMPUAN">Perempuan</option>
                   </select>
                 </div>
 
                 <div className={styles.formGroup}>
-                  <label>Dusun (Pilih/Ketik Baru)</label>
-                  <input 
-                    type="text" 
-                    value={formData.dusun} 
-                    onChange={(e) => setFormData({...formData, dusun: e.target.value})} 
-                    className={styles.input} 
-                    list="dusun-list"
-                    required 
-                  />
-                  <datalist id="dusun-list">
-                    <option value="Naulluyo" />
-                    <option value="Butungan" />
-                    <option value="Binanga" />
-                    <option value="Bo'di" />
-                  </datalist>
-                </div>
-              </div>
-
-              <div className={styles.formRow}>
-                <div className={styles.formGroup}>
-                  <label>Pendidikan Terakhir</label>
-                  <input 
-                    type="text" 
-                    value={formData.pendidikan} 
-                    onChange={(e) => setFormData({...formData, pendidikan: e.target.value})} 
-                    className={styles.input} 
-                    placeholder="Contoh: SMA/Sederajat"
-                  />
+                  <label className={styles.formLabel}>Tempat Lahir *</label>
+                  <input type="text" name="tempatLahir" className={styles.formInput} value={formData.tempatLahir} onChange={handleChange} required />
                 </div>
 
                 <div className={styles.formGroup}>
-                  <label>Pekerjaan</label>
-                  <input 
-                    type="text" 
-                    value={formData.pekerjaan} 
-                    onChange={(e) => setFormData({...formData, pekerjaan: e.target.value})} 
-                    className={styles.input} 
-                    placeholder="Contoh: Petani/Pekebun"
-                  />
+                  <label className={styles.formLabel}>Tanggal Lahir (DD/MM/YYYY) *</label>
+                  <input type="text" name="tanggalLahir" className={styles.formInput} value={formData.tanggalLahir} onChange={handleChange} required placeholder="Contoh: 17/08/1945" />
                 </div>
-              </div>
 
-              <div className={styles.formRow}>
                 <div className={styles.formGroup}>
-                  <label>Status Kependudukan</label>
-                  <select 
-                    value={formData.status} 
-                    onChange={(e) => setFormData({...formData, status: e.target.value})} 
-                    className={styles.input}
-                  >
-                    <option value="AKTIF">Aktif / Menetap</option>
-                    <option value="PINDAH">Pindah Domisili</option>
-                    <option value="MENINGGAL">Meninggal Dunia</option>
+                  <label className={styles.formLabel}>Agama *</label>
+                  <select name="agama" className={styles.formInput} value={formData.agama} onChange={handleChange} required>
+                    {AGAMA_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
                   </select>
                 </div>
-                
+
                 <div className={styles.formGroup}>
-                  <label>Tahun Sensus</label>
-                  <input 
-                    type="number" 
-                    value={formData.tahunData} 
-                    onChange={(e) => setFormData({...formData, tahunData: Number(e.target.value)})} 
-                    className={styles.input} 
-                    readOnly
-                  />
+                  <label className={styles.formLabel}>Pendidikan Terakhir *</label>
+                  <select name="pendidikanTerakhir" className={styles.formInput} value={formData.pendidikanTerakhir} onChange={handleChange} required>
+                    {PENDIDIKAN_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                  </select>
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Pekerjaan Utama *</label>
+                  <select name="pekerjaanUtama" className={styles.formInput} value={formData.pekerjaanUtama} onChange={handleChange} required>
+                    {PEKERJAAN_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                  </select>
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Golongan Darah *</label>
+                  <select name="golonganDarah" className={styles.formInput} value={formData.golonganDarah} onChange={handleChange} required>
+                    {GOLONGAN_DARAH_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                  </select>
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Status Perkawinan *</label>
+                  <select name="statusPerkawinan" className={styles.formInput} value={formData.statusPerkawinan} onChange={handleChange} required>
+                    {STATUS_KAWIN_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                  </select>
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>SHDK (Status Hub. Dalam Keluarga) *</label>
+                  <select name="shdk" className={styles.formInput} value={formData.shdk} onChange={handleChange} required>
+                    {SHDK_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                  </select>
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Dusun Domisili *</label>
+                  <select name="dusunDomisili" className={styles.formInput} value={formData.dusunDomisili} onChange={handleChange} required>
+                    {DUSUN_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                  </select>
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Status Kependudukan *</label>
+                  <select name="statusKependudukan" className={styles.formInput} value={formData.statusKependudukan} onChange={handleChange} required>
+                    {STATUS_KENDUDUKAN_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                  </select>
                 </div>
               </div>
-
-              <div className={styles.modalFooter}>
-                <button type="button" onClick={handleCloseForm} className={styles.outlineBtn}>Batal</button>
-                <button type="submit" className={styles.primaryBtn}>Simpan Data</button>
+              
+              <div className={styles.modalFooter} style={{ marginTop: '24px' }}>
+                <button type="button" className={styles.btnSecondary} onClick={handleCloseForm}>Batal</button>
+                <button type="submit" className={styles.btnPrimary}>
+                  <Check size={18} /> Simpan Data
+                </button>
               </div>
             </form>
           </div>

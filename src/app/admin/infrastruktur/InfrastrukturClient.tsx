@@ -8,27 +8,37 @@ export default function InfrastrukturClient({ initialData, dusunList }: { initia
   const [data, setData] = useState(initialData);
   const [isEditing, setIsEditing] = useState<string | null>(null);
   const [editForm, setEditForm] = useState<any>({});
+  const [fotoFile, setFotoFile] = useState<File | null>(null);
   const [isSaving, setIsSaving] = useState(false);
 
   const handleEdit = (item: any) => {
     setIsEditing(item.id);
     setEditForm(item);
+    setFotoFile(null);
   };
 
   const handleCancel = () => {
     setIsEditing(null);
     setEditForm({});
+    setFotoFile(null);
   };
 
   const handleSave = async (id: string) => {
     setIsSaving(true);
-    const res = await updateInfrastruktur(id, {
-      nama: editForm.nama,
-      kategori: editForm.kategori,
-      dusun: editForm.dusun,
-      deskripsi: editForm.deskripsi,
-      fotoUrl: editForm.fotoUrl,
-    });
+    
+    const formData = new FormData();
+    formData.append('nama', editForm.nama || '');
+    formData.append('kategori', editForm.kategori || '');
+    formData.append('dusun', editForm.dusun || '');
+    formData.append('deskripsi', editForm.deskripsi || '');
+    formData.append('fotoUrl', editForm.fotoUrl || '');
+    formData.append('linkMaps', editForm.linkMaps || '');
+    
+    if (fotoFile) {
+      formData.append('fotoFile', fotoFile);
+    }
+
+    const res = await updateInfrastruktur(id, formData);
     
     if (res.success) {
       setData(prev => prev.map(d => d.id === id ? res.data : d));
@@ -50,15 +60,15 @@ export default function InfrastrukturClient({ initialData, dusunList }: { initia
   };
 
   const handleAdd = async () => {
-    const newEntry = {
-      nama: 'Fasilitas Baru',
-      kategori: 'Fasilitas Umum',
-      dusun: dusunList.length > 0 ? dusunList[0].nama : 'Dusun 1',
-      deskripsi: 'Deskripsi fasilitas...',
-      fotoUrl: ''
-    };
+    const formData = new FormData();
+    formData.append('nama', 'Fasilitas Baru');
+    formData.append('kategori', 'Keperluan Umum');
+    formData.append('dusun', dusunList.length > 0 ? dusunList[0].nama : 'Dusun 1');
+    formData.append('deskripsi', 'Deskripsi fasilitas...');
+    formData.append('fotoUrl', '');
+    formData.append('linkMaps', '');
     
-    const res = await createInfrastruktur(newEntry);
+    const res = await createInfrastruktur(formData);
     if (res.success) {
       setData([...data, res.data]);
       handleEdit(res.data);
@@ -96,13 +106,22 @@ export default function InfrastrukturClient({ initialData, dusunList }: { initia
                   <>
                     <td style={{ padding: '16px' }}>
                       <input 
-                        type="text" 
-                        value={editForm.fotoUrl || ''} 
-                        onChange={e => setEditForm({...editForm, fotoUrl: e.target.value})} 
-                        placeholder="URL Foto (opsional)"
-                        style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid #cbd5e1' }} 
+                        type="file" 
+                        accept="image/*"
+                        onChange={e => {
+                          if (e.target.files && e.target.files.length > 0) {
+                            setFotoFile(e.target.files[0]);
+                          }
+                        }} 
+                        style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '0.85rem' }} 
                       />
-                      {editForm.fotoUrl && <img src={editForm.fotoUrl} alt="Preview" style={{ width: '60px', height: '40px', objectFit: 'cover', marginTop: '8px', borderRadius: '4px' }} />}
+                      {(fotoFile || editForm.fotoUrl) && (
+                        <img 
+                          src={fotoFile ? URL.createObjectURL(fotoFile) : editForm.fotoUrl} 
+                          alt="Preview" 
+                          style={{ width: '60px', height: '40px', objectFit: 'cover', marginTop: '8px', borderRadius: '4px' }} 
+                        />
+                      )}
                     </td>
                     <td style={{ padding: '16px' }}>
                       <input value={editForm.nama} onChange={e => setEditForm({...editForm, nama: e.target.value})} style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid #cbd5e1' }} />
@@ -110,12 +129,13 @@ export default function InfrastrukturClient({ initialData, dusunList }: { initia
                     <td style={{ padding: '16px' }}>
                       <select value={editForm.kategori} onChange={e => setEditForm({...editForm, kategori: e.target.value})} style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid #cbd5e1', background: 'white' }}>
                         <option value="Pendidikan">Pendidikan</option>
+                        <option value="Usaha & Ekonomi">Usaha & Ekonomi</option>
+                        <option value="Wisata">Wisata</option>
+                        <option value="Keperluan Umum">Keperluan Umum</option>
+                        <option value="Kesehatan & Posyandu">Kesehatan & Posyandu</option>
                         <option value="Peribadatan">Peribadatan</option>
-                        <option value="Kesehatan">Kesehatan</option>
-                        <option value="Pariwisata">Pariwisata</option>
                         <option value="Pemerintahan">Pemerintahan</option>
-                        <option value="Barang & Jasa">Barang & Jasa</option>
-                        <option value="Fasilitas Umum">Fasilitas Umum</option>
+                        <option value="Lainnya">Lainnya</option>
                       </select>
                     </td>
                     <td style={{ padding: '16px' }}>
@@ -126,7 +146,17 @@ export default function InfrastrukturClient({ initialData, dusunList }: { initia
                       </select>
                     </td>
                     <td style={{ padding: '16px' }}>
-                      <textarea value={editForm.deskripsi} onChange={e => setEditForm({...editForm, deskripsi: e.target.value})} rows={3} style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid #cbd5e1', resize: 'vertical' }} />
+                      <textarea value={editForm.deskripsi} maxLength={225} onChange={e => setEditForm({...editForm, deskripsi: e.target.value})} rows={3} style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid #cbd5e1', resize: 'vertical' }} />
+                      <div style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '4px', textAlign: 'right' }}>
+                        Maks 225 karakter
+                      </div>
+                      <input 
+                        type="text" 
+                        value={editForm.linkMaps || ''} 
+                        onChange={e => setEditForm({...editForm, linkMaps: e.target.value})} 
+                        placeholder="Link Google Maps (opsional)"
+                        style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid #cbd5e1', marginTop: '8px' }} 
+                      />
                     </td>
                     <td style={{ padding: '16px', textAlign: 'center' }}>
                       <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
@@ -153,7 +183,15 @@ export default function InfrastrukturClient({ initialData, dusunList }: { initia
                       </span>
                     </td>
                     <td style={{ padding: '16px', color: '#475569', fontWeight: 600 }}>{item.dusun}</td>
-                    <td style={{ padding: '16px', color: '#475569', fontSize: '0.9rem' }}>{item.deskripsi}</td>
+                    <td style={{ padding: '16px', color: '#475569', fontSize: '0.9rem' }}>
+                      <div style={{ marginBottom: '8px' }}>{item.deskripsi}</div>
+                      {item.linkMaps && (
+                        <a href={item.linkMaps} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '0.8rem', color: '#2563eb', textDecoration: 'none', background: '#eff6ff', padding: '4px 8px', borderRadius: '4px', fontWeight: 500 }}>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                          Lihat di Maps
+                        </a>
+                      )}
+                    </td>
                     <td style={{ padding: '16px', textAlign: 'center' }}>
                       <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
                         <button onClick={() => handleEdit(item)} style={{ padding: '8px', background: '#f1f5f9', color: '#3b82f6', border: 'none', borderRadius: '6px', cursor: 'pointer' }}><Edit2 size={16} /></button>

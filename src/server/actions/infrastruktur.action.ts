@@ -17,8 +17,24 @@ export async function getInfrastrukturList() {
   }
 }
 
-export async function createInfrastruktur(data: { nama: string; kategori: string; dusun: string; deskripsi?: string; fotoUrl?: string }) {
+import { uploadImage } from '@/lib/cloudinary';
+
+export async function createInfrastruktur(formData: FormData) {
   try {
+    const data: any = {
+      nama: formData.get('nama') as string,
+      kategori: formData.get('kategori') as string,
+      dusun: formData.get('dusun') as string,
+      deskripsi: formData.get('deskripsi') as string,
+      fotoUrl: formData.get('fotoUrl') as string || null,
+      linkMaps: formData.get('linkMaps') as string || null
+    };
+
+    const fotoFile = formData.get('fotoFile') as File | null;
+    if (fotoFile && fotoFile.size > 0) {
+      data.fotoUrl = await uploadImage(fotoFile, 'website-desa-binanga/infrastruktur');
+    }
+
     const result = await prisma.infrastruktur.create({ data });
     revalidatePath('/admin/infrastruktur');
     revalidatePath('/profil-desa');
@@ -30,8 +46,22 @@ export async function createInfrastruktur(data: { nama: string; kategori: string
   }
 }
 
-export async function updateInfrastruktur(id: string, data: { nama: string; kategori: string; dusun: string; deskripsi?: string; fotoUrl?: string }) {
+export async function updateInfrastruktur(id: string, formData: FormData) {
   try {
+    const data: any = {
+      nama: formData.get('nama') as string,
+      kategori: formData.get('kategori') as string,
+      dusun: formData.get('dusun') as string,
+      deskripsi: formData.get('deskripsi') as string,
+      fotoUrl: formData.get('fotoUrl') as string || null,
+      linkMaps: formData.get('linkMaps') as string || null
+    };
+
+    const fotoFile = formData.get('fotoFile') as File | null;
+    if (fotoFile && fotoFile.size > 0) {
+      data.fotoUrl = await uploadImage(fotoFile, 'website-desa-binanga/infrastruktur');
+    }
+
     const result = await prisma.infrastruktur.update({
       where: { id },
       data

@@ -52,6 +52,7 @@ export async function createApbdes(formData: FormData) {
   revalidatePath('/admin/apbdes');
   revalidatePath('/data-statistik');
   revalidatePath('/');
+  revalidatePath('/home');
 }
 
 export async function deleteApbdes(id: string) {
@@ -59,6 +60,7 @@ export async function deleteApbdes(id: string) {
   revalidatePath('/admin/apbdes');
   revalidatePath('/data-statistik');
   revalidatePath('/');
+  revalidatePath('/home');
 }
 
 export async function setActiveApbdes(id: string) {
@@ -75,6 +77,7 @@ export async function setActiveApbdes(id: string) {
   revalidatePath('/admin/apbdes');
   revalidatePath('/data-statistik');
   revalidatePath('/');
+  revalidatePath('/home');
 }
 
 // ---------------------------
@@ -102,6 +105,7 @@ export async function createRincian(apbdesId: string, formData: FormData) {
   revalidatePath(`/admin/apbdes/${apbdesId}`);
   revalidatePath('/data-statistik');
   revalidatePath('/');
+  revalidatePath('/home');
 }
 
 export async function deleteRincian(id: string, apbdesId: string) {
@@ -109,4 +113,5 @@ export async function deleteRincian(id: string, apbdesId: string) {
   revalidatePath(`/admin/apbdes/${apbdesId}`);
   revalidatePath('/data-statistik');
   revalidatePath('/');
+  revalidatePath('/home');
 }

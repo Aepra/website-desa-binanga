@@ -95,57 +95,7 @@ const dataDusun = [
   { nama: 'Dusun Binanga',   kk: 62,  jiwa: 251, luas: 38.18,  lakiLaki: 121, perempuan: 130, highlight: 'Pusat Pemerintahan Desa' },
 ];
 
-/* ─── DATA FASILITAS (sumber: Monografi Desa Binanga, Hal. 41–42) ─────────*/
-const fasilitasData = [
-  {
-    id: 'f1',
-    nama: 'Kantor Desa Binanga',
-    kategori: 'Pemerintahan',
-    dusun: 'Dusun Binanga',
-    deskripsi: 'Pusat pelayanan administrasi dan tata kelola pemerintahan desa, menerima pelayanan setiap hari kerja.',
-    foto: 'https://images.unsplash.com/photo-1572016335967-0c7f2178afb4?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    id: 'f2',
-    nama: 'SDN No. 28 Inpres Puttada',
-    kategori: 'Pendidikan',
-    dusun: 'Dusun Butungan',
-    deskripsi: 'Sekolah dasar negeri yang menjadi fasilitas pendidikan utama bagi anak-anak Desa Binanga.',
-    foto: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    id: 'f3',
-    nama: 'SDN 07 Binanga',
-    kategori: 'Pendidikan',
-    dusun: 'Dusun Binanga',
-    deskripsi: 'Sekolah dasar negeri yang beroperasi di pusat desa, melayani anak-anak dari Dusun Binanga dan sekitarnya.',
-    foto: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    id: 'f4',
-    nama: 'Masjid Dusun Binanga',
-    kategori: 'Peribadatan',
-    dusun: 'Dusun Binanga',
-    deskripsi: 'Pusat kegiatan keagamaan Islam di Desa Binanga, melayani 848 jiwa penduduk yang beragama Islam.',
-    foto: 'https://images.unsplash.com/photo-1564683214965-3619addd900d?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    id: 'f5',
-    nama: 'Wisata Hutan Mangrove',
-    kategori: 'Pariwisata',
-    dusun: "Dusun Bo'di",
-    deskripsi: 'Destinasi ekowisata hutan mangrove yang dikembangkan sejak 2016, menjadi daya tarik wisata alam unggulan desa.',
-    foto: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    id: 'f6',
-    nama: 'Lapangan Sepak Bola',
-    kategori: 'Fasilitas Umum',
-    dusun: 'Dusun Binanga',
-    deskripsi: 'Arena olahraga masyarakat yang kerap menjadi pusat kegiatan sosial dan turnamen antar-dusun.',
-    foto: 'https://images.unsplash.com/photo-1518605368461-1e1e38ce8058?auto=format&fit=crop&w=800&q=80',
-  },
-];
+
 
 /* ─── DATA BATAS WILAYAH DESA (sumber: Monografi Desa Binanga, Hal. 40) ─── */
 const batasWilayah = [
@@ -175,7 +125,7 @@ import { getPengaturan } from '@/server/actions/pengaturan.action';
 import { getPerangkat } from '@/server/actions/struktur.action';
 import OrgChart from '@/components/OrgChart';
 
-export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalStats }: { dbSejarah?: any[], dbInfrastruktur?: any[], dbGlobalStats?: any }) {
+export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalStats, dbDusunList }: { dbSejarah?: any[], dbInfrastruktur?: any[], dbGlobalStats?: any, dbDusunList?: any[] }) {
   const [perangkat, setPerangkat] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState<'dusun' | 'pendidikan' | 'sosial'>('dusun');
   const [expandedTimeline, setExpandedTimeline] = useState<Record<number, boolean>>({});
@@ -185,10 +135,57 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
   };
   
   const kronologiData = dbSejarah && dbSejarah.length > 0 ? dbSejarah : kronologiSejarah;
-  const infrastrukturData = dbInfrastruktur && dbInfrastruktur.length > 0 ? dbInfrastruktur : fasilitasData;
-  const totalJiwa = dbGlobalStats?.totalPenduduk || 849;
+  const infrastrukturData = dbInfrastruktur || [];
+
+  const dynamicDataDusun = dbDusunList && dbDusunList.length > 0 ? dbDusunList.map((d: any) => {
+    const comp = d.computed || d.penduduk?.[0] || {};
+    const highlights: Record<string, string> = {
+      "bo'di": 'Wisata Mangrove & Cekdam',
+      'butungan': 'SDN 28 Inpres Puttada',
+      'naulluyo': 'Wilayah Terluas (92 ha)',
+      'binanga': 'Pusat Pemerintahan Desa'
+    };
+    const cleanName = d.nama.replace(/^Dusun\s+/i, '');
+    return {
+      nama: d.nama.toLowerCase().startsWith('dusun') ? d.nama : `Dusun ${d.nama}`,
+      kk: comp.totalKk || 0,
+      jiwa: comp.totalJiwa || 0,
+      luas: d.luasHa || 40,
+      lakiLaki: comp.lakiLaki || 0,
+      perempuan: comp.perempuan || 0,
+      highlight: highlights[cleanName.toLowerCase()] || 'Kawasan Pemukiman'
+    };
+  }) : dataDusun;
+
+  const dynamicDataIjazah = dbDusunList && dbDusunList.length > 0 ? [
+    ...dbDusunList.map((d: any) => {
+      const edu = d.pendidikanComputed || {};
+      return {
+        dusun: d.nama,
+        tidakPunya: edu.tanpaIjazah || 0,
+        sd: edu.sd || 0,
+        smp: edu.smp || 0,
+        sma: edu.sma || 0,
+        diploma: edu.diploma || 0,
+        s1: edu.s1 || 0,
+        s2: edu.s2 || 0
+      };
+    }),
+    {
+      dusun: 'TOTAL',
+      tidakPunya: dbGlobalStats?.pendidikan?.tanpaIjazah || 0,
+      sd: dbGlobalStats?.pendidikan?.sd || 0,
+      smp: dbGlobalStats?.pendidikan?.smp || 0,
+      sma: dbGlobalStats?.pendidikan?.sma || 0,
+      diploma: dbGlobalStats?.pendidikan?.diploma || 0,
+      s1: dbGlobalStats?.pendidikan?.s1 || 0,
+      s2: dbGlobalStats?.pendidikan?.s2 || 0
+    }
+  ] : dataIjazah;
+
+  const totalJiwa = dbGlobalStats?.totalPenduduk || dynamicDataDusun.reduce((s, d) => s + d.jiwa, 0) || 849;
   const luasDesa = dbGlobalStats?.luasDesaHa || 191;
-  const totalKK = dbGlobalStats?.totalKk || 221;
+  const totalKK = dbGlobalStats?.totalKk || dynamicDataDusun.reduce((s, d) => s + d.kk, 0) || 221;
 
   const [pengaturan, setPengaturan] = useState<Record<string, string>>({});
   useEffect(() => {
@@ -295,8 +292,7 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
               <div className={fasStyles.sumberBox}>
                 <BookOpen size={14} />
                 <div>
-                  <strong>Sumber:</strong> Monografi Desa Binanga, Kecamatan Sendana, Kabupaten Majene —
-                  Data Desa Presisi (DDP), LPPM IPB University. Hal. 19–21 &amp; Hal. 56.
+                  <strong>Sumber:</strong> Dokumen Pemerintahan & Catatan Sejarah Desa Binanga.
                 </div>
               </div>
             </div>
@@ -307,7 +303,7 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
                 penamaan yang tepat untuk desa di tepi Selat Makassar yang telah berdiri sejak
                 sebelum kemerdekaan Indonesia.&rdquo;
               </p>
-              <span className={fasStyles.quoteSource}>— Data Desa Presisi, LPPM IPB University (2022). Monografi Desa Binanga.</span>
+              <span className={fasStyles.quoteSource}>— Catatan Sejarah Desa Binanga.</span>
             </div>
           </div>
         </FadeUp>
@@ -437,14 +433,9 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
             <StaggerItem className={styles.sourceCard}>
               <strong>Sumber Data Geografis:</strong>
               <ul>
-                <li>Batas Wilayah &amp; Luas Dusun — <em>Data Desa Presisi, LPPM IPB University (2022). Monografi Desa Binanga.</em></li>
-                <li>Koordinat Patok Batas Desa — <em>Data Desa Presisi, LPPM IPB University (2022). Monografi Desa Binanga.</em></li>
-                <li>Jarak ke Ibukota &amp; Administratif — <em>BPS Kabupaten Majene (2025). Kecamatan Sendana Dalam Angka 2025.</em></li>
+                <li>Batas Wilayah &amp; Luas Dusun — <em>Dokumen Peta & Administrasi Desa Binanga.</em></li>
+                <li>Jarak & Lokasi Administratif — <em>Pemerintah Kecamatan Sendana & Kabupaten Majene.</em></li>
               </ul>
-              <p style={{ margin: '12px 0 0 0', fontSize: '0.8rem' }}>
-                Pengumpulan data spasial menggunakan teknologi drone <em>DJI Mavic 2 Pro</em> dan
-                pengolahan <em>ArcGIS 10.8</em> oleh Tim LPPM IPB University, 2022.
-              </p>
             </StaggerItem>
           </StaggerContainer>
         </FadeUp>
@@ -512,7 +503,7 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
           {activeTab === 'dusun' && (
             <div className={fasStyles.tabPanel}>
               <div className={fasStyles.dusunGrid}>
-                {dataDusun.map((d, idx) => (
+                {dynamicDataDusun.map((d, idx) => (
                   <div key={idx} className={fasStyles.dusunCard}>
                     <div className={fasStyles.dusunHeader}>
                       <h3 className={fasStyles.dusunNama}>{d.nama}</h3>
@@ -536,7 +527,7 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
                     <div className={fasStyles.genderBar}>
                       <div
                         className={fasStyles.genderBarLaki}
-                        style={{ width: `${Math.round((d.lakiLaki / d.jiwa) * 100)}%` }}
+                        style={{ width: `${d.jiwa > 0 ? Math.round((d.lakiLaki / d.jiwa) * 100) : 50}%` }}
                       />
                       <div className={fasStyles.genderBarPerempuan} style={{ flex: 1 }} />
                     </div>
@@ -550,7 +541,7 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
               <div className={fasStyles.sumberBox} style={{ marginTop: '24px' }}>
                 <BookOpen size={14} />
                 <div>
-                  <strong>Sumber:</strong> Data Desa Presisi, LPPM IPB University (2022). Monografi Desa Binanga.
+                  <strong>Sumber:</strong> Database Penduduk — Sistem Informasi Desa (Real-time).
                 </div>
               </div>
             </div>
@@ -562,23 +553,23 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
               <div className={fasStyles.eduSummary}>
                 <div className={fasStyles.eduSumItem}>
                   <GraduationCap size={24} className={fasStyles.eduIcon} />
-                  <div className={fasStyles.eduSumVal}>224</div>
-                  <div className={fasStyles.eduSumLbl}>Lulusan SD — Terbanyak</div>
+                  <div className={fasStyles.eduSumVal}>{dbGlobalStats?.pendidikan?.s1 ?? 4}</div>
+                  <div className={fasStyles.eduSumLbl}>Lulusan S1</div>
                 </div>
                 <div className={fasStyles.eduSumItem}>
                   <BookOpen size={24} className={fasStyles.eduIcon} />
-                  <div className={fasStyles.eduSumVal}>221</div>
-                  <div className={fasStyles.eduSumLbl}>Tanpa Ijazah</div>
+                  <div className={fasStyles.eduSumVal}>{dbGlobalStats?.pendidikan?.tanpaIjazah ?? 1}</div>
+                  <div className={fasStyles.eduSumLbl}>Tanpa Ijazah / Belum Sekolah</div>
                 </div>
                 <div className={fasStyles.eduSumItem}>
                   <Award size={24} className={fasStyles.eduIcon} />
-                  <div className={fasStyles.eduSumVal}>1</div>
-                  <div className={fasStyles.eduSumLbl}>Lulusan S2 (Tertinggi)</div>
+                  <div className={fasStyles.eduSumVal}>{dbGlobalStats?.pendidikan?.s2 ?? 1}</div>
+                  <div className={fasStyles.eduSumLbl}>Lulusan S2</div>
                 </div>
                 <div className={fasStyles.eduSumItem}>
                   <Users size={24} className={fasStyles.eduIcon} />
-                  <div className={fasStyles.eduSumVal}>261</div>
-                  <div className={fasStyles.eduSumLbl}>Sedang Bersekolah</div>
+                  <div className={fasStyles.eduSumVal}>{dbGlobalStats?.totalPenduduk ?? 10}</div>
+                  <div className={fasStyles.eduSumLbl}>Total Jiwa Penduduk</div>
                 </div>
               </div>
 
@@ -597,7 +588,7 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
                     </tr>
                   </thead>
                   <tbody>
-                    {dataIjazah.map((row, i) => (
+                    {dynamicDataIjazah.map((row, i) => (
                       <tr key={i} className={row.dusun === 'TOTAL' ? fasStyles.totalRow : ''}>
                         <td><strong>{row.dusun}</strong></td>
                         <td>{row.tidakPunya}</td>
@@ -615,7 +606,7 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
               <div className={fasStyles.sumberBox} style={{ marginTop: '16px' }}>
                 <BookOpen size={14} />
                 <div>
-                  <strong>Sumber:</strong> Data Desa Presisi, LPPM IPB University (2022). Monografi Desa Binanga.
+                  <strong>Sumber:</strong> Database Penduduk — Sistem Informasi Desa (Real-time).
                 </div>
               </div>
             </div>
@@ -631,7 +622,7 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
                   </div>
                   <h3>Etnis Dominan</h3>
                   <div className={fasStyles.sosialVal}>Mandar</div>
-                  <div className={fasStyles.sosialSub}>693 jiwa dari total 849 jiwa (81,6%)</div>
+                  <div className={fasStyles.sosialSub}>Etnis Asli Desa Binanga</div>
                 </div>
                 <div className={fasStyles.sosialCard}>
                   <div className={fasStyles.sosialIcon} style={{ background: '#3b82f620', color: '#3b82f6' }}>
@@ -639,7 +630,7 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
                   </div>
                   <h3>Agama</h3>
                   <div className={fasStyles.sosialVal}>Islam</div>
-                  <div className={fasStyles.sosialSub}>848 jiwa (99,9%); 1 jiwa Kristen</div>
+                  <div className={fasStyles.sosialSub}>Mayoritas Penduduk Desa</div>
                 </div>
                 <div className={fasStyles.sosialCard}>
                   <div className={fasStyles.sosialIcon} style={{ background: '#10b98120', color: '#10b981' }}>
@@ -647,7 +638,7 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
                   </div>
                   <h3>Bahasa Utama</h3>
                   <div className={fasStyles.sosialVal}>Mandar</div>
-                  <div className={fasStyles.sosialSub}>Digunakan 627 jiwa (73,9%) sebagai bahasa sehari-hari</div>
+                  <div className={fasStyles.sosialSub}>Bahasa Komunikasi Sehari-hari</div>
                 </div>
                 <div className={fasStyles.sosialCard}>
                   <div className={fasStyles.sosialIcon} style={{ background: '#8b5cf620', color: '#8b5cf6' }}>
@@ -655,7 +646,7 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
                   </div>
                   <h3>Ikatan Tempat Tinggal</h3>
                   <div className={fasStyles.sosialVal}>≥10 Tahun</div>
-                  <div className={fasStyles.sosialSub}>185 KK (dari 221 KK) telah tinggal lebih dari 10 tahun</div>
+                  <div className={fasStyles.sosialSub}>Mayoritas Warga Menetap Lebih dari 10 Tahun</div>
                 </div>
               </div>
 
@@ -666,17 +657,17 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
                 </h3>
                 <div className={fasStyles.perkawinanGrid}>
                   {[
-                    { label: 'Kawin',       val: 166, pct: 75, color: '#10b981' },
-                    { label: 'Cerai Mati',  val: 39,  pct: 18, color: '#f59e0b' },
-                    { label: 'Cerai Hidup', val: 9,   pct: 4,  color: '#ef4444' },
-                    { label: 'Belum Kawin', val: 7,   pct: 3,  color: '#8b5cf6' },
+                    { label: 'Kawin',       val: dbGlobalStats?.kawin || 0, pct: 75, color: '#10b981' },
+                    { label: 'Cerai Mati',  val: dbGlobalStats?.ceraiMati || 0,  pct: 18, color: '#f59e0b' },
+                    { label: 'Cerai Hidup', val: dbGlobalStats?.ceraiHidup || 0,   pct: 4,  color: '#ef4444' },
+                    { label: 'Belum Kawin', val: dbGlobalStats?.belumKawin || 0,   pct: 3,  color: '#8b5cf6' },
                   ].map((item) => (
                     <div key={item.label} className={fasStyles.perkawinanItem}>
                       <div className={fasStyles.perkawinanLabel}>{item.label}</div>
                       <div className={fasStyles.perkawinanBar}>
                         <div
                           className={fasStyles.perkawinanBarFill}
-                          style={{ width: `${item.pct}%`, background: item.color }}
+                          style={{ width: `${item.val > 0 ? Math.min(100, item.val * 10) : 0}%`, background: item.color }}
                         />
                       </div>
                       <div className={fasStyles.perkawinanVal} style={{ color: item.color }}>{item.val} KK</div>
@@ -688,7 +679,7 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
               <div className={fasStyles.sumberBox} style={{ marginTop: '16px' }}>
                 <BookOpen size={14} />
                 <div>
-                  <strong>Sumber:</strong> Data Desa Presisi, LPPM IPB University (2022). Monografi Desa Binanga.
+                  <strong>Sumber:</strong> Database Penduduk — Sistem Informasi Desa (Real-time).
                 </div>
               </div>
             </div>
@@ -708,20 +699,49 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
               Fasilitas Publik &amp; Bangunan Penting
             </h2>
             <p className={`${styles.sectionDesc} ${styles.sectionDescLight}`} style={{ margin: '0 auto' }}>
-              68 fasilitas umum tersebar di 4 dusun — termasuk sarana pendidikan, peribadatan, kesehatan, dan wisata. 
-              Desa Binanga juga tercatat memiliki jumlah Musala terbanyak (4 bangunan) di Kecamatan Sendana.
+              Fasilitas umum tersebar di 4 dusun — termasuk sarana pendidikan, peribadatan, kesehatan, dan wisata.
             </p>
           </div>
 
           {/* Ringkasan fasilitas */}
           <div className={fasStyles.fasRingkasanGrid}>
             {[
-              { icon: <Building2 size={22} />, val: '68', label: 'Total Fasilitas', color: '#3b82f6' },
-              { icon: <GraduationCap size={22} />, val: '4', label: 'Sekolah (SD & TK/RA)', color: '#10b981' },
-              { icon: <Heart size={22} />, val: '2', label: 'Posyandu', color: '#ef4444' },
-              { icon: <TreePine size={22} />, val: '2', label: 'Destinasi Wisata', color: '#f59e0b' },
-              { icon: <Landmark size={22} />, val: '3', label: 'Tempat Ibadah', color: '#8b5cf6' },
-              { icon: <Home size={22} />, val: '42', label: 'Usaha Jasa & Perdagangan', color: '#06b6d4' },
+              { 
+                icon: <Building2 size={22} />, 
+                val: `${infrastrukturData.length}`, 
+                label: 'Total Fasilitas', 
+                color: '#3b82f6' 
+              },
+              { 
+                icon: <GraduationCap size={22} />, 
+                val: `${infrastrukturData.filter(i => (i.kategori || '').toLowerCase().includes('pendidikan') || (i.kategori || '').toLowerCase().includes('sekolah')).length}`, 
+                label: 'Pendidikan', 
+                color: '#10b981' 
+              },
+              { 
+                icon: <Heart size={22} />, 
+                val: `${infrastrukturData.filter(i => (i.kategori || '').toLowerCase().includes('sehat') || (i.kategori || '').toLowerCase().includes('posyandu')).length}`, 
+                label: 'Kesehatan & Posyandu', 
+                color: '#ef4444' 
+              },
+              { 
+                icon: <TreePine size={22} />, 
+                val: `${infrastrukturData.filter(i => (i.kategori || '').toLowerCase().includes('wisata')).length}`, 
+                label: 'Wisata', 
+                color: '#f59e0b' 
+              },
+              { 
+                icon: <Landmark size={22} />, 
+                val: `${infrastrukturData.filter(i => (i.kategori || '').toLowerCase().includes('ibadah') || (i.kategori || '').toLowerCase().includes('peribadatan')).length}`, 
+                label: 'Peribadatan', 
+                color: '#8b5cf6' 
+              },
+              { 
+                icon: <Home size={22} />, 
+                val: `${infrastrukturData.filter(i => (i.kategori || '').toLowerCase().includes('pemerintah') || (i.kategori || '').toLowerCase().includes('usaha') || (i.kategori || '').toLowerCase().includes('umum') || (i.kategori || '').toLowerCase().includes('lain')).length}`, 
+                label: 'Pemerintahan & Umum', 
+                color: '#06b6d4' 
+              },
             ].map((item, i) => (
               <div key={i} className={fasStyles.fasRingkasanItem}>
                 <div className={fasStyles.fasRingkasanIcon} style={{ color: item.color }}>{item.icon}</div>
@@ -731,28 +751,34 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
             ))}
           </div>
 
-          <div className={fasStyles.fasilitasGrid}>
-            {infrastrukturData.map((item: any) => (
-              <div key={item.id} className={fasStyles.fasilitasCard}>
-                <div className={fasStyles.fasImgWrap}>
-                  <img src={item.fotoUrl || item.foto || 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80'} alt={item.nama} className={fasStyles.fasImg} loading="lazy" />
-                  <div className={fasStyles.fasBadge}>{item.kategori}</div>
-                </div>
-                <div className={fasStyles.fasBody}>
-                  <div className={fasStyles.fasDusunTag}>
-                    <MapPin size={12} /> {item.dusun}
+          {infrastrukturData.length > 0 ? (
+            <div className={fasStyles.fasilitasGrid}>
+              {infrastrukturData.map((item: any) => (
+                <div key={item.id} className={fasStyles.fasilitasCard}>
+                  <div className={fasStyles.fasImgWrap}>
+                    <img src={item.fotoUrl || item.foto || 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80'} alt={item.nama} className={fasStyles.fasImg} loading="lazy" />
+                    <div className={fasStyles.fasBadge}>{item.kategori}</div>
                   </div>
-                  <h3 className={fasStyles.fasTitle}>{item.nama}</h3>
-                  <p className={fasStyles.fasDesc}>{item.deskripsi}</p>
+                  <div className={fasStyles.fasBody}>
+                    <div className={fasStyles.fasDusunTag}>
+                      <MapPin size={12} /> {item.dusun}
+                    </div>
+                    <h3 className={fasStyles.fasTitle}>{item.nama}</h3>
+                    <p className={fasStyles.fasDesc}>{item.deskripsi}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div style={{ textAlign: 'center', padding: '40px 20px', color: '#94a3b8', background: 'rgba(255,255,255,0.05)', borderRadius: '16px', margin: '20px 0' }}>
+              Belum ada data fasilitas/infrastruktur yang diinputkan di database. Tambahkan data fasilitas melalui panel admin.
+            </div>
+          )}
 
           <div className={fasStyles.sumberBoxDark}>
             <BookOpen size={14} />
             <div>
-              <strong>Sumber:</strong> Data Desa Presisi, LPPM IPB University (2022). Monografi Desa Binanga; BPS Kabupaten Majene (2025). Kecamatan Sendana Dalam Angka 2025.
+              <strong>Sumber:</strong> Database Fasilitas & Infrastruktur Pemerintah Desa Binanga.
             </div>
           </div>
         </FadeUp>
@@ -776,7 +802,7 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
           <div className={fasStyles.sumberBoxCenter}>
             <BookOpen size={14} />
             <span>
-              <strong>Sumber:</strong> Data Desa Presisi, LPPM IPB University (2022). Monografi Desa Binanga.
+              <strong>Sumber:</strong> Catatan Sejarah & Dokumen Pemerintahan Desa Binanga.
             </span>
           </div>
 

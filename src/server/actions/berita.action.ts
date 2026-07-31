@@ -72,10 +72,12 @@ export async function createBerita(formData: FormData) {
   
   revalidatePath('/admin/berita');
   revalidatePath('/');
+  revalidatePath('/home');
 }
 
 export async function deleteBerita(id: string) {
   await prisma.berita.delete({ where: { id } });
   revalidatePath('/admin/berita');
   revalidatePath('/');
+  revalidatePath('/home');
 }

@@ -34,6 +34,7 @@ export async function createPerangkat(formData: FormData) {
   });
   revalidatePath('/admin/struktur');
   revalidatePath('/');
+  revalidatePath('/home');
 }
 
 export async function deletePerangkat(id: string) {
@@ -46,4 +47,5 @@ export async function deletePerangkat(id: string) {
   await prisma.perangkatDesa.delete({ where: { id } });
   revalidatePath('/admin/struktur');
   revalidatePath('/');
+  revalidatePath('/home');
 }

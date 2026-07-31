@@ -1,6 +1,6 @@
 .adminPage {
-  padding: 24px;
-  max-width: 1200px;
+  padding: 16px 20px;
+  max-width: 100%;
   margin: 0 auto;
   font-family: 'Inter', sans-serif;
   color: #0f172a;
@@ -10,21 +10,21 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
-  gap: 16px;
+  margin-bottom: 16px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
 .headerTitle h2 {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
-  margin: 0 0 4px 0;
+  margin: 0 0 2px 0;
 }
 
 .headerTitle p {
   color: #64748b;
   margin: 0;
-  font-size: 0.95rem;
+  font-size: 0.82rem;
 }
 
 .card {
@@ -45,7 +45,7 @@
 }
 
 .table th, .table td {
-  padding: 16px 20px;
+  padding: 8px 12px;
   text-align: left;
   border-bottom: 1px solid #e2e8f0;
 }
@@ -54,19 +54,19 @@
   background: #f8fafc;
   font-weight: 600;
   color: #475569;
-  font-size: 0.9rem;
+  font-size: 0.78rem;
 }
 
 .table td {
   color: #334155;
-  font-size: 0.95rem;
+  font-size: 0.82rem;
 }
 
 .input {
-  padding: 10px 14px;
+  padding: 7px 10px;
   border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  font-size: 0.95rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
   width: 100%;
   outline: none;
   transition: border-color 0.2s;
@@ -80,12 +80,13 @@
 .primaryBtn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   background: #3b82f6;
   color: #fff;
   border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
+  padding: 7px 14px;
+  border-radius: 6px;
+  font-size: 0.82rem;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;

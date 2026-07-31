@@ -1588,3 +1588,11 @@
     padding: 2px 8px;
   }
 }
+
+/* --- IN-PAGE SUB NAVIGATION --- */
+.subnav { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 10px 30px rgba(0,0,0,0.1), 0 2px 10px rgba(0,0,0,0.05); z-index: 100; padding: 8px; display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; border-radius: 100px; max-width: 95vw; }
+.subnav::-webkit-scrollbar { display: none; }
+.navItem { flex-shrink: 0; display: flex; align-items: center; gap: 8px; background: transparent; border: none; padding: 10px 24px; border-radius: 100px; color: #475569; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap; text-decoration: none; }
+.navItem:hover { background: rgba(0,0,0,0.05); color: #0f172a; }
+.navItemActive { background: #3b82f6; color: #fff; box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3); }
+.navItemActive:hover { background: #2563eb; color: #fff; }

@@ -122,7 +122,7 @@ export default function Home() {
             <h3 className={styles.serviceTitle}>Infografis</h3>
           </motion.a>
 
-          <motion.a variants={itemVariants} href="/data-statistik#transparansi-apbdes" className={styles.serviceCard}>
+          <motion.a variants={itemVariants} href="/data-statistik#idm" className={styles.serviceCard}>
             <div className={styles.serviceIcon}><TrendingUp size={24} /></div>
             <h3 className={styles.serviceTitle}>IDM</h3>
           </motion.a>
@@ -132,17 +132,13 @@ export default function Home() {
             <h3 className={styles.serviceTitle}>Berita</h3>
           </motion.a>
 
-          <motion.a variants={itemVariants} href="/berita-agenda#cek-bansos" className={styles.serviceCard}>
-            <div className={styles.serviceIcon}><HeartHandshake size={24} /></div>
-            <h3 className={styles.serviceTitle}>Bansos</h3>
-          </motion.a>
 
           <motion.a variants={itemVariants} href="/wisata#galeri-virtual-tour" className={styles.serviceCard}>
             <div className={styles.serviceIcon}><Image size={24} /></div>
             <h3 className={styles.serviceTitle}>Galeri</h3>
           </motion.a>
 
-          <motion.a variants={itemVariants} href="#" className={styles.serviceCard}>
+          <motion.a variants={itemVariants} href="/profil-desa#ppid" className={styles.serviceCard}>
             <div className={styles.serviceIcon}><FileSearch size={24} /></div>
             <h3 className={styles.serviceTitle}>PPID</h3>
           </motion.a>
@@ -262,19 +258,19 @@ export default function Home() {
             className={styles.potensiGrid}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-10%" }}
+            viewport={{ once: true, margin: "0px" }}
             variants={{
               visible: { transition: { staggerChildren: 0.15 } },
               hidden: {}
             }}
           >
-            {wisataList.length > 0 ? wisataList.map((item) => (
+            {wisataList.length > 0 ? wisataList.map((item, idx) => (
               <motion.div 
-                key={item.id} 
-                variants={{
-                  hidden: { opacity: 0, y: 30 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
-                }}
+                key={item.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1, ease: "easeOut" }}
               >
                 <Link href="/wisata" className={styles.potensiCard}>
                   <div className={styles.potensiImage} style={{backgroundImage: `url(${item.foto || '/pic/kantor-desa.jpeg'})`}}></div>
@@ -311,19 +307,19 @@ export default function Home() {
             className={styles.potensiGrid}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-10%" }}
+            viewport={{ once: true, margin: "0px" }}
             variants={{
               visible: { transition: { staggerChildren: 0.15 } },
               hidden: {}
             }}
           >
-            {umkmList.map((item) => (
+            {umkmList.map((item, idx) => (
               <motion.div 
-                key={item.id} 
-                variants={{
-                  hidden: { opacity: 0, y: 30 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
-                }}
+                key={item.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1, ease: "easeOut" }}
               >
                 <Link href="/umkm" className={styles.potensiCard}>
                   <div className={styles.potensiImage} style={{backgroundImage: `url(${item.foto})`}}></div>

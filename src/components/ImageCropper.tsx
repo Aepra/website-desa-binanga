@@ -130,7 +130,7 @@ export default function ImageCropper({ imageSrc, onCropComplete, onCancel, aspec
             {isProcessing ? 'Memproses...' : 'Simpan Potongan'}
           </button>
         </div>
-      </div>
+      </div>                       
     </div>
   );
 }

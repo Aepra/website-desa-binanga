@@ -29,6 +29,8 @@ export default async function DataStatistikPage() {
     }))
   }));
 
+  const infrastrukturData = await prisma.infrastruktur.findMany();
+
   return (
     <main style={{ background: '#f8fafc', minHeight: '100vh' }}>
       <div id="kependudukan">
@@ -37,6 +39,7 @@ export default async function DataStatistikPage() {
           dbDusunList={dusunStats} 
           latestYear={latestYear}
           dbApbdesList={serializedApbdesList}
+          dbInfrastrukturList={infrastrukturData}
         />
       </div>
     </main>

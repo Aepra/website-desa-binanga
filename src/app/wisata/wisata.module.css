@@ -13,23 +13,23 @@
 .navItemActive:hover { background: #2563eb; color: #fff; }
 
 /* --- HEADER TITLE --- */
-.headerTitle { text-align: center; margin: 40px 0 60px 0; animation: fadeInUp 0.6s ease-out; }
-.hBadge { display: inline-block; background: #eff6ff; color: #2563eb; padding: 6px 16px; border-radius: 100px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
-.hMain { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; line-height: 1.1; margin: 0 0 16px 0; letter-spacing: -1.5px; color: #0f172a; }
-.hDesc { font-size: 1.1rem; color: #64748b; max-width: 600px; margin: 0 auto; line-height: 1.6; }
+.headerTitle { text-align: center; margin: 20px 0 30px 0; animation: fadeInUp 0.6s ease-out; }
+.hBadge { display: inline-block; background: #eff6ff; color: #2563eb; padding: 4px 12px; border-radius: 100px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+.hMain { font-size: clamp(2rem, 3vw, 2.5rem); font-weight: 900; line-height: 1.1; margin: 0 0 12px 0; letter-spacing: -1px; color: #0f172a; }
+.hDesc { font-size: 0.95rem; color: #64748b; max-width: 600px; margin: 0 auto; line-height: 1.5; }
 
 /* --- BENTO DASHBOARD (CLEAN & BRIGHT) --- */
-.bentoGrid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 240px; gap: 24px; margin-bottom: 100px; animation: fadeInUp 0.8s ease-out; }
-.bentoCard { background: #fff; border-radius: 24px; border: 1px solid #e2e8f0; overflow: hidden; position: relative; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
+.bentoGrid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 180px; gap: 16px; margin-bottom: 80px; animation: fadeInUp 0.8s ease-out; }
+.bentoCard { background: #fff; border-radius: 20px; border: 1px solid #e2e8f0; overflow: hidden; position: relative; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
 .bentoCard:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.06); border-color: #cbd5e1; }
 
 /* Highlight Image (span 2x2) */
 .bentoHighlight { grid-column: span 2; grid-row: span 2; border: none; box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
 .bBg { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
 .bentoCard:hover .bBg { transform: scale(1.05); }
-.bOverlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,23,42,0.85) 0%, transparent 50%); display: flex; flex-direction: column; justify-content: flex-end; padding: 32px; }
-.bTitleBig { font-size: 2.2rem; font-weight: 800; margin: 0 0 8px 0; color: #fff; line-height: 1.1; }
-.bDesc { color: rgba(255,255,255,0.8); font-size: 0.95rem; margin: 0; }
+.bOverlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,23,42,0.85) 0%, transparent 50%); display: flex; flex-direction: column; justify-content: flex-end; padding: 24px; }
+.bTitleBig { font-size: 1.8rem; font-weight: 800; margin: 0 0 6px 0; color: #fff; line-height: 1.1; }
+.bDesc { color: rgba(255,255,255,0.8); font-size: 0.85rem; margin: 0; line-height: 1.4; }
 
 /* Weather Card */
 .bentoWeather { display: flex; flex-direction: column; justify-content: space-between; padding: 24px; background: #fff; }
@@ -51,10 +51,10 @@
 .sLbl { font-size: 0.85rem; color: #64748b; font-weight: 600; line-height: 1.4; }
 
 /* --- SECTION HEADERS --- */
-.section { padding-top: 100px; margin-top: -30px; }
-.secHeader { margin-bottom: 40px; text-align: center; }
-.secSub { color: #3b82f6; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 8px; }
-.secTitle { font-size: 2.4rem; font-weight: 900; margin: 0; color: #0f172a; letter-spacing: -0.5px; }
+.section { padding-top: 60px; margin-top: -30px; }
+.secHeader { margin-bottom: 30px; text-align: center; }
+.secSub { color: #3b82f6; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 6px; }
+.secTitle { font-size: 2rem; font-weight: 900; margin: 0; color: #0f172a; letter-spacing: -0.5px; }
 
 /* --- DESTINASI KARTU DETAIL (CLEAN GRID) --- */
 .destGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px; }

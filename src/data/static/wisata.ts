@@ -4,6 +4,9 @@ export interface Wisata {
   kategori: string;
   foto: string;
   deskripsi: string;
+  harga?: number | null;
+  jamBuka?: string | null;
+  linkMaps?: string | null;
 }
 
 export const wisata: Wisata[] = [

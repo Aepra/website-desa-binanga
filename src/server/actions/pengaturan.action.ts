@@ -47,5 +47,6 @@ export async function savePengaturan(formData: FormData) {
   revalidatePath('/admin/pengaturan');
   // Revalidate frontend pages later if needed
   revalidatePath('/');
+  revalidatePath('/home');
   return { success: true };
 }

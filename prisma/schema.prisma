@@ -206,18 +206,29 @@ model Bansos {
 // DATA PENDUDUK INDIVIDUAL
 // ==========================================
 model Penduduk {
-  id            String   @id @default(cuid())
-  nik           String
-  noKk          String
-  nama          String
-  jenisKelamin  String   // "LAKI_LAKI" / "PEREMPUAN"
-  dusun         String   // Nama dusun
-  tahunData     Int      // Tahun pendataan (misal: 2026)
-  pendidikan    String?
-  pekerjaan     String?
-  status        String   @default("AKTIF") // AKTIF, PINDAH, MENINGGAL
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id                 String   @id @default(cuid())
+  nik                String   @default("")
+  noKk               String   @default("")
+  namaLengkap        String   @default("")
+  nama               String   @default("")
+  jenisKelamin       String   @default("LAKI_LAKI") // "LAKI_LAKI" / "PEREMPUAN" / "LAKI-LAKI"
+  tempatLahir        String?
+  tanggalLahir       String?
+  agama              String?
+  pendidikanTerakhir String?
+  pendidikan         String?
+  pekerjaanUtama     String?
+  pekerjaan          String?
+  golonganDarah      String?
+  statusPerkawinan   String?
+  shdk               String?
+  dusunDomisili      String   @default("")
+  dusun              String   @default("")
+  statusKependudukan String   @default("AKTIF")
+  status             String   @default("AKTIF")     // AKTIF, PINDAH, MENINGGAL
+  tahunData          Int      @default(2026)        // Tahun pendataan (misal: 2026)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 
   @@unique([nik, tahunData])
 }
@@ -245,6 +256,7 @@ model Infrastruktur {
   dusun       String
   deskripsi   String?  @db.Text
   fotoUrl     String?
+  linkMaps    String?  @db.Text
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

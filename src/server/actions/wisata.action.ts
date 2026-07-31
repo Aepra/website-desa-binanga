@@ -26,15 +26,48 @@ export async function createWisata(formData: FormData) {
       nama: data.nama as string,
       kategori: data.kategori as string,
       deskripsi: data.deskripsi as string,
+      jamBuka: data.jamBuka as string || null,
       fotoUrl: uploadedUrl || null
     }
   });
   revalidatePath('/admin/wisata');
   revalidatePath('/');
+  revalidatePath('/home');
+}
+
+export async function updateWisata(id: string, formData: FormData) {
+  const data = Object.fromEntries(formData.entries());
+  const file = data.foto as File;
+  
+  let updateData: any = {
+    nama: data.nama as string,
+    kategori: data.kategori as string,
+    deskripsi: data.deskripsi as string,
+    jamBuka: data.jamBuka as string || null,
+  };
+
+  if (file && file.size > 0) {
+    try {
+      updateData.fotoUrl = await uploadImage(file, 'website-desa-binanga/wisata');
+    } catch (e) {
+      console.error('Error uploading image:', e);
+    }
+  }
+
+  await prisma.wisata.update({
+    where: { id },
+    data: updateData
+  });
+  
+  revalidatePath('/admin/wisata');
+  revalidatePath('/');
+  revalidatePath('/home');
+  return { success: true };
 }
 
 export async function deleteWisata(id: string) {
   await prisma.wisata.delete({ where: { id } });
   revalidatePath('/admin/wisata');
   revalidatePath('/');
+  revalidatePath('/home');
 }

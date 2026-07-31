@@ -5,6 +5,7 @@ import { Wisata } from '@/lib/api';
 import { getWisataDB } from '@/server/queries/public.query';
 import { CloudSun, Navigation, Tent, Users, Map, Clock, Ticket, ZoomIn } from 'lucide-react';
 import { FadeUp, StaggerContainer, StaggerItem } from '@/components/Animate';
+import GeographicDashboard from './GeographicDashboard';
 import styles from './wisata.module.css';
 
 export default function WisataDesa() {
@@ -15,7 +16,7 @@ export default function WisataDesa() {
     getWisataDB().then(setWisata);
   }, []);
 
-  const destinasiList = wisata.filter(w => w.kategori.toLowerCase().includes('wisata'));
+  const destinasiList = wisata.filter(w => w.kategori.toLowerCase().includes('wisata') && w.kategori !== 'Potensi Wisata');
   const potensiList = wisata.filter(w => !w.kategori.toLowerCase().includes('wisata') || w.kategori === 'Potensi Wisata');
 
   const scrollTo = (id: string) => {
@@ -36,13 +37,10 @@ export default function WisataDesa() {
           Ikhtisar
         </button>
         <button className={`${styles.navItem} ${activeTab === 'destinasi' ? styles.navItemActive : ''}`} onClick={() => scrollTo('destinasi')}>
-          Destinasi
+          Destinasi Wisata
         </button>
         <button className={`${styles.navItem} ${activeTab === 'potensi' ? styles.navItemActive : ''}`} onClick={() => scrollTo('potensi')}>
-          Potensi
-        </button>
-        <button className={`${styles.navItem} ${activeTab === 'peta' ? styles.navItemActive : ''}`} onClick={() => scrollTo('peta')}>
-          Peta ArcGIS
+          Potensi Desa
         </button>
       </div>
 
@@ -53,69 +51,12 @@ export default function WisataDesa() {
           <span className={styles.hBadge}>Pusat Informasi</span>
           <h1 className={styles.hMain}>Pariwisata & Potensi Desa</h1>
           <p className={styles.hDesc}>
-            Temukan semua informasi lengkap mengenai destinasi unggulan, peta geografis terpadu, hingga kekayaan agrowisata Desa Binanga.
+            Temukan informasi mengenai kondisi alam, wisata unggulan, hingga kekayaan agrowisata Desa Binanga.
           </p>
         </FadeUp>
-
-        {/* Bento Grid (Clean & Bright) */}
-        <StaggerContainer className={styles.bentoGrid}>
-          
-          {/* Highlight Image (span 2x2) */}
-          <StaggerItem className={`${styles.bentoCard} ${styles.bentoHighlight}`}>
-            <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Pesona Binanga" className={styles.bImg} />
-            <div className={styles.bOverlay}>
-              <h3 className={styles.bTitle}>Pesona Alam Asri</h3>
-              <p className={styles.bDesc}>Nikmati kesejukan udara pegunungan dan panorama hijau yang memanjakan mata.</p>
-            </div>
-          </StaggerItem>
-
-          {/* Mini Cards */}
-          <StaggerItem className={`${styles.bentoCard} ${styles.bentoMini}`}>
-            <div className={styles.mIconWrap} style={{ background: '#dcfce7', color: '#16a34a' }}>
-              <Tent size={24} />
-            </div>
-            <h4 className={styles.mTitle}>Camping Ground</h4>
-            <p className={styles.mDesc}>Area perkemahan aman dan nyaman.</p>
-          </StaggerItem>
-          
-          <StaggerItem className={`${styles.bentoCard} ${styles.bentoMini}`}>
-            <div className={styles.mIconWrap} style={{ background: '#e0e7ff', color: '#4f46e5' }}>
-              <CloudSun size={24} />
-            </div>
-            <h4 className={styles.mTitle}>Cuaca Cerah</h4>
-            <p className={styles.mDesc}>Cocok untuk aktivitas outdoor.</p>
-          </StaggerItem>
-
-          {/* Statistic/Info Card */}
-          <StaggerItem className={`${styles.bentoCard} ${styles.bentoStat}`}>
-            <div className={styles.sIconWrap} style={{ background: '#fee2e2', color: '#ef4444' }}>
-              <Users size={24} />
-            </div>
-            <span className={styles.sVal}>12+</span>
-            <span className={styles.sLbl}>Kelompok Sadar Wisata (Pokdarwis) Aktif</span>
-          </StaggerItem>
-
-          {/* Map Link Card */}
-          <StaggerItem className={`${styles.bentoCard} ${styles.bentoMap}`} onClick={() => scrollTo('peta')}>
-            <div className={styles.mapThumbWrap}>
-              <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Peta ArcGIS Preview" />
-            </div>
-            <div className={styles.mapLabel}>
-              <Map size={18} color="#3b82f6" />
-              Lihat Peta ArcGIS
-            </div>
-          </StaggerItem>
-
-          {/* Distance Info */}
-          <StaggerItem className={`${styles.bentoCard} ${styles.bentoStat}`}>
-            <div className={styles.sIconWrap} style={{ background: '#fef3c7', color: '#f59e0b' }}>
-              <Navigation size={24} />
-            </div>
-            <span className={styles.sVal}>45</span>
-            <span className={styles.sLbl}>Menit Berkendara dari Pusat Kota Majene</span>
-          </StaggerItem>
-
-        </StaggerContainer>
+        
+        {/* Geographic Information Bento Grid */}
+        <GeographicDashboard />
 
         {/* Destinasi Wisata */}
         <div id="destinasi" className={styles.section}>
@@ -137,13 +78,18 @@ export default function WisataDesa() {
                   <div className={styles.dMeta}>
                     <div className={styles.mItem}>
                       <div className={styles.mIconWrap}><Clock size={16} /></div>
-                      <span className={styles.mText}>08:00 - 17:00</span>
+                      <span className={styles.mText}>{item.jamBuka || '08:00 - 17:00'}</span>
                     </div>
                     <div className={styles.mItem}>
                       <div className={styles.mIconWrap}><Ticket size={16} style={{ color: '#10b981' }} /></div>
                       <span className={styles.mText}>TBD</span>
                     </div>
                   </div>
+                  {item.linkMaps && (
+                    <a href={item.linkMaps} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '14px', color: '#3b82f6', textDecoration: 'none', fontWeight: 600, marginTop: '12px' }}>
+                      <Map size={16} /> Lihat di Peta
+                    </a>
+                  )}
                 </div>
               </StaggerItem>
             )) : <p style={{ color: '#64748b' }}>Belum ada data destinasi wisata.</p>}
@@ -166,6 +112,11 @@ export default function WisataDesa() {
                 <div className={styles.pContent}>
                   <h3 className={styles.pTitle}>{item.nama} <span style={{ fontSize: '0.8rem', padding: '4px 8px', background: '#fef3c7', color: '#f59e0b', borderRadius: '4px', marginLeft: '12px', verticalAlign: 'middle' }}>{item.kategori}</span></h3>
                   <p className={styles.pDesc}>{item.deskripsi}</p>
+                  {item.linkMaps && (
+                    <a href={item.linkMaps} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '14px', color: '#f59e0b', textDecoration: 'none', fontWeight: 600, marginTop: '8px' }}>
+                      <Map size={16} /> Lokasi Potensi
+                    </a>
+                  )}
                 </div>
               </StaggerItem>
             )) : <p style={{ color: '#64748b' }}>Belum ada data potensi desa.</p>}

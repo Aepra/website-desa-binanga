@@ -21,21 +21,6 @@ const menuItems = [
     href: '/profil-desa',
   },
   {
-    title: 'Data & Statistik',
-    items: [
-      { title: 'Data Kependudukan', href: '/data-statistik#kependudukan' },
-      { title: 'Transparansi APBDes', href: '/data-statistik#apbdes' },
-    ],
-  },
-  {
-    title: 'Berita & Agenda',
-    href: '/berita-agenda',
-  },
-  {
-    title: 'UMKM',
-    href: '/umkm',
-  },
-  {
     title: 'Wisata & Potensi Desa',
     items: [
       { title: 'Ikhtisar', href: '/wisata#bento' },
@@ -45,8 +30,23 @@ const menuItems = [
     ],
   },
   {
-    title: 'Kontak',
-    href: '/kontak',
+    title: 'UMKM',
+    href: '/umkm',
+  },
+  {
+    title: 'Berita & Agenda',
+    href: '/berita-agenda',
+  },
+  {
+    title: 'Data & Statistik',
+    items: [
+      { title: 'Data Kependudukan', href: '/data-statistik#kependudukan' },
+      { title: 'Transparansi APBDes', href: '/data-statistik#apbdes' },
+    ],
+  },
+  {
+    title: 'Layanan',
+    href: '/layanan',
   },
 ];
 

@@ -33,10 +33,12 @@ export async function createUMKM(formData: FormData) {
   });
   revalidatePath('/admin/umkm');
   revalidatePath('/');
+  revalidatePath('/home');
 }
 
 export async function deleteUMKM(id: string) {
   await prisma.umkm.delete({ where: { id } });
   revalidatePath('/admin/umkm');
   revalidatePath('/');
+  revalidatePath('/home');
 }

@@ -30,6 +30,9 @@ export interface Wisata {
   kategori: string;
   foto: string;
   deskripsi: string;
+  harga?: number | null;
+  jamBuka?: string | null;
+  linkMaps?: string | null;
 }
 
 export interface Statistik {
@@ -61,11 +64,19 @@ export async function getStatistikDB(): Promise<Statistik> {
 
   if (latestPenduduk) {
     const tahun = latestPenduduk.tahunData;
-    totalPenduduk = await prisma.penduduk.count({ where: { tahunData: tahun, status: 'AKTIF' } });
+    totalPenduduk = await prisma.penduduk.count({
+      where: {
+        tahunData: tahun,
+        status: 'AKTIF'
+      }
+    });
     
     // Total KK = jumlah unique KK
     const kks = await prisma.penduduk.findMany({
-      where: { tahunData: tahun, status: 'AKTIF' },
+      where: {
+        tahunData: tahun,
+        status: 'AKTIF'
+      },
       select: { noKk: true },
       distinct: ['noKk']
     });
