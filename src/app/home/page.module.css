@@ -856,7 +856,7 @@
   }
   .welcomeImageWrapper {
     width: 100%;
-    max-width: 160px; /* Diperkecil dari 240px agar proporsional di HP */
+    max-width: 160px;
     flex: 0 0 auto;
     margin: 0 auto;
     display: flex;
@@ -873,11 +873,11 @@
     height: auto;
   }
   .welcomeNameplate h4 {
-    font-size: 1.05rem; /* Diperkecil */
+    font-size: 1.05rem;
     margin: 0 0 2px 0;
   }
   .welcomeNameplate p {
-    font-size: 0.75rem; /* Diperkecil */
+    font-size: 0.75rem;
     margin: 0;
   }
   .welcomeContent {
@@ -885,12 +885,12 @@
     width: 100%;
   }
   .welcomeContent h2 {
-    font-size: 1.35rem !important; /* Diperkecil dari 1.6rem */
+    font-size: 1.35rem !important;
     margin-bottom: 12px;
     justify-content: center;
   }
   .welcomeText {
-    font-size: 0.85rem; /* Diperkecil dari 0.95rem */
+    font-size: 0.85rem;
     line-height: 1.6;
     max-height: 250px;
     padding-right: 8px;
@@ -1075,8 +1075,252 @@
   .mapCard {
     padding: 16px;
     border-radius: 16px;
+    max-width: 100%;
   }
   .mapCard h3 {
     font-size: 1rem !important;
+  }
+}
+
+/* =============================================
+   RESPONSIVE — Small Mobile (≤ 480px)
+   ============================================= */
+@media (max-width: 480px) {
+  /* --- HERO: Ultra Compact --- */
+  .heroLogo {
+    width: 42px;
+    height: 42px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+  }
+  .badge {
+    font-size: 0.55rem;
+    padding: 3px 10px;
+    margin-bottom: 10px;
+  }
+  .mainTitle {
+    font-size: 1.65rem;
+    margin-bottom: 4px;
+  }
+  .subTitle {
+    font-size: 0.82rem;
+    margin-bottom: 10px;
+  }
+  .tagline {
+    font-size: 0.78rem;
+    margin-bottom: 18px;
+    line-height: 1.5;
+    max-width: 100%;
+  }
+  .ctaGroup {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .primaryBtn, .secondaryBtn {
+    width: 100% !important;
+    flex: none !important;
+    text-align: center;
+    font-size: 0.78rem !important;
+    padding: 11px 16px !important;
+    min-width: 0 !important;
+  }
+
+  /* --- SERVICES: 4 col ultra small --- */
+  .servicesSection {
+    padding: 28px 4%;
+  }
+  .servicesGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px 4px;
+  }
+  .serviceIcon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+  }
+  .serviceIcon svg {
+    width: 18px;
+    height: 18px;
+  }
+  .serviceTitle {
+    font-size: 0.58rem;
+  }
+
+  /* --- SECTION PADDING --- */
+  .newsSection, .potensiSection, .apbdesSection, .galeriSection, .statsSection, .mapSection, .adminSection {
+    padding: 36px 4%;
+  }
+  .welcomeSection {
+    padding: 30px 4%;
+  }
+  .sectionHeader {
+    margin-bottom: 18px;
+  }
+  .sectionTitle {
+    font-size: 1.25rem;
+    margin-bottom: 6px;
+  }
+  .sectionHeader p {
+    font-size: 0.78rem;
+  }
+
+  /* --- WELCOME KADES --- */
+  .welcomeImageWrapper {
+    max-width: 130px;
+    gap: 8px;
+  }
+  .welcomeImage {
+    border: 3px solid #ffffff;
+    border-radius: 14px;
+  }
+  .welcomeNameplate h4 {
+    font-size: 0.92rem;
+  }
+  .welcomeNameplate p {
+    font-size: 0.68rem;
+  }
+  .welcomeContent h2 {
+    font-size: 1.15rem !important;
+  }
+  .welcomeText {
+    font-size: 0.8rem;
+    line-height: 1.55;
+    max-height: 200px;
+  }
+
+  /* --- BERITA --- */
+  .newsGrid {
+    gap: 14px;
+  }
+  .newsImage {
+    height: 130px;
+  }
+  .newsContent {
+    padding: 14px;
+  }
+  .newsTitle {
+    font-size: 0.95rem;
+  }
+  .newsSummary {
+    font-size: 0.75rem;
+  }
+  .newsMeta {
+    font-size: 0.7rem;
+  }
+
+  /* --- POTENSI & INFRASTRUKTUR --- */
+  .potensiGrid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .potensiImage {
+    height: 140px;
+  }
+  .potensiContent {
+    padding: 14px;
+  }
+  .potensiContent h3 {
+    font-size: 0.92rem;
+  }
+  .potensiContent p {
+    font-size: 0.78rem;
+    line-height: 1.5;
+  }
+
+  /* --- APBDES --- */
+  .apbdesCard {
+    padding: 16px;
+    border-radius: 14px;
+  }
+  .apbdesIconWrapper {
+    width: 40px;
+    height: 40px;
+    margin-right: 12px;
+    border-radius: 10px;
+  }
+  .apbdesCard h4 {
+    font-size: 0.7rem;
+    width: calc(100% - 52px);
+  }
+  .apbdesAmount {
+    font-size: 1.05rem;
+    width: calc(100% - 52px);
+  }
+  .progressBarWrapper {
+    margin-top: 12px;
+  }
+
+  /* --- STATS --- */
+  .statsGrid {
+    gap: 10px;
+  }
+  .statItem {
+    padding: 16px 10px;
+    border-radius: 14px;
+  }
+  .statItem:nth-child(4) {
+    padding: 18px;
+  }
+  .statItem:nth-child(4) .statValue {
+    font-size: 1.8rem;
+  }
+  .statValue {
+    font-size: 1.35rem;
+  }
+  .statLabel {
+    font-size: 0.6rem;
+    letter-spacing: 0.5px;
+  }
+
+  /* --- GALERI --- */
+  .galeriGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .galeriItem {
+    height: 110px;
+    border-radius: 10px;
+  }
+
+  /* --- ADMIN --- */
+  .adminContainer {
+    gap: 28px;
+  }
+  .adminList li {
+    font-size: 0.82rem;
+    gap: 8px;
+  }
+  .hierarchyBox {
+    padding: 10px;
+    font-size: 0.68rem;
+    min-width: 100px;
+    border-radius: 10px;
+  }
+  .hierarchyLineVertical {
+    height: 18px;
+  }
+  .hierarchyRow {
+    gap: 8px;
+  }
+  .primaryButton {
+    font-size: 0.82rem;
+    padding: 10px 18px;
+    margin-top: 20px;
+  }
+
+  /* --- PETA --- */
+  .mapContainer {
+    height: 280px;
+    border-radius: 16px;
+  }
+  .mapCard {
+    padding: 12px;
+    border-radius: 12px;
+  }
+  .mapCard h3 {
+    font-size: 0.88rem !important;
+  }
+  .mapCard p {
+    font-size: 0.75rem !important;
   }
 }
