@@ -327,6 +327,7 @@ export default function OrgChart({ data, onCreate, onDelete, readOnly = false, c
           <ul>
             {kades ? (
             <li>
+              {renderGroupTitle('Kepala Desa', 'KADES')}
               {renderCard(kades, 'SEKDES', true)}
               
               {(sekdes.length > 0 || kaur.length > 0 || kasi.length > 0 || kadus.length > 0) && (
