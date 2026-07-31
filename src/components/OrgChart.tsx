@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Plus, X, Trash2, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
+import { Plus, X, Trash2, ZoomIn, ZoomOut, RotateCcw, Loader2 } from 'lucide-react';
 import PhotoUploader from './PhotoUploader';
+import LoadingOverlay from './LoadingOverlay';
 
 interface Perangkat {
   id: string;
@@ -479,8 +480,9 @@ export default function OrgChart({ data, onCreate, onDelete, readOnly = false, c
               <PhotoUploader name="foto" label="Foto Pegawai (Rasio 3:4 disarankan)" aspect={3/4} />
 
               <div style={{ display: 'flex', gap: '12px', marginTop: '32px' }}>
-                <button type="button" onClick={() => setIsModalOpen(false)} style={{ flex: 1, padding: '12px', background: '#f1f5f9', color: '#475569', border: 'none', borderRadius: '8px', fontWeight: 600, cursor: 'pointer' }}>Batal</button>
-                <button type="submit" disabled={isSubmitting} style={{ flex: 1, padding: '12px', background: '#3b82f6', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: 600, cursor: isSubmitting ? 'not-allowed' : 'pointer' }}>
+                <button type="button" onClick={() => setIsModalOpen(false)} style={{ flex: 1, padding: '12px', background: '#f1f5f9', color: '#475569', border: 'none', borderRadius: '8px', fontWeight: 600, cursor: 'pointer' }} disabled={isSubmitting}>Batal</button>
+                <button type="submit" disabled={isSubmitting} style={{ flex: 1, padding: '12px', background: '#3b82f6', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: 600, cursor: isSubmitting ? 'not-allowed' : 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                  {isSubmitting ? <Loader2 size={18} style={{ animation: 'spin 1s linear infinite' }} /> : null}
                   {isSubmitting ? 'Menyimpan...' : 'Simpan Data'}
                 </button>
               </div>
@@ -488,6 +490,7 @@ export default function OrgChart({ data, onCreate, onDelete, readOnly = false, c
           </div>
         </div>
       )}
+      <LoadingOverlay show={isSubmitting} />
     </div>
   );
 }

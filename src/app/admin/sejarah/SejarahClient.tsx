@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { createSejarah, updateSejarah, deleteSejarah } from '@/server/actions/sejarah.action';
-import { Plus, Edit2, Trash2, Save, X, BookOpen } from 'lucide-react';
+import { Plus, Edit2, Trash2, Save, X, BookOpen, Loader2 } from 'lucide-react';
+import LoadingOverlay from '@/components/LoadingOverlay';
 
 export default function SejarahClient({ initialData }: { initialData: any[] }) {
   const [data, setData] = useState(initialData);
@@ -116,7 +117,9 @@ export default function SejarahClient({ initialData }: { initialData: any[] }) {
                     </td>
                     <td style={{ padding: '16px', textAlign: 'center' }}>
                       <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
-                        <button onClick={() => handleSave(item.id)} disabled={isSaving} style={{ padding: '8px', background: '#10b981', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer' }}><Save size={16} /></button>
+                        <button onClick={() => handleSave(item.id)} disabled={isSaving} style={{ padding: '8px', background: '#10b981', color: 'white', border: 'none', borderRadius: '6px', cursor: isSaving ? 'not-allowed' : 'pointer' }}>
+                          {isSaving ? <Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} /> : <Save size={16} />}
+                        </button>
                         <button onClick={handleCancel} style={{ padding: '8px', background: '#ef4444', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer' }}><X size={16} /></button>
                       </div>
                     </td>
@@ -152,6 +155,7 @@ export default function SejarahClient({ initialData }: { initialData: any[] }) {
           </tbody>
         </table>
       </div>
+      <LoadingOverlay show={isSaving} />
     </div>
   );
 }

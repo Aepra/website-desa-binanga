@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { deleteWisata, updateWisata } from '@/server/actions/wisata.action';
-import { Edit2, Trash2, X, Map, Clock } from 'lucide-react';
+import { Edit2, Trash2, X, Map, Clock, Loader2 } from 'lucide-react';
+import LoadingOverlay from '@/components/LoadingOverlay';
 
 export default function WisataTable({ data }: { data: any[] }) {
   const [editingItem, setEditingItem] = useState<any | null>(null);
@@ -151,8 +152,9 @@ export default function WisataTable({ data }: { data: any[] }) {
               </div>
               
               <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '8px' }}>
-                <button type="button" onClick={() => setEditingItem(null)} style={{ padding: '10px 16px', background: '#f1f5f9', color: '#64748b', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 600 }}>Batal</button>
-                <button type="submit" disabled={isSaving} style={{ padding: '10px 16px', background: '#3b82f6', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 600 }}>
+                <button type="button" onClick={() => setEditingItem(null)} style={{ padding: '10px 16px', background: '#f1f5f9', color: '#64748b', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 600 }} disabled={isSaving}>Batal</button>
+                <button type="submit" disabled={isSaving} style={{ padding: '10px 16px', background: '#3b82f6', color: '#fff', border: 'none', borderRadius: '6px', cursor: isSaving ? 'not-allowed' : 'pointer', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                  {isSaving ? <Loader2 size={18} style={{ animation: 'spin 1s linear infinite' }} /> : null}
                   {isSaving ? 'Menyimpan...' : 'Simpan Perubahan'}
                 </button>
               </div>
@@ -160,6 +162,7 @@ export default function WisataTable({ data }: { data: any[] }) {
           </div>
         </div>
       )}
+      <LoadingOverlay show={isSaving} />
     </>
   );
 }

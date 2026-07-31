@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { UserPlus, Trash2, ShieldCheck, Mail, User as UserIcon, Search, AlertCircle, X } from 'lucide-react';
+import { UserPlus, Trash2, ShieldCheck, Mail, User as UserIcon, Search, AlertCircle, X, Loader2 } from 'lucide-react';
+import LoadingOverlay from '@/components/LoadingOverlay';
 import { createAdminUser, deleteAdminUser } from '@/server/actions/admin-user.action';
 import styles from '../Admin.module.css';
 
@@ -212,10 +213,11 @@ export default function KelolaAdminClient({ initialUsers }: { initialUsers: Admi
               </div>
 
               <div style={{ padding: '12px 20px', background: '#f8fafc', borderTop: '1px solid #e2e8f0', display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
-                <button type="button" onClick={() => setShowModal(false)} style={{ background: '#e2e8f0', color: '#475569', border: 'none', padding: '7px 14px', borderRadius: '6px', fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer' }}>
+                <button type="button" onClick={() => setShowModal(false)} style={{ background: '#e2e8f0', color: '#475569', border: 'none', padding: '7px 14px', borderRadius: '6px', fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer' }} disabled={loading}>
                   Batal
                 </button>
-                <button type="submit" disabled={loading} className={styles.primaryBtn} style={{ background: '#10b981' }}>
+                <button type="submit" disabled={loading} className={styles.primaryBtn} style={{ background: '#10b981', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                  {loading ? <Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} /> : null}
                   {loading ? 'Menyimpan...' : 'Simpan Admin'}
                 </button>
               </div>
@@ -223,6 +225,7 @@ export default function KelolaAdminClient({ initialUsers }: { initialUsers: Admi
           </div>
         </div>
       )}
+      <LoadingOverlay show={loading} />
     </div>
   );
 }

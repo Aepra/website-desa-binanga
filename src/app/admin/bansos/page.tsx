@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { getBansos, addBansos, updateBansos, deleteBansos } from '@/server/actions/bansos.action';
-import { Edit2, Trash2, Plus, Search, Check, X } from 'lucide-react';
+import { Edit2, Trash2, Plus, Search, Check, X, Loader2 } from 'lucide-react';
+import LoadingOverlay from '@/components/LoadingOverlay';
 import styles from '../Admin.module.css';
 
 type BansosItem = {
@@ -17,6 +18,7 @@ type BansosItem = {
 export default function BansosAdminPage() {
   const [items, setItems] = useState<BansosItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
   
   // Form State
   const [isOpen, setIsOpen] = useState(false);
@@ -72,13 +74,18 @@ export default function BansosAdminPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (editingId) {
-      await updateBansos(editingId, formData);
-    } else {
-      await addBansos(formData);
+    setIsSaving(true);
+    try {
+      if (editingId) {
+        await updateBansos(editingId, formData);
+      } else {
+        await addBansos(formData);
+      }
+      handleCloseForm();
+      await loadData();
+    } finally {
+      setIsSaving(false);
     }
-    handleCloseForm();
-    loadData();
   };
 
   const handleDelete = async (id: string) => {
@@ -249,13 +256,17 @@ export default function BansosAdminPage() {
               </div>
 
               <div className={styles.modalFooter}>
-                <button type="button" onClick={handleCloseForm} className={styles.outlineBtn}>Batal</button>
-                <button type="submit" className={styles.primaryBtn}>Simpan Data</button>
+                <button type="button" onClick={handleCloseForm} className={styles.outlineBtn} disabled={isSaving}>Batal</button>
+                <button type="submit" className={styles.primaryBtn} disabled={isSaving} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                  {isSaving ? <Loader2 size={18} style={{ animation: 'spin 1s linear infinite' }} /> : null}
+                  {isSaving ? 'Menyimpan...' : 'Simpan Data'}
+                </button>
               </div>
             </form>
           </div>
         </div>
       )}
+      <LoadingOverlay show={isSaving} />
     </div>
   );
 }

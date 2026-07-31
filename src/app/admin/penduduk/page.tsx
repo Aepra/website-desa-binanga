@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { getSemuaPenduduk, addPenduduk, updatePenduduk, deletePenduduk, PendudukData } from '@/server/actions/penduduk.action';
-import { Edit2, Trash2, Plus, Search, Check, X, FileText, Download } from 'lucide-react';
+import { Edit2, Trash2, Plus, Search, Check, X, FileText, Download, Loader2 } from 'lucide-react';
+import LoadingOverlay from '@/components/LoadingOverlay';
 import styles from './penduduk.module.css';
 
 type PendudukItem = PendudukData & { id: string };
@@ -19,6 +20,7 @@ const PEKERJAAN_OPTIONS = ["Belum/Tidak Bekerja", "Mengurus Rumah Tangga", "Pela
 export default function PendudukAdminPage() {
   const [items, setItems] = useState<PendudukItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
   
   // Filter state
   const [filterTahun, setFilterTahun] = useState<number>(new Date().getFullYear());
@@ -93,13 +95,18 @@ export default function PendudukAdminPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (editingId) {
-      await updatePenduduk(editingId, formData);
-    } else {
-      await addPenduduk(formData);
+    setIsSaving(true);
+    try {
+      if (editingId) {
+        await updatePenduduk(editingId, formData);
+      } else {
+        await addPenduduk(formData);
+      }
+      handleCloseForm();
+      await loadData();
+    } finally {
+      setIsSaving(false);
     }
-    handleCloseForm();
-    loadData();
   };
 
   const handleDelete = async (id: string) => {
@@ -325,15 +332,17 @@ export default function PendudukAdminPage() {
               </div>
               
               <div className={styles.modalFooter} style={{ marginTop: '24px' }}>
-                <button type="button" className={styles.btnSecondary} onClick={handleCloseForm}>Batal</button>
-                <button type="submit" className={styles.btnPrimary}>
-                  <Check size={18} /> Simpan Data
+                <button type="button" className={styles.btnSecondary} onClick={handleCloseForm} disabled={isSaving}>Batal</button>
+                <button type="submit" className={styles.btnPrimary} disabled={isSaving}>
+                  {isSaving ? <Loader2 size={18} style={{ animation: 'spin 1s linear infinite' }} /> : <Check size={18} />}
+                  {isSaving ? 'Menyimpan...' : 'Simpan Data'}
                 </button>
               </div>
             </form>
           </div>
         </div>
       )}
+      <LoadingOverlay show={isSaving} />
     </div>
   );
 }
