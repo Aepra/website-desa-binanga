@@ -92,12 +92,14 @@ export default function InfrastrukturClient({ initialData, dusunList }: { initia
         <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
           <thead>
             <tr style={{ background: '#f8fafc', borderBottom: '2px solid #e2e8f0' }}>
-              <th style={{ padding: '16px', color: '#0f172a', width: '80px' }}>Foto</th>
-              <th style={{ padding: '16px', color: '#0f172a', width: '200px' }}>Nama Fasilitas</th>
-              <th style={{ padding: '16px', color: '#0f172a', width: '150px' }}>Kategori</th>
-              <th style={{ padding: '16px', color: '#0f172a', width: '150px' }}>Dusun</th>
+              <th style={{ padding: '16px', color: '#0f172a', width: '70px' }}>Foto</th>
+              <th style={{ padding: '16px', color: '#0f172a', width: '180px' }}>Nama Fasilitas</th>
+              <th style={{ padding: '16px', color: '#0f172a', width: '140px' }}>Kategori</th>
+              <th style={{ padding: '16px', color: '#0f172a', width: '120px' }}>Dusun</th>
               <th style={{ padding: '16px', color: '#0f172a' }}>Deskripsi</th>
-              <th style={{ padding: '16px', color: '#0f172a', textAlign: 'center', width: '150px' }}>Aksi</th>
+              <th style={{ padding: '16px', color: '#0f172a', width: '150px' }}>Google Maps</th>
+              <th style={{ padding: '16px', color: '#0f172a', width: '130px' }}>Diperbarui</th>
+              <th style={{ padding: '16px', color: '#0f172a', textAlign: 'center', width: '100px' }}>Aksi</th>
             </tr>
           </thead>
           <tbody>
@@ -151,13 +153,18 @@ export default function InfrastrukturClient({ initialData, dusunList }: { initia
                       <div style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '4px', textAlign: 'right' }}>
                         Maks 225 karakter
                       </div>
+                    </td>
+                    <td style={{ padding: '16px' }}>
                       <input 
                         type="text" 
                         value={editForm.linkMaps || ''} 
                         onChange={e => setEditForm({...editForm, linkMaps: e.target.value})} 
-                        placeholder="Link Google Maps (opsional)"
-                        style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid #cbd5e1', marginTop: '8px' }} 
+                        placeholder="Link Maps"
+                        style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid #cbd5e1' }} 
                       />
+                    </td>
+                    <td style={{ padding: '16px', fontSize: '0.8rem', color: '#64748b' }}>
+                      {item.updatedAt ? new Date(item.updatedAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '-'}
                     </td>
                     <td style={{ padding: '16px', textAlign: 'center' }}>
                       <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
@@ -187,13 +194,20 @@ export default function InfrastrukturClient({ initialData, dusunList }: { initia
                     </td>
                     <td style={{ padding: '16px', color: '#475569', fontWeight: 600 }}>{item.dusun}</td>
                     <td style={{ padding: '16px', color: '#475569', fontSize: '0.9rem' }}>
-                      <div style={{ marginBottom: '8px' }}>{item.deskripsi}</div>
-                      {item.linkMaps && (
-                        <a href={item.linkMaps} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '0.8rem', color: '#2563eb', textDecoration: 'none', background: '#eff6ff', padding: '4px 8px', borderRadius: '4px', fontWeight: 500 }}>
+                      <div>{item.deskripsi}</div>
+                    </td>
+                    <td style={{ padding: '16px' }}>
+                      {item.linkMaps ? (
+                        <a href={item.linkMaps} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '0.8rem', color: '#2563eb', textDecoration: 'none', background: '#eff6ff', border: '1px solid #bfdbfe', padding: '4px 8px', borderRadius: '4px', fontWeight: 500 }}>
                           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                          Lihat di Maps
+                          Lihat Maps
                         </a>
+                      ) : (
+                        <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>-</span>
                       )}
+                    </td>
+                    <td style={{ padding: '16px', fontSize: '0.8rem', color: '#64748b' }}>
+                      {item.updatedAt ? new Date(item.updatedAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : '-'}
                     </td>
                     <td style={{ padding: '16px', textAlign: 'center' }}>
                       <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
@@ -207,7 +221,7 @@ export default function InfrastrukturClient({ initialData, dusunList }: { initia
             ))}
             {data.length === 0 && (
               <tr>
-                <td colSpan={6} style={{ padding: '32px', textAlign: 'center', color: '#64748b' }}>
+                <td colSpan={8} style={{ padding: '32px', textAlign: 'center', color: '#64748b' }}>
                   Belum ada data infrastruktur/fasilitas.
                 </td>
               </tr>

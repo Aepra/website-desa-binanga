@@ -760,11 +760,41 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
                     <div className={fasStyles.fasBadge}>{item.kategori}</div>
                   </div>
                   <div className={fasStyles.fasBody}>
-                    <div className={fasStyles.fasDusunTag}>
-                      <MapPin size={12} /> {item.dusun}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                      <div className={fasStyles.fasDusunTag}>
+                        <MapPin size={12} /> Dusun {item.dusun}
+                      </div>
+                      {item.updatedAt && (
+                        <div style={{ fontSize: '0.72rem', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <Clock size={11} /> {new Date(item.updatedAt).toLocaleDateString('id-ID', { month: 'short', year: 'numeric' })}
+                        </div>
+                      )}
                     </div>
                     <h3 className={fasStyles.fasTitle}>{item.nama}</h3>
                     <p className={fasStyles.fasDesc}>{item.deskripsi}</p>
+                    {item.linkMaps && (
+                      <a 
+                        href={item.linkMaps} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        style={{ 
+                          display: 'inline-flex', 
+                          alignItems: 'center', 
+                          gap: '6px', 
+                          fontSize: '0.8rem', 
+                          color: '#38bdf8', 
+                          background: 'rgba(56, 189, 248, 0.12)', 
+                          border: '1px solid rgba(56, 189, 248, 0.25)', 
+                          padding: '6px 12px', 
+                          borderRadius: '6px', 
+                          fontWeight: 600, 
+                          marginTop: '12px', 
+                          textDecoration: 'none' 
+                        }}
+                      >
+                        <MapPin size={13} /> Petunjuk Lokasi Maps
+                      </a>
+                    )}
                   </div>
                 </div>
               ))}
