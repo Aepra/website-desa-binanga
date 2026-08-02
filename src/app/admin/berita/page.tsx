@@ -16,7 +16,7 @@ export default async function BeritaPage() {
         </summary>
         
         <div style={{ padding: '0 24px 24px 24px', borderTop: '1px solid #f1f5f9', paddingTop: '24px' }}>
-          <form action={createBerita} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+          <form action={createBerita} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '16px' }}>
             
             <div style={{ gridColumn: '1 / -1' }}>
               <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600, color: '#334155' }}>Judul Publikasi</label>

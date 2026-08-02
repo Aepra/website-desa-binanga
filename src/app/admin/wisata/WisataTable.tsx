@@ -33,7 +33,8 @@ export default function WisataTable({ data }: { data: any[] }) {
 
   return (
     <>
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+      <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', maxWidth: '100%' }}>
+        <table style={{ width: '100%', minWidth: '650px', borderCollapse: 'collapse' }}>
         <thead>
           <tr style={{ background: '#f8fafc', borderBottom: '2px solid #e2e8f0', textAlign: 'left' }}>
             <th style={{ padding: '12px' }}>Nama</th>
@@ -92,6 +93,7 @@ export default function WisataTable({ data }: { data: any[] }) {
           )}
         </tbody>
       </table>
+      </div>
 
       {editingItem && (
         <div style={{

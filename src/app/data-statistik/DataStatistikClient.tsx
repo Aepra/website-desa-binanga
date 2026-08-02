@@ -10,18 +10,30 @@ import {
   PieChart, Pie, Cell, Legend,
 } from 'recharts';
 import styles from './statistik.module.css';
+import kpiStyles from './kpi.module.css';
+import LoadingOverlay from '@/components/LoadingOverlay';
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 // Hardcoded data removed. Data is now fetched dynamically from database.
+
+// Helper to format numbers with Indonesian locale
+const formatNumber = (num) => new Intl.NumberFormat('id-ID').format(num);
+
 export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, dbApbdesList = [], dbInfrastrukturList = [] }: { dbGlobalStats?: any, dbDusunList?: any[], latestYear?: number, dbApbdesList?: any[], dbInfrastrukturList?: any[] }) {
   const [mounted, setMounted] = useState(false);
   const [selectedDusun, setSelectedDusun] = useState<string | null>(null);
 
+  // Defensive defaults for data props
+  const globalStats = dbGlobalStats ?? {};
+  const dusunList = dbDusunList ?? [];
+  const apbdesList = dbApbdesList ?? [];
+  const infrastrukturList = dbInfrastrukturList ?? [];
+
   // Default to active APBDes, or the first available
-  const defaultApbdes = dbApbdesList.find(a => a.isAktif) || dbApbdesList[0];
+  const defaultApbdes = apbdesList.find(a => a.isAktif) || apbdesList[0];
   const [selectedApbdesId, setSelectedApbdesId] = useState<string | null>(defaultApbdes?.id || null);
 
-  const currentApbdes = dbApbdesList.find(a => a.id === selectedApbdesId);
+  const currentApbdes = apbdesList.find(a => a.id === selectedApbdesId);
 
   useEffect(() => { 
     setMounted(true);
@@ -132,19 +144,19 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
   let pekerjaanData = dbGlobalStats?.pekerjaanData || [];
   let golDarahData = dbGlobalStats?.golDarahData || [];
 
-  const totalJiwa = dbGlobalStats?.totalPenduduk || dynamicPendudukDusun.reduce((s: any, d: any) => s + d.jiwa, 0) || 10;
-  const totalKK   = dbGlobalStats?.totalKk || dynamicPendudukDusun.reduce((s: any, d: any) => s + d.kk, 0) || 8;
-  const totalLaki = dbGlobalStats?.lakiLaki || dynamicPendudukDusun.reduce((s: any, d: any) => s + d.lakiLaki, 0) || 6;
-  const totalPrp  = dbGlobalStats?.perempuan || dynamicPendudukDusun.reduce((s: any, d: any) => s + d.perempuan, 0) || 4;
-  const pctLaki   = totalJiwa > 0 ? Math.round((totalLaki / totalJiwa) * 100) : 60;
-  const pctPrp    = totalJiwa > 0 ? Math.round((totalPrp / totalJiwa) * 100) : 40;
-  const luasDesa  = dbGlobalStats?.luasDesaHa || 191; 
+  const totalJiwa = globalStats?.totalPenduduk ?? dynamicPendudukDusun.reduce((s: any, d: any) => s + d.jiwa, 0) ?? 0;
+  const totalKK   = globalStats?.totalKk ?? dynamicPendudukDusun.reduce((s: any, d: any) => s + d.kk, 0) ?? 0;
+  const totalLaki = globalStats?.lakiLaki ?? dynamicPendudukDusun.reduce((s: any, d: any) => s + d.lakiLaki, 0) ?? 0;
+  const totalPrp  = globalStats?.perempuan ?? dynamicPendudukDusun.reduce((s: any, d: any) => s + d.perempuan, 0) ?? 0;
+  const pctLaki   = totalJiwa > 0 ? Math.round((totalLaki / totalJiwa) * 100) : 0;
+  const pctPrp    = totalJiwa > 0 ? Math.round((totalPrp / totalJiwa) * 100) : 0;
+  const luasDesa  = globalStats?.luasDesaHa ?? 0; 
   const kepadatanPenduduk = dbGlobalStats?.kepadatan || (luasDesa > 0 ? Math.round(totalJiwa / (luasDesa / 100)) : 0);
   const totalDusun = dbDusunList?.length || 4;
   
   const lastUpdatedDate = dbGlobalStats?.updatedAt ? new Date(dbGlobalStats.updatedAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Data Baru';
 
-  if (!mounted) return null;
+  if (!mounted) return <LoadingOverlay show={true} />;
 
   return (
     <div className={styles.page}>
@@ -168,56 +180,56 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
         </div>
 
         {/* ── KPI CARDS ── */}
-        <div className={stylesLocal.kpiGrid}>
-          <div className={`${styles.card} ${stylesLocal.kpiCard}`}>
-            <div className={stylesLocal.kpiIcon} style={{ background: '#eff6ff', color: '#3b82f6' }}>
-              <Users size={22} />
-            </div>
-            <div className={stylesLocal.kpiVal}>{totalJiwa}</div>
-            <div className={stylesLocal.kpiLbl}>Total Jiwa</div>
+        <div className={kpiStyles.kpiGrid}>
+          <div className={`${styles.card} ${kpiStyles.kpiCard}`}>
+            <div className={kpiStyles.kpiIcon} style={{ background: '#eff6ff', color: '#3b82f6' }}>
+                <Users size={22} />
+              </div>
+              <div className={kpiStyles.kpiVal}>{formatNumber(totalJiwa)}</div>
+            <div className={kpiStyles.kpiLbl}>Total Jiwa</div>
           </div>
-          <div className={`${styles.card} ${stylesLocal.kpiCard}`}>
-            <div className={stylesLocal.kpiIcon} style={{ background: '#f0fdf4', color: '#10b981' }}>
-              <Home size={22} />
-            </div>
-            <div className={stylesLocal.kpiVal}>{totalKK}</div>
-            <div className={stylesLocal.kpiLbl}>Kepala Keluarga</div>
-          </div>
-          <div className={`${styles.card} ${stylesLocal.kpiCard}`}>
-            <div className={stylesLocal.kpiIcon} style={{ background: '#eff6ff', color: '#3b82f6' }}>
-              <Users size={22} />
-            </div>
-            <div className={stylesLocal.kpiVal}>{totalLaki} <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#3b82f6' }}>({pctLaki}%)</span></div>
-            <div className={stylesLocal.kpiLbl}>Laki-laki</div>
-          </div>
-          <div className={`${styles.card} ${stylesLocal.kpiCard}`}>
-            <div className={stylesLocal.kpiIcon} style={{ background: '#fdf4ff', color: '#a855f7' }}>
-              <Heart size={22} />
-            </div>
-            <div className={stylesLocal.kpiVal}>{totalPrp} <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#a855f7' }}>({pctPrp}%)</span></div>
-            <div className={stylesLocal.kpiLbl}>Perempuan</div>
-          </div>
-          <div className={`${styles.card} ${stylesLocal.kpiCard}`}>
-            <div className={stylesLocal.kpiIcon} style={{ background: '#fff7ed', color: '#f59e0b' }}>
-              <MapPin size={22} />
-            </div>
-            <div className={stylesLocal.kpiVal}>{totalDusun}</div>
-            <div className={stylesLocal.kpiLbl}>Dusun</div>
-          </div>
-          <div className={`${styles.card} ${stylesLocal.kpiCard}`}>
-            <div className={stylesLocal.kpiIcon} style={{ background: '#f0f9ff', color: '#06b6d4' }}>
-              <TreePine size={22} />
-            </div>
-            <div className={stylesLocal.kpiVal}>{luasDesa} ha</div>
-            <div className={stylesLocal.kpiLbl}>Luas Wilayah</div>
-          </div>
-          <div className={`${styles.card} ${stylesLocal.kpiCard}`}>
-            <div className={stylesLocal.kpiIcon} style={{ background: '#fff1f2', color: '#ef4444' }}>
-              <AlertTriangle size={22} />
-            </div>
-            <div className={stylesLocal.kpiVal}>{kepadatanPenduduk}</div>
-            <div className={stylesLocal.kpiLbl}>Kepadatan Penduduk</div>
-          </div>
+          <div className={`${styles.card} ${kpiStyles.kpiCard}`}>
+                <div className={kpiStyles.kpiIcon} style={{ background: '#f0fdf4', color: '#10b981' }}>
+                  <Home size={22} />
+                </div>
+                <div className={kpiStyles.kpiVal}>{formatNumber(totalKK)}</div>
+                <div className={kpiStyles.kpiLbl}>Kepala Keluarga</div>
+              </div>
+          <div className={`${styles.card} ${kpiStyles.kpiCard}`}>
+                <div className={kpiStyles.kpiIcon} style={{ background: '#eff6ff', color: '#3b82f6' }}>
+                  <Users size={22} />
+                </div>
+                <div className={kpiStyles.kpiVal}>{formatNumber(totalLaki)} <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#3b82f6' }}>({pctLaki}%)</span></div>
+                <div className={kpiStyles.kpiLbl}>Laki-laki</div>
+              </div>
+          <div className={`${styles.card} ${kpiStyles.kpiCard}`}>
+                <div className={kpiStyles.kpiIcon} style={{ background: '#fdf4ff', color: '#a855f7' }}>
+                  <Heart size={22} />
+                </div>
+                <div className={kpiStyles.kpiVal}>{formatNumber(totalPrp)} <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#a855f7' }}>({pctPrp}%)</span></div>
+                <div className={kpiStyles.kpiLbl}>Perempuan</div>
+              </div>
+          <div className={`${styles.card} ${kpiStyles.kpiCard}`}>
+                <div className={kpiStyles.kpiIcon} style={{ background: '#fff7ed', color: '#f59e0b' }}>
+                  <MapPin size={22} />
+                </div>
+                <div className={kpiStyles.kpiVal}>{formatNumber(totalDusun)}</div>
+                <div className={kpiStyles.kpiLbl}>Dusun</div>
+              </div>
+          <div className={`${styles.card} ${kpiStyles.kpiCard}`}>
+                <div className={kpiStyles.kpiIcon} style={{ background: '#f0f9ff', color: '#06b6d4' }}>
+                  <TreePine size={22} />
+                </div>
+                <div className={kpiStyles.kpiVal}>{formatNumber(luasDesa)} ha</div>
+                <div className={kpiStyles.kpiLbl}>Luas Wilayah</div>
+              </div>
+          <div className={`${styles.card} ${kpiStyles.kpiCard}`}>
+                <div className={kpiStyles.kpiIcon} style={{ background: '#fff1f2', color: '#ef4444' }}>
+                  <AlertTriangle size={22} />
+                </div>
+                <div className={kpiStyles.kpiVal}>{formatNumber(kepadatanPenduduk)}</div>
+                <div className={kpiStyles.kpiLbl}>Kepadatan Penduduk</div>
+              </div>
         </div>
 
         <div className={styles.dashboardGrid}>
@@ -248,7 +260,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                   <div className={styles.listValue} style={{ color: '#f472b6' }}>{totalPrp} jiwa</div>
                 </div>
               </div>
-              <div className={stylesLocal.sumberInlineDark} style={{ borderTopColor: '#334155', color: '#64748b' }}>
+              <div className={styles.sumberInlineDark} style={{ borderTopColor: '#334155', color: '#64748b' }}>
                 Sumber: Database Sistem Informasi Desa Binanga (Diperbarui: {lastUpdatedDate})
               </div>
             </div>
@@ -265,12 +277,12 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
               </div>
 
               {/* Gender bar */}
-              <div className={stylesLocal.genderBarWrap}>
+              <div className={styles.genderBarWrap}>
                 <div
-                  className={stylesLocal.genderSegLaki}
+                  className={styles.genderSegLaki}
                   style={{ width: `${Math.round((totalLaki / totalJiwa) * 100)}%` }}
                 />
-                <div className={stylesLocal.genderSegPrp} style={{ flex: 1 }} />
+                <div className={styles.genderSegPrp} style={{ flex: 1 }} />
               </div>
 
               <div className={styles.listStat}>
@@ -302,8 +314,8 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                     <div className={styles.listDot} style={{ background: item.color }} />
                     {item.name}
                   </div>
-                  <div className={stylesLocal.perkawinanRight}>
-                    <div className={stylesLocal.perkawinanBar}>
+                  <div className={styles.perkawinanRight}>
+                    <div className={styles.perkawinanBar}>
                       <div
                         style={{ width: `${Math.round((item.value / Math.max(1, totalKK)) * 100)}%`, background: item.color, height: '100%', borderRadius: '100px' }}
                       />
@@ -312,7 +324,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                   </div>
                 </div>
               ))}
-              <div className={stylesLocal.sumberInline}>
+              <div className={styles.sumberInline}>
                 Sumber: Database Penduduk — Sistem Informasi Desa Binanga.
               </div>
             </div>
@@ -335,7 +347,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                   <div className={styles.listValue} style={{ color: item.color, fontSize: '0.82rem' }}>{item.val}</div>
                 </div>
               ))}
-              <div className={stylesLocal.sumberInlineDark}>
+              <div className={styles.sumberInlineDark}>
                 Sumber: Database Penduduk — Sistem Informasi Desa Binanga.
               </div>
             </div>
@@ -428,7 +440,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                 </div>
               )}
 
-              <div className={stylesLocal.sumberInline}>
+              <div className={styles.sumberInline}>
                 Sumber: Database Penduduk — Sistem Informasi Desa (Real-time)
               </div>
             </div>
@@ -468,7 +480,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
-                <div className={stylesLocal.sumberInline}>
+                <div className={styles.sumberInline}>
                   Sumber: Database Penduduk — Sistem Informasi Desa Binanga.
                 </div>
               </div>
@@ -494,7 +506,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
-                <div className={stylesLocal.sumberInline}>
+                <div className={styles.sumberInline}>
                   Sumber: Data dari Admin Desa.
                 </div>
               </div>
@@ -540,7 +552,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                     </div>
                   ))}
                 </div>
-                <div className={stylesLocal.sumberInline}>
+                <div className={styles.sumberInline}>
                   Sumber: Data dari Admin Desa.
                 </div>
               </div>
@@ -566,7 +578,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
-                <div className={stylesLocal.sumberInline}>
+                <div className={styles.sumberInline}>
                   Sumber: Data dari Admin Desa.
                 </div>
               </div>
@@ -595,7 +607,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                   </BarChart>
                 </ResponsiveContainer>
               </div>
-              <div className={stylesLocal.sumberInline}>
+              <div className={styles.sumberInline}>
                 Sumber: Data Geografis & Lahan Pemerintah Desa Binanga.
               </div>
             </div>
@@ -604,7 +616,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
         </div>
 
         {/* ── FOOTER SUMBER ── */}
-        <div className={stylesLocal.footerSumber}>
+        <div className={styles.footerSumber}>
           <BookOpen size={16} />
           <div>
             <strong>Sumber Data:</strong> Database Terintegrasi Sistem Informasi Desa Binanga &amp; Pemerintah Desa.

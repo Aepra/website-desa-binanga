@@ -11,14 +11,19 @@ export const metadata = {
 export const dynamic = 'force-dynamic';
 
 export default async function DataStatistikPage() {
+  console.log('[SSR] DataStatistikPage started');
   const latestYear = await getLatestStatistikTahun();
+  console.log('[SSR] latestYear:', latestYear);
+  
   const { globalStats, dusunStats } = await getStatistikByTahun(latestYear);
+  console.log('[SSR] getStatistikByTahun finished');
   
   // Fetch APBDes
   const apbdesData = await prisma.apbdes.findMany({
     orderBy: { tahun: 'desc' },
     include: { rincian: true }
   });
+  console.log('[SSR] apbdes fetched');
   
   const serializedApbdesList = apbdesData.map(apbdes => ({
     ...apbdes,

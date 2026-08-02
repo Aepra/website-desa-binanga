@@ -1,15 +1,18 @@
 'use client';
 
-import { useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
   ChevronDown,
   CircleUser,
   Menu,
   X,
+  LayoutDashboard,
+  LogOut
 } from 'lucide-react';
 import styles from './Navbar.module.css';
+import { getCurrentUserSession, logoutUserAction } from '@/server/actions/user-dashboard.action';
 
 const menuItems = [
   {
@@ -52,11 +55,24 @@ const menuItems = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [session, setSession] = useState<any>(null);
+  const [profileOpen, setProfileOpen] = useState(false);
+
+  useEffect(() => {
+    getCurrentUserSession().then(s => setSession(s));
+  }, [pathname]);
 
   if (pathname.startsWith('/admin')) {
     return null;
   }
+
+  const handleLogout = async () => {
+    setProfileOpen(false);
+    setMobileOpen(false);
+    await logoutUserAction();
+  };
 
   return (
     <header className={styles.header}>
@@ -110,16 +126,96 @@ export default function Navbar() {
 
         <div className={styles.rightSection}>
 
-          <div className={styles.adminWrapper}>
-            <button className={styles.adminButton}>
-              <CircleUser size={22} />
-            </button>
+          {session ? (
+            <div style={{ position: 'relative' }}>
+              <button
+                onClick={() => setProfileOpen(!profileOpen)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  background: '#f1f5f9',
+                  border: '1px solid #cbd5e1',
+                  padding: '4px 10px 4px 6px',
+                  borderRadius: '24px',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease'
+                }}
+                title="Akun Saya"
+              >
+                <div style={{
+                  width: '28px', height: '28px', borderRadius: '50%',
+                  background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)', color: '#ffffff',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontWeight: 800, fontSize: '0.8rem', boxShadow: '0 2px 6px rgba(37,99,235,0.25)'
+                }}>
+                  {session.name ? session.name[0].toUpperCase() : 'U'}
+                </div>
+                <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#0f172a', maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {session.name}
+                </span>
+                <ChevronDown size={14} color="#64748b" />
+              </button>
 
-            <div className={styles.adminDropdown}>
-              <Link href="/admin/login">Login Admin</Link>
-              <Link href="/admin">Dashboard</Link>
+              {/* Profile Dropdown Popup */}
+              {profileOpen && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: 'calc(100% + 8px)',
+                    right: 0,
+                    width: '210px',
+                    background: '#ffffff',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '12px',
+                    boxShadow: '0 10px 25px rgba(15,23,42,0.15)',
+                    zIndex: 1000,
+                    padding: '10px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '6px'
+                  }}
+                >
+                  <div style={{ padding: '4px 6px 8px 6px', borderBottom: '1px solid #f1f5f9' }}>
+                    <div style={{ fontWeight: 800, fontSize: '0.85rem', color: '#0f172a' }}>{session.name}</div>
+                    <div style={{ fontSize: '0.72rem', color: '#64748b', wordBreak: 'break-all' }}>{session.username}</div>
+                  </div>
+
+                  <Link
+                    href={session.role === 'ADMIN' || session.role === 'SUPER_ADMIN' ? '/admin/dashboard' : '/user-dashboard'}
+                    onClick={() => setProfileOpen(false)}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: '8px',
+                      padding: '8px', borderRadius: '6px',
+                      textDecoration: 'none', color: '#1e293b', fontWeight: 700,
+                      fontSize: '0.8rem', background: '#eff6ff'
+                    }}
+                  >
+                    <LayoutDashboard size={15} color="#2563eb" />
+                    <span>{session.role === 'ADMIN' || session.role === 'SUPER_ADMIN' ? 'Dashboard Admin' : 'Dashboard Warga'}</span>
+                  </Link>
+
+                  <button
+                    onClick={handleLogout}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: '8px',
+                      padding: '8px', borderRadius: '6px',
+                      border: '1px solid #fecaca', background: '#fef2f2',
+                      color: '#dc2626', fontWeight: 700, fontSize: '0.8rem',
+                      cursor: 'pointer', width: '100%', textAlign: 'left'
+                    }}
+                  >
+                    <LogOut size={15} />
+                    <span>Keluar</span>
+                  </button>
+                </div>
+              )}
             </div>
-          </div>
+          ) : (
+            <Link href="/login" className={styles.adminButton} title="Login">
+              <CircleUser size={22} />
+            </Link>
+          )}
 
           <button
             className={styles.mobileButton}
@@ -169,9 +265,29 @@ export default function Navbar() {
 
           <hr className={styles.mobileDivider} />
 
-          <Link href="/admin/login" onClick={() => setMobileOpen(false)} className={styles.mobileMainLink}>
-            Login Admin
-          </Link>
+          {session ? (
+            <>
+              <Link
+                href={session.role === 'ADMIN' || session.role === 'SUPER_ADMIN' ? '/admin/dashboard' : '/user-dashboard'}
+                onClick={() => setMobileOpen(false)}
+                className={styles.mobileMainLink}
+                style={{ color: '#2563eb', fontWeight: 700 }}
+              >
+                Dashboard {session.role === 'ADMIN' || session.role === 'SUPER_ADMIN' ? 'Admin' : 'Warga'} ({session.name})
+              </Link>
+              <button
+                onClick={handleLogout}
+                className={styles.mobileMainLink}
+                style={{ color: '#dc2626', background: 'none', border: 'none', textAlign: 'left', width: '100%', cursor: 'pointer', fontWeight: 700 }}
+              >
+                Keluar ({session.name})
+              </button>
+            </>
+          ) : (
+            <Link href="/login" onClick={() => setMobileOpen(false)} className={styles.mobileMainLink}>
+              Login / Masuk Warga
+            </Link>
+          )}
 
         </div>
       )}

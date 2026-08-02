@@ -45,7 +45,7 @@ export default async function PengaturanPage() {
 
       <form action={async (formData) => { 'use server'; await savePengaturan(formData); }}>
         
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(480px, 1fr))', gap: '20px', alignItems: 'start', marginBottom: '24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', alignItems: 'start', marginBottom: '24px' }}>
           
           {/* CARD 1: KEPALA DESA & SAMBUTAN */}
           <div style={{ background: '#fff', borderRadius: '14px', border: '1px solid #e2e8f0', boxShadow: '0 2px 10px rgba(0,0,0,0.02)', overflow: 'hidden' }}>

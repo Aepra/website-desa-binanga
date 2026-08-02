@@ -1,0 +1,45 @@
+/* KPI Card Styles */
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.kpiCard {
+  flex-direction: column;
+  align-items: flex-start !important;
+  gap: 8px;
+}
+
+.kpiIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.kpiVal {
+  font-size: 1.7rem;
+  font-weight: 900;
+  color: #0f172a;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.kpiLbl {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #475569;
+  line-height: 1.3;
+}
+
+.kpiSrc {
+  font-size: 0.68rem;
+  color: #94a3b8;
+  font-style: italic;
+  margin-top: 2px;
+}

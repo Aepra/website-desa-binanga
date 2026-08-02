@@ -31,3 +31,20 @@ export async function uploadImage(file: File, folder: string): Promise<string> {
     ).end(buffer);
   });
 }
+
+/**
+ * Uploads up to 5 files to Cloudinary
+ */
+export async function uploadMultipleImages(files: File[], folder: string): Promise<string[]> {
+  const validFiles = files.filter(f => f && f.size > 0).slice(0, 5);
+  const urls: string[] = [];
+  for (const file of validFiles) {
+    try {
+      const url = await uploadImage(file, folder);
+      if (url) urls.push(url);
+    } catch (e) {
+      console.error('Error uploading file to Cloudinary:', e);
+    }
+  }
+  return urls;
+}

@@ -361,7 +361,8 @@ export async function getStatistikByTahun(tahun: number) {
       }
     });
 
-    const dusunStats = await Promise.all(dusunList.map(async (dusun) => {
+    const dusunStats = [];
+    for (const dusun of dusunList) {
       const pDusunPria = await prisma.penduduk.count({
         where: {
           tahunData: tahun,
@@ -444,13 +445,13 @@ export async function getStatistikByTahun(tahun: number) {
         if (manual) Object.assign(computedPendudukDusun, manual);
       }
 
-      return {
+      dusunStats.push({
         ...dusun,
         computed: computedPendudukDusun,
         penduduk: [computedPendudukDusun],
         pendidikanComputed: dusunEdu
-      };
-    }));
+      });
+    }
 
     return { globalStats, dusunStats };
   } catch (error) {

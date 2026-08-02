@@ -98,13 +98,56 @@ model Umkm {
   id          String   @id @default(cuid())
   nama        String
   kategori    String   // KULINER, KERAJINAN, JASA
-  pemilik     String
+  pemilik     String   // Nama Owner
   deskripsi   String   @db.Text
   kontakWa    String?
+  linkMaps    String?  @db.Text
   fotoUrl     String?
+  status      String   @default("DISETUJUI") // PENDING, DISETUJUI, DITOLAK
+  userEmail   String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+// ==========================================
+// USER PUBLIK & LAYANAN DESA
+// ==========================================
+model UserPublik {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  nama      String
+  foto      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Layanan {
+  id           String   @id @default(cuid())
+  userEmail    String
+  namaPemohon  String
+  perihal      String   // Surat Pengantar KTP/KK, SKU, SKTM, Pengaduan, dll
+  judul        String
+  deskripsi    String   @db.Text
+  status       String   @default("MENUNGGU") // MENUNGGU, DIPROSES, SELESAI, DITOLAK
+  fileSuratUrl String?  @db.Text // File surat yang diupload admin untuk di-download user
+  catatanAdmin String?  @db.Text
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  pesanList    LayananPesan[]
+}
+
+model LayananPesan {
+  id           String   @id @default(cuid())
+  layananId    String
+  layanan      Layanan  @relation(fields: [layananId], references: [id], onDelete: Cascade)
+  pengirim     String   // "WARGA" atau "ADMIN"
+  namaPengirim String
+  pesan        String   @db.Text
+  fileUrl      String?  @db.Text // Upload foto KTP/KK (oleh warga) atau PDF Surat (oleh admin)
+  createdAt    DateTime @default(now())
+}
+
 
 // ==========================================
 // DATA STATISTIK LENGKAP

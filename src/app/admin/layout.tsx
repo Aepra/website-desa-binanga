@@ -1,172 +1,487 @@
 'use client';
 
 import React, { useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Home, Users, Map, Settings, LogOut, Database, TreePine, Store, Newspaper, PieChart, Building2, ShieldCheck } from 'lucide-react';
+import {
+  Home,
+  Users,
+  Map,
+  Settings,
+  LogOut,
+  Database,
+  TreePine,
+  Store,
+  Newspaper,
+  PieChart,
+  Building2,
+  ShieldCheck,
+  FileText,
+  Menu,
+  X,
+  ChevronRight
+} from 'lucide-react';
+import { logoutUserAction } from '@/server/actions/user-dashboard.action';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  
+  const router = useRouter();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   if (pathname === '/admin/login') {
     return <>{children}</>;
   }
 
   const menuGroups = [
     {
-      group: 'Home',
+      group: 'Utama',
       items: [
-        { name: 'Dashboard', path: '/admin/dashboard', icon: <Home size={20} /> },
+        { name: 'Dashboard', path: '/admin/dashboard', icon: <Home size={16} /> },
       ]
     },
     {
-      group: 'Profil & Keamanan',
+      group: 'Layanan & Aduan Warga',
       items: [
-        { name: 'Pengaturan Global', path: '/admin/pengaturan', icon: <Settings size={18} /> },
-        { name: 'Kelola Admin', path: '/admin/kelola-admin', icon: <ShieldCheck size={18} /> },
-        { name: 'Struktur Organisasi', path: '/admin/struktur', icon: <Users size={18} /> },
-        { name: 'Infrastruktur & Fasilitas', path: '/admin/infrastruktur', icon: <Building2 size={18} /> },
-      ]
-    },
-
-    {
-      group: 'Data & Statistik',
-      items: [
-        { name: 'Data Penduduk', path: '/admin/penduduk', icon: <Users size={20} /> },
-        { name: 'Data Statistik', path: '/admin/statistik', icon: <Database size={20} /> },
-        { name: 'Transparansi APBDes', path: '/admin/apbdes', icon: <PieChart size={20} /> },
+        { name: 'Layanan & Permohonan', path: '/admin/layanan', icon: <FileText size={16} /> },
+        { name: 'UMKM Desa', path: '/admin/umkm', icon: <Store size={16} /> },
       ]
     },
     {
-      group: 'Kabar & Informasi',
+      group: 'Data & Informasi Desa',
       items: [
-        { name: 'Berita & Agenda', path: '/admin/berita', icon: <Newspaper size={20} /> },
+        { name: 'Data Penduduk', path: '/admin/penduduk', icon: <Users size={16} /> },
+        { name: 'Data Statistik', path: '/admin/statistik', icon: <Database size={16} /> },
+        { name: 'Transparansi APBDes', path: '/admin/apbdes', icon: <PieChart size={16} /> },
+        { name: 'Berita & Agenda', path: '/admin/berita', icon: <Newspaper size={16} /> },
+        { name: 'Wisata & Potensi Desa', path: '/admin/wisata', icon: <TreePine size={16} /> },
       ]
     },
     {
-      group: 'Ekonomi & Pariwisata',
+      group: 'Pengaturan & Profil',
       items: [
-        { name: 'UMKM', path: '/admin/umkm', icon: <Store size={20} /> },
-        { name: 'Wisata & Potensi Desa', path: '/admin/wisata', icon: <TreePine size={20} /> },
+        { name: 'Pengaturan Global', path: '/admin/pengaturan', icon: <Settings size={16} /> },
+        { name: 'Kelola Admin', path: '/admin/kelola-admin', icon: <ShieldCheck size={16} /> },
+        { name: 'Struktur Organisasi', path: '/admin/struktur', icon: <Users size={16} /> },
+        { name: 'Infrastruktur & Fasilitas', path: '/admin/infrastruktur', icon: <Building2 size={16} /> },
       ]
     }
   ];
 
+  async function handleLogout() {
+    await logoutUserAction();
+    router.push('/login');
+  }
+
   return (
-    <div style={{ display: 'flex', height: '100vh', background: '#f8fafc', color: '#0f172a', overflow: 'hidden', fontFamily: '"Inter", sans-serif' }}>
+    <div className="admin-wrapper">
       <style>{`
-        .admin-menu-link {
-          display: flex; align-items: center; gap: 10px; padding: 8px 12px;
-          border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 500;
-          transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); color: #94a3b8; background: transparent;
+        html, body {
+          overflow-x: hidden !important;
+          max-width: 100vw !important;
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
         }
-        .admin-menu-link:hover {
-          color: #fff; background: rgba(255,255,255,0.05); transform: translateX(6px);
+
+        *, *:before, *:after {
+          box-sizing: inherit;
         }
-        .admin-menu-link.active {
-          color: #fff; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-          font-weight: 600; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+
+        .admin-wrapper {
+          display: flex;
+          min-height: 100vh;
+          max-width: 100vw;
+          overflow-x: hidden;
+          background: #f8fafc;
+          color: #0f172a;
+          font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
-        .admin-menu-link.active:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35);
-        }
+
+        /* ── DESKTOP SIDEBAR ── */
         .admin-sidebar {
-          width: 230px; background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
-          color: #fff; display: flex; flex-direction: column;
-          box-shadow: 4px 0 24px rgba(0,0,0,0.05); z-index: 10;
+          width: 220px;
+          background: #ffffff;
+          border-right: 1px solid #e2e8f0;
+          color: #0f172a;
+          display: flex;
+          flex-direction: column;
+          flex-shrink: 0;
+          box-shadow: 2px 0 12px rgba(15, 23, 42, 0.03);
+          z-index: 40;
+          height: 100vh;
+          position: sticky;
+          top: 0;
         }
-        .admin-main {
-          flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative;
+
+        .admin-menu-link {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 7px 10px;
+          border-radius: 8px;
+          text-decoration: none;
+          font-size: 0.8rem;
+          font-weight: 500;
+          transition: all 0.15s ease;
+          color: #475569;
+          background: transparent;
         }
-        .admin-main h1 { font-size: 1.3rem !important; margin-bottom: 14px !important; font-weight: 800 !important; }
-        .admin-main h2 { font-size: 1.15rem !important; margin-bottom: 10px !important; font-weight: 700 !important; }
-        .admin-main h3 { font-size: 0.95rem !important; margin-bottom: 6px !important; font-weight: 600 !important; }
-        .admin-main p, .admin-main span, .admin-main td, .admin-main div { font-size: 0.85rem; }
-        .admin-main input:not([type="checkbox"]):not([type="radio"]), 
-        .admin-main select, 
-        .admin-main textarea {
-          padding: 7px 10px !important;
-          font-size: 0.82rem !important;
-          border-radius: 6px !important;
+
+        .admin-menu-link:hover {
+          color: #2563eb;
+          background: #eff6ff;
         }
-        .admin-main label {
-          font-size: 0.8rem !important;
-          margin-bottom: 4px !important;
+
+        .admin-menu-link.active {
+          color: #2563eb;
+          background: #eff6ff;
+          font-weight: 700;
+          border-left: 3px solid #2563eb;
+          border-radius: 0 8px 8px 0;
         }
-        .admin-main button:not(.iconBtn) {
-          padding: 7px 14px !important;
-          font-size: 0.82rem !important;
+
+        /* ── TOPBAR MOBILE ── */
+        .admin-mobile-header {
+          display: none;
+          align-items: center;
+          justify-content: space-between;
+          padding: 10px 14px;
+          background: #ffffff;
+          color: #0f172a;
+          position: sticky;
+          top: 0;
+          z-index: 50;
+          border-bottom: 1px solid #e2e8f0;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.03);
         }
-        .admin-main table th,
-        .admin-main table td {
-          padding: 8px 12px !important;
-          font-size: 0.82rem !important;
+
+        /* ── MAIN CONTENT AREA ── */
+        .admin-main-container {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          min-width: 0;
+          max-width: 100%;
+          overflow-x: hidden;
+          background: #f8fafc;
         }
-        .admin-main summary {
-          padding: 12px 16px !important;
-          font-size: 0.9rem !important;
+
+        .admin-content {
+          width: 100%;
+          max-width: 1250px;
+          margin: 0 auto;
+          box-sizing: border-box;
+          overflow-x: hidden;
         }
-        .admin-main form {
-          gap: 12px !important;
+
+        /* FLEX CONTAINERS RESPONSIVE WRAPPING */
+        .admin-content div[style*="display: flex"],
+        .admin-content div[style*="display:flex"] {
+          flex-wrap: wrap !important;
+          max-width: 100% !important;
         }
-        .admin-main details > div {
-          padding: 14px 16px !important;
+
+        /* ── 3-TIER RESPONSIVE SCALING SYSTEM (PC: 6, TABLET: 4, HP MOBILE: 1) ── */
+
+        /* 1. PC / DESKTOP (> 1024px) -> SCALE 6 (Full Size & Spacious) */
+        @media (min-width: 1025px) {
+          .admin-content {
+            padding: 24px 28px !important;
+          }
+          .admin-content table th, .admin-content table td {
+            padding: 10px 14px !important;
+            font-size: 0.85rem !important;
+          }
+        }
+
+        /* 2. TABLET (769px - 1024px) -> SCALE 4 (Medium Compact) */
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .admin-content {
+            padding: 14px 18px !important;
+          }
+          .admin-content h1 { font-size: 1.12rem !important; }
+          .admin-content h2 { font-size: 0.98rem !important; }
+          .admin-content table th, .admin-content table td {
+            padding: 7px 10px !important;
+            font-size: 0.78rem !important;
+          }
+          .admin-content button, .admin-content input, .admin-content select {
+            padding: 6px 10px !important;
+            font-size: 0.78rem !important;
+          }
+        }
+
+        /* 3. HP MOBILE (< 768px) -> SCALE 1 (Super Mini Text & Padding, No Sticky Column Overlaps) */
+        @media (max-width: 768px) {
+          .admin-wrapper {
+            flex-direction: column;
+          }
+
+          .admin-sidebar {
+            display: none;
+          }
+
+          .admin-mobile-header {
+            display: flex;
+          }
+
+          .admin-content {
+            padding: 4px 6px !important;
+          }
+
+          .admin-content h1 {
+            font-size: 0.95rem !important;
+            margin-bottom: 4px !important;
+          }
+
+          .admin-content h2 {
+            font-size: 0.85rem !important;
+            margin-bottom: 4px !important;
+          }
+
+          .admin-content h3 {
+            font-size: 0.78rem !important;
+          }
+
+          .admin-content p, .admin-content span, .admin-content label {
+            font-size: 0.7rem !important;
+          }
+
+          /* Table auto-scroll wrapper on HP Mobile */
+          .admin-content div[style*="overflowX"],
+          .admin-content div[style*="overflow-x"],
+          .table-responsive {
+            max-width: 100% !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+            border: 1px solid #cbd5e1 !important;
+            border-radius: 6px !important;
+            margin-bottom: 6px !important;
+          }
+
+          /* Disable all sticky positioning inside tables on HP mobile to prevent overlaps */
+          .admin-content table th,
+          .admin-content table td,
+          .admin-content table th[class*="sticky"],
+          .admin-content table td[class*="sticky"] {
+            position: static !important;
+            right: auto !important;
+            left: auto !important;
+          }
+
+          /* Scale 1 Micro Table Cell Styling */
+          .admin-content table {
+            width: 100% !important;
+            font-size: 0.65rem !important;
+          }
+
+          .admin-content table th {
+            padding: 3px 5px !important;
+            font-size: 0.6rem !important;
+            text-transform: uppercase !important;
+            white-space: nowrap !important;
+            background: #f1f5f9 !important;
+            border-bottom: 1px solid #cbd5e1 !important;
+          }
+
+          .admin-content table td {
+            padding: 3px 5px !important;
+            font-size: 0.65rem !important;
+            white-space: nowrap !important;
+            border-bottom: 1px solid #e2e8f0 !important;
+          }
+
+          /* Super compact mini action buttons inside tables */
+          .admin-content table button,
+          .admin-content table a,
+          .admin-content table button[class*="btnIcon"] {
+            padding: 2px 4px !important;
+            font-size: 0.62rem !important;
+            border-radius: 4px !important;
+            min-width: 20px !important;
+            height: 20px !important;
+          }
+
+          .admin-content table svg {
+            width: 11px !important;
+            height: 11px !important;
+          }
+
+          /* Compact form fields on HP Mobile */
+          .admin-content input,
+          .admin-content select,
+          .admin-content textarea {
+            padding: 4px 6px !important;
+            font-size: 0.72rem !important;
+            border-radius: 6px !important;
+          }
+
+          .admin-content button:not(table button) {
+            padding: 4px 8px !important;
+            font-size: 0.72rem !important;
+            border-radius: 6px !important;
+          }
         }
       `}</style>
 
-      {/* Sidebar */}
-      <div className="admin-sidebar">
-        <div style={{ padding: '20px 16px 16px 16px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-          <h2 style={{ fontSize: '1.15rem', fontWeight: 800, margin: 0, display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div style={{ background: '#3b82f6', padding: '6px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(59,130,246,0.3)' }}>
-              <Map size={18} style={{ color: '#fff' }} />
+      {/* ── TOPBAR MOBILE DENGAN TOMBOL GARIS 3 (HAMBURGER DROPDOWN KECIL & SIMPEL) ── */}
+      <div className="admin-mobile-header">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ background: '#2563eb', padding: '5px', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Map size={15} color="#ffffff" />
+          </div>
+          <div>
+            <h2 style={{ fontSize: '0.88rem', fontWeight: 800, margin: 0, color: '#0f172a' }}>Admin Desa Binanga</h2>
+          </div>
+        </div>
+
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          style={{
+            background: mobileMenuOpen ? '#2563eb' : '#f1f5f9',
+            border: '1px solid #cbd5e1',
+            color: mobileMenuOpen ? '#ffffff' : '#0f172a',
+            padding: '5px 10px',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            fontSize: '0.78rem',
+            fontWeight: 700,
+            transition: 'all 0.15s ease'
+          }}
+          aria-label="Toggle Menu"
+        >
+          {mobileMenuOpen ? <X size={15} /> : <Menu size={15} />}
+          <span>Menu</span>
+        </button>
+
+        {/* ── DROPDOWN POPUP KECIL & ELEGAN (TIDAK MENUTUPI LAYAR FULL) ── */}
+        {mobileMenuOpen && (
+          <div
+            style={{
+              position: 'absolute',
+              top: '100%',
+              right: '12px',
+              width: '250px',
+              maxHeight: '75vh',
+              background: '#ffffff',
+              border: '1px solid #e2e8f0',
+              borderRadius: '12px',
+              boxShadow: '0 10px 30px rgba(15, 23, 42, 0.15)',
+              zIndex: 100,
+              padding: '10px',
+              overflowY: 'auto',
+              marginTop: '4px'
+            }}
+          >
+            <nav style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {menuGroups.map((group, idx) => (
+                <div key={idx}>
+                  <div style={{ fontSize: '0.65rem', fontWeight: 800, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '4px', paddingLeft: '6px' }}>
+                    {group.group}
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                    {group.items.map(item => {
+                      const isActive = pathname === item.path || (item.path === '/admin/dashboard' && pathname === '/admin');
+                      return (
+                        <Link
+                          key={item.path}
+                          href={item.path}
+                          onClick={() => setMobileMenuOpen(false)}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            padding: '6px 8px',
+                            borderRadius: '6px',
+                            textDecoration: 'none',
+                            fontSize: '0.78rem',
+                            fontWeight: isActive ? 700 : 500,
+                            color: isActive ? '#2563eb' : '#334155',
+                            background: isActive ? '#eff6ff' : 'transparent'
+                          }}
+                        >
+                          <span style={{ color: isActive ? '#2563eb' : '#64748b' }}>{item.icon}</span>
+                          <span style={{ flex: 1 }}>{item.name}</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </nav>
+
+            <div style={{ paddingTop: '8px', marginTop: '8px', borderTop: '1px solid #f1f5f9' }}>
+              <button
+                onClick={handleLogout}
+                style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', padding: '6px',
+                  width: '100%', borderRadius: '6px', color: '#dc2626', background: '#fef2f2',
+                  border: '1px solid #fecaca', fontWeight: 700, fontSize: '0.78rem', cursor: 'pointer'
+                }}
+              >
+                <LogOut size={14} /> Keluar Admin
+              </button>
             </div>
-            Admin Panel
+          </div>
+        )}
+      </div>
+
+      {/* ── DESKTOP SIDEBAR ── */}
+      <aside className="admin-sidebar">
+        <div style={{ padding: '16px 14px 12px 14px', borderBottom: '1px solid #e2e8f0' }}>
+          <h2 style={{ fontSize: '1rem', fontWeight: 800, margin: 0, display: 'flex', alignItems: 'center', gap: '8px', color: '#0f172a' }}>
+            <div style={{ background: '#2563eb', padding: '5px', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Map size={15} color="#ffffff" />
+            </div>
+            <span>Admin Desa</span>
           </h2>
         </div>
-        
-        <nav style={{ flex: 1, padding: '16px 12px', display: 'flex', flexDirection: 'column', gap: '2px', overflowY: 'auto' }}>
+
+        <nav style={{ flex: 1, padding: '12px 8px', display: 'flex', flexDirection: 'column', gap: '2px', overflowY: 'auto' }}>
           {menuGroups.map((group, idx) => (
-            <div key={idx} style={{ marginBottom: '14px' }}>
-              <div style={{ fontSize: '0.7rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '8px', paddingLeft: '12px' }}>
+            <div key={idx} style={{ marginBottom: '10px' }}>
+              <div style={{ fontSize: '0.65rem', fontWeight: 800, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '4px', paddingLeft: '8px' }}>
                 {group.group}
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                 {group.items.map(item => {
-                  const isActive = pathname.startsWith(item.path) || (item.path === '/admin/dashboard' && pathname === '/admin');
+                  const isActive = pathname === item.path || (item.path === '/admin/dashboard' && pathname === '/admin');
                   return (
-                    <Link 
-                      key={item.path} 
+                    <Link
+                      key={item.path}
                       href={item.path}
                       className={`admin-menu-link ${isActive ? 'active' : ''}`}
                     >
                       {item.icon}
-                      {item.name}
+                      <span>{item.name}</span>
                     </Link>
-                  )
+                  );
                 })}
               </div>
             </div>
           ))}
         </nav>
 
-        <div style={{ padding: '16px 12px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-          <button style={{
-            display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px',
-            width: '100%', borderRadius: '8px', color: '#f87171', background: 'rgba(239, 68, 68, 0.1)',
-            border: 'none', fontWeight: 600, fontSize: '0.85rem', cursor: 'pointer', textAlign: 'left', transition: 'all 0.2s'
-          }} onMouseOver={(e) => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.2)'} onMouseOut={(e) => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)'}>
-            <LogOut size={16} /> Keluar
+        <div style={{ padding: '10px 8px', borderTop: '1px solid #e2e8f0' }}>
+          <button
+            onClick={handleLogout}
+            style={{
+              display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 8px',
+              width: '100%', borderRadius: '6px', color: '#dc2626', background: '#fef2f2',
+              border: '1px solid #fecaca', fontWeight: 700, fontSize: '0.78rem', cursor: 'pointer', textAlign: 'left'
+            }}
+          >
+            <LogOut size={14} /> Keluar
           </button>
         </div>
-      </div>
+      </aside>
 
-      {/* Main Content */}
-      <div className="admin-main">
-        {/* Top bar subtle gradient */}
-        <div style={{ height: '120px', background: 'linear-gradient(180deg, #e0f2fe 0%, #f8fafc 100%)', position: 'absolute', top: 0, left: 0, right: 0, zIndex: 0, pointerEvents: 'none' }}></div>
-        <main style={{ flex: 1, padding: '24px 28px', overflowY: 'auto', position: 'relative', zIndex: 1 }}>
+      {/* ── MAIN CONTENT AREA ── */}
+      <div className="admin-main-container">
+        <main className="admin-content">
           {children}
         </main>
       </div>

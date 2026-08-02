@@ -163,8 +163,8 @@ export default function PendudukAdminPage() {
         {loading ? (
           <div className={styles.loading}>Memuat data...</div>
         ) : (
-          <div className={styles.tableContainer} style={{ overflowX: 'auto' }}>
-            <table className={styles.table} style={{ minWidth: '1500px' }}>
+          <div className={styles.tableContainer} style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+            <table className={styles.table} style={{ minWidth: '800px', width: '100%' }}>
               <thead>
                 <tr>
                   <th>No</th>
@@ -182,7 +182,7 @@ export default function PendudukAdminPage() {
                   <th>SHDK</th>
                   <th>Dusun</th>
                   <th>Status</th>
-                  <th style={{ position: 'sticky', right: 0, background: '#f8fafc', zIndex: 1 }}>Aksi</th>
+                  <th className={styles.stickyRight}>Aksi</th>
                 </tr>
               </thead>
               <tbody>
@@ -212,7 +212,7 @@ export default function PendudukAdminPage() {
                           {item.statusKependudukan}
                         </span>
                       </td>
-                      <td style={{ position: 'sticky', right: 0, background: '#fff', zIndex: 1 }}>
+                      <td className={styles.stickyRight}>
                         <div className={styles.actionButtons}>
                           <button className={styles.btnIcon} onClick={() => handleOpenForm(item)} title="Edit">
                             <Edit2 size={16} />

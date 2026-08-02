@@ -132,6 +132,7 @@ export async function getPostsDB(limit?: number, kategori?: string): Promise<Pos
 // ==============================
 export async function getUmkmDB(limit?: number): Promise<UMKM[]> {
   const data = await prisma.umkm.findMany({
+    where: { status: 'DISETUJUI' },
     orderBy: { createdAt: 'desc' },
     take: limit
   });

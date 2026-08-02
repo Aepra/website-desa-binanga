@@ -10,7 +10,7 @@ export default async function WisataPage() {
     <div>
       <h1 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '24px' }}>Manajemen Wisata & Potensi Desa</h1>
       
-      <div style={{ display: 'flex', gap: '16px', marginBottom: '32px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px', marginBottom: '24px' }}>
         <details style={{ flex: 1, background: '#fff', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', overflow: 'hidden' }}>
           <summary style={{ padding: '24px', fontSize: '1.1rem', fontWeight: 700, cursor: 'pointer', listStyle: 'none', outline: 'none', color: '#10b981' }}>
             + Tambah Destinasi Wisata
