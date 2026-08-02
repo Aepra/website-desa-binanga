@@ -97,15 +97,15 @@ export default function GeographicDashboard() {
         </div>
       </StaggerItem>
 
-      {/* 4. Waktu & Lokasi (Span 2x1) */}
+      {/* 4. Waktu (Span 2x1) */}
       <StaggerItem style={{
         gridColumn: 'span 2', background: 'linear-gradient(to right, #eff6ff, #e0e7ff)',
-        borderRadius: '20px', padding: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        border: '1px solid #bfdbfe', boxShadow: '0 4px 20px rgba(59,130,246,0.05)'
+        borderRadius: '20px', padding: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+        boxShadow: '0 4px 15px rgba(0,0,0,0.02)'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <div style={{ background: '#3b82f6', color: '#fff', padding: '16px', borderRadius: '16px', boxShadow: '0 8px 20px rgba(59,130,246,0.4)' }}>
-             <Clock size={28} />
+          <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: '#dbeafe', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#2563eb' }}>
+            <Clock size={24} />
           </div>
           <div>
             <div style={{ fontSize: '0.75rem', color: '#2563eb', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '4px' }}>
@@ -115,14 +115,6 @@ export default function GeographicDashboard() {
               {currentTime.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
             </div>
           </div>
-        </div>
-        
-        <div style={{ textAlign: 'right', borderLeft: '2px dashed #bfdbfe', paddingLeft: '24px' }}>
-           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '6px', color: '#64748b', marginBottom: '6px' }}>
-             <Navigation size={14} /> <span style={{ fontSize: '0.8rem', fontWeight: 700 }}>Lokasi</span>
-           </div>
-           <div style={{ fontSize: '1.2rem', color: '#0f172a', fontWeight: 800 }}>Desa Binanga</div>
-           <div style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '2px', fontWeight: 500 }}>Kec. Sendana</div>
         </div>
       </StaggerItem>
 

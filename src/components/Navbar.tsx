@@ -225,7 +225,7 @@ export default function Navbar() {
             className={styles.mobileButton}
             onClick={() => setMobileOpen(!mobileOpen)}
           >
-            {mobileOpen ? <X color="#0f172a" /> : <Menu color="#ffffff" />}
+            {mobileOpen ? <X color="currentColor" /> : <Menu color="currentColor" />}
           </button>
 
         </div>

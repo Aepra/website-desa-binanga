@@ -4,7 +4,7 @@ import { Target, Lightbulb, Map, Compass, MapPin, Ruler, Users, Award, Landmark,
 import { FadeUp, FadeIn, StaggerContainer, StaggerItem } from '@/components/Animate';
 import styles from './profil.module.css';
 import fasStyles from './fasilitas.module.css';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 /* ─── DATA SEJARAH (sumber: Monografi Desa Binanga, Hal. 38–39) ─────────── */
 const kronologiSejarah = [
@@ -121,12 +121,24 @@ const WARNA_TIPE: Record<string, string> = {
   info:          '#8b5cf6',
 };
 
-import { getPengaturan } from '@/server/actions/pengaturan.action';
-import { getPerangkat } from '@/server/actions/struktur.action';
 import OrgChart from '@/components/OrgChart';
 
-export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalStats, dbDusunList }: { dbSejarah?: any[], dbInfrastruktur?: any[], dbGlobalStats?: any, dbDusunList?: any[] }) {
-  const [perangkat, setPerangkat] = useState<any[]>([]);
+export default function ProfilDesaClient({ 
+  dbSejarah, 
+  dbInfrastruktur, 
+  dbGlobalStats, 
+  dbDusunList,
+  dbPengaturan,
+  dbPerangkat
+}: { 
+  dbSejarah?: any[], 
+  dbInfrastruktur?: any[], 
+  dbGlobalStats?: any, 
+  dbDusunList?: any[],
+  dbPengaturan?: Record<string, string>,
+  dbPerangkat?: any[]
+}) {
+  const [perangkat, setPerangkat] = useState<any[]>(dbPerangkat || []);
   const [activeTab, setActiveTab] = useState<'dusun' | 'pendidikan' | 'sosial'>('dusun');
   const [expandedTimeline, setExpandedTimeline] = useState<Record<number, boolean>>({});
 
@@ -187,11 +199,7 @@ export default function ProfilDesaClient({ dbSejarah, dbInfrastruktur, dbGlobalS
   const luasDesa = dbGlobalStats?.luasDesaHa || 191;
   const totalKK = dbGlobalStats?.totalKk || dynamicDataDusun.reduce((s, d) => s + d.kk, 0) || 221;
 
-  const [pengaturan, setPengaturan] = useState<Record<string, string>>({});
-  useEffect(() => {
-    getPengaturan().then(setPengaturan);
-    getPerangkat().then(setPerangkat);
-  }, []);
+  const pengaturan = dbPengaturan || {};
 
   const visi = pengaturan.VISI || 'Visi belum diatur di panel admin.';
   const misiHTML = pengaturan.MISI || 'Misi belum diatur di panel admin.';
