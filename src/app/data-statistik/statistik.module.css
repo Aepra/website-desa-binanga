@@ -16,12 +16,12 @@
 
 /* Grid Layout */
 .dashboardGrid { display: grid; grid-template-columns: 320px 1fr; gap: 24px; }
-.sidebar { display: flex; flex-direction: column; gap: 24px; }
-.mainArea { display: flex; flex-direction: column; gap: 24px; }
+.sidebar { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
+.mainArea { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
 .chartGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 
 /* Cards */
-.card { background: #fff; border-radius: 20px; padding: 24px; border: 1px solid #E2E8F0; box-shadow: 0 10px 40px rgba(15,23,42,0.03); display: flex; flex-direction: column; position: relative; overflow: hidden; }
+.card { background: #fff; border-radius: 20px; padding: 24px; border: 1px solid #E2E8F0; box-shadow: 0 10px 40px rgba(15,23,42,0.03); display: flex; flex-direction: column; position: relative; overflow: hidden; min-width: 0; }
 .cardDark { background: linear-gradient(145deg, #0F5C2E, #16803C); border: 1px solid #0F5C2E; color: #fff; }
 
 .cardHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
@@ -44,8 +44,8 @@
 .listValue { font-size: 1.05rem; font-weight: 800; color: #1E293B; }
 
 /* Chart Area */
-.chartWrapper { width: 100%; height: 280px; margin-top: 10px; }
-.chartWrapperSmall { width: 100%; height: 220px; margin-top: 10px; }
+.chartWrapper { width: 100%; height: 280px; margin-top: 10px; min-width: 0; }
+.chartWrapperSmall { width: 100%; height: 220px; margin-top: 10px; min-width: 0; }
 
 /* APBDes Dark List */
 .apbList { display: flex; flex-direction: column; gap: 14px; margin-top: 16px; }

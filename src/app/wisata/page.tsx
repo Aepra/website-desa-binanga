@@ -141,8 +141,6 @@ export default function WisataDesa() {
           </StaggerContainer>
         </div>
 
-        </div>
-
       </div>
     </div>
   );
