@@ -65,6 +65,40 @@ export default function DashboardClient({
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <style>{`
+        .admin-kpi-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+          gap: 8px;
+        }
+        .admin-chart-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+          gap: 12px;
+        }
+        @media (max-width: 640px) {
+          .admin-chart-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+        @media (max-width: 480px) {
+          .admin-kpi-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+        .kpi-title {
+          font-size: 0.72rem;
+          font-weight: 700;
+          color: #64748b;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          flex: 1;
+          min-width: 0;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      `}</style>
       
       {/* ── HEADER BANNER ── */}
       <div style={{
@@ -112,12 +146,12 @@ export default function DashboardClient({
       </div>
 
       {/* ── KPI METRICS CARDS (6 GRID) ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '8px' }}>
+      <div className="admin-kpi-grid">
         
         {/* Total Penduduk */}
         <div style={{ background: '#fff', padding: '14px 16px', borderRadius: '10px', border: '1px solid #e2e8f0', boxShadow: '0 2px 6px rgba(0,0,0,0.02)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-            <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Penduduk</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px', gap: '4px' }}>
+            <span className="kpi-title" title="Penduduk">Penduduk</span>
             <div style={{ background: '#eff6ff', color: '#2563eb', padding: '5px', borderRadius: '6px' }}><Users size={15} /></div>
           </div>
           <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a' }}>{stats.totalPenduduk.toLocaleString('id-ID')}</div>
@@ -126,8 +160,8 @@ export default function DashboardClient({
 
         {/* Total KK */}
         <div style={{ background: '#fff', padding: '14px 16px', borderRadius: '10px', border: '1px solid #e2e8f0', boxShadow: '0 2px 6px rgba(0,0,0,0.02)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-            <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Kepala Keluarga</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px', gap: '4px' }}>
+            <span className="kpi-title" title="Kepala Keluarga">Total KK</span>
             <div style={{ background: '#f5f3ff', color: '#7c3aed', padding: '5px', borderRadius: '6px' }}><Home size={15} /></div>
           </div>
           <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a' }}>{stats.totalKk.toLocaleString('id-ID')}</div>
@@ -136,8 +170,8 @@ export default function DashboardClient({
 
         {/* Wisata */}
         <div style={{ background: '#fff', padding: '14px 16px', borderRadius: '10px', border: '1px solid #e2e8f0', boxShadow: '0 2px 6px rgba(0,0,0,0.02)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-            <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Destinasi Wisata</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px', gap: '4px' }}>
+            <span className="kpi-title" title="Destinasi Wisata">Wisata</span>
             <div style={{ background: '#ecfdf5', color: '#059669', padding: '5px', borderRadius: '6px' }}><TreePine size={15} /></div>
           </div>
           <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a' }}>{stats.totalWisata}</div>
@@ -146,8 +180,8 @@ export default function DashboardClient({
 
         {/* UMKM */}
         <div style={{ background: '#fff', padding: '14px 16px', borderRadius: '10px', border: '1px solid #e2e8f0', boxShadow: '0 2px 6px rgba(0,0,0,0.02)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-            <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>UMKM Lokal</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px', gap: '4px' }}>
+            <span className="kpi-title" title="UMKM Lokal">UMKM</span>
             <div style={{ background: '#fffbeb', color: '#d97706', padding: '5px', borderRadius: '6px' }}><Store size={15} /></div>
           </div>
           <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a' }}>{stats.totalUmkm}</div>
@@ -156,8 +190,8 @@ export default function DashboardClient({
 
         {/* APBDes Pendapatan */}
         <div style={{ background: '#fff', padding: '14px 16px', borderRadius: '10px', border: '1px solid #e2e8f0', boxShadow: '0 2px 6px rgba(0,0,0,0.02)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-            <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Pendapatan APBDes</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px', gap: '4px' }}>
+            <span className="kpi-title" title="Pendapatan APBDes">APBDes</span>
             <div style={{ background: '#f0fdf4', color: '#16a34a', padding: '5px', borderRadius: '6px' }}><PieIcon size={15} /></div>
           </div>
           <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#16a34a' }}>{formatRp(stats.totalPendapatanApbdes)}</div>
@@ -166,8 +200,8 @@ export default function DashboardClient({
 
         {/* Infrastruktur */}
         <div style={{ background: '#fff', padding: '14px 16px', borderRadius: '10px', border: '1px solid #e2e8f0', boxShadow: '0 2px 6px rgba(0,0,0,0.02)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-            <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Infrastruktur</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px', gap: '4px' }}>
+            <span className="kpi-title" title="Infrastruktur">Fasilitas</span>
             <div style={{ background: '#f8fafc', color: '#475569', padding: '5px', borderRadius: '6px' }}><Building2 size={15} /></div>
           </div>
           <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a' }}>{stats.totalInfrastruktur}</div>
@@ -177,7 +211,7 @@ export default function DashboardClient({
       </div>
 
       {/* ── CHARTS SECTION (2 COLUMNS) ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '12px' }}>
+      <div className="admin-chart-grid">
         
         {/* CHART 1: DEMOGRAFI DUSUN */}
         <div style={{ background: '#fff', padding: '16px', borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 2px 6px rgba(0,0,0,0.02)' }}>

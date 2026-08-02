@@ -163,22 +163,28 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
         /* ── RESPONSIVE SCALING & ADAPTABILITY ── */
         @media (max-width: 1024px) {
+          .admin-wrapper {
+            flex-direction: column;
+            overflow-x: hidden;
+          }
+
           .admin-sidebar {
             display: none;
           }
 
           .admin-mobile-header {
             display: flex;
+            width: 100%;
           }
 
           .admin-content {
-            padding: 16px 18px;
+            padding: 16px 16px;
           }
         }
 
         @media (max-width: 640px) {
           .admin-content {
-            padding: 12px 12px;
+            padding: 12px 16px;
           }
 
           .admin-content h1 {
