@@ -492,7 +492,7 @@ export default function Home() {
             viewport={{ once: true }}
           >
             <h2 className={styles.sectionTitle} style={{ color: 'white' }}>Statistik Desa Binanga</h2>
-            <p style={{ color: '#94a3b8' }}>Data kependudukan dan wilayah Desa Binanga, Kecamatan Sendana</p>
+            <p style={{ color: 'rgba(255,255,255,0.9)' }}>Data kependudukan dan wilayah Desa Binanga, Kecamatan Sendana</p>
           </motion.div>
 
           <motion.div 
@@ -548,8 +548,8 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className={styles.sectionTitle}>Struktur Organisasi</h2>
-              <p style={{ color: '#475569', marginBottom: '24px' }}>
+              <h2 className={styles.sectionTitle} style={{ color: 'white' }}>Struktur Organisasi</h2>
+              <p style={{ color: 'rgba(255,255,255,0.9)', marginBottom: '24px' }}>
                 Pemerintah Desa Binanga berkomitmen memberikan pelayanan terbaik melalui susunan perangkat desa yang kompeten dan berdedikasi tinggi.
               </p>
               

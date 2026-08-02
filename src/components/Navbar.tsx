@@ -29,7 +29,6 @@ const menuItems = [
       { title: 'Ikhtisar', href: '/wisata#bento' },
       { title: 'Destinasi Wisata', href: '/wisata#destinasi' },
       { title: 'Potensi Agrowisata', href: '/wisata#potensi' },
-      { title: 'Peta ArcGIS', href: '/wisata#peta' },
     ],
   },
   {

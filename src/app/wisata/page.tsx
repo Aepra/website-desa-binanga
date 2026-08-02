@@ -8,6 +8,24 @@ import { FadeUp, StaggerContainer, StaggerItem } from '@/components/Animate';
 import GeographicDashboard from './GeographicDashboard';
 import styles from './wisata.module.css';
 
+const ExpandableText = ({ text }: { text: string }) => {
+  const [expanded, setExpanded] = useState(false);
+  if (!text) return null;
+  const shouldTruncate = text.length > 100;
+  return (
+    <div style={{ marginBottom: '12px' }}>
+      <p className={styles.dDesc} style={{ display: 'inline', marginBottom: 0 }}>
+        {expanded || !shouldTruncate ? text : `${text.substring(0, 100)}... `}
+      </p>
+      {shouldTruncate && (
+        <button onClick={() => setExpanded(!expanded)} style={{ background: 'none', border: 'none', color: '#16803C', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer', padding: 0 }}>
+          {expanded ? 'Tutup' : 'Lihat Selengkapnya'}
+        </button>
+      )}
+    </div>
+  );
+};
+
 export default function WisataDesa() {
   const [wisata, setWisata] = useState<Wisata[]>([]);
   const [activeTab, setActiveTab] = useState('bento');
@@ -74,7 +92,7 @@ export default function WisataDesa() {
                 </div>
                 <div className={styles.dBody}>
                   <h3 className={styles.dTitle}>{item.nama}</h3>
-                  <p className={styles.dDesc}>{item.deskripsi}</p>
+                  <ExpandableText text={item.deskripsi || ''} />
                   <div className={styles.dMeta}>
                     <div className={styles.mItem}>
                       <div className={styles.mIconWrap}><Clock size={16} /></div>
@@ -111,7 +129,7 @@ export default function WisataDesa() {
                 </div>
                 <div className={styles.pContent}>
                   <h3 className={styles.pTitle}>{item.nama} <span style={{ fontSize: '0.8rem', padding: '4px 8px', background: '#fef3c7', color: '#f59e0b', borderRadius: '4px', marginLeft: '12px', verticalAlign: 'middle' }}>{item.kategori}</span></h3>
-                  <p className={styles.pDesc}>{item.deskripsi}</p>
+                  <ExpandableText text={item.deskripsi || ''} />
                   {item.linkMaps && (
                     <a href={item.linkMaps} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '14px', color: '#f59e0b', textDecoration: 'none', fontWeight: 600, marginTop: '8px' }}>
                       <Map size={16} /> Lokasi Potensi
@@ -123,29 +141,7 @@ export default function WisataDesa() {
           </StaggerContainer>
         </div>
 
-        {/* ArcGIS Map Container (Static) */}
-        <FadeUp id="peta" className={styles.section} style={{ paddingBottom: '100px' }}>
-          <div className={styles.secHeader}>
-            <span className={styles.secSub}>Sistem Informasi Geografis</span>
-            <h2 className={styles.secTitle}>Peta Wisata Terpadu (ArcGIS)</h2>
-          </div>
-          
-          <div className={styles.mapContainer}>
-            {/* GAMBAR PETA ARCGIS STATIS */}
-            <img 
-              src="https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" 
-              alt="Peta ArcGIS Wisata" 
-              className={styles.arcGisImg} 
-            />
-            
-            <div className={styles.mapOverlay}>
-              <button className={styles.btnMap}>
-                <ZoomIn size={18} />
-                Lihat Peta Resolusi Tinggi
-              </button>
-            </div>
-          </div>
-        </FadeUp>
+        </div>
 
       </div>
     </div>

@@ -119,10 +119,10 @@ export default function GeographicDashboard() {
         
         <div style={{ textAlign: 'right', borderLeft: '2px dashed #bfdbfe', paddingLeft: '24px' }}>
            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '6px', color: '#64748b', marginBottom: '6px' }}>
-             <Map size={14} /> <span style={{ fontSize: '0.8rem', fontWeight: 700 }}>Luas Wilayah</span>
+             <Navigation size={14} /> <span style={{ fontSize: '0.8rem', fontWeight: 700 }}>Lokasi</span>
            </div>
-           <div style={{ fontSize: '1.2rem', color: '#0f172a', fontWeight: 800 }}>191 Hektar</div>
-           <div style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '2px', fontWeight: 500 }}>Desa Binanga</div>
+           <div style={{ fontSize: '1.2rem', color: '#0f172a', fontWeight: 800 }}>Desa Binanga</div>
+           <div style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '2px', fontWeight: 500 }}>Kec. Sendana</div>
         </div>
       </StaggerItem>
 

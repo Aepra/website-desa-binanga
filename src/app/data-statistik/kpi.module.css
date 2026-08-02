@@ -43,3 +43,20 @@
   font-style: italic;
   margin-top: 2px;
 }
+
+@media (max-width: 480px) {
+  .kpiGrid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px;
+  }
+  .kpiIcon {
+    width: 36px;
+    height: 36px;
+  }
+  .kpiVal {
+    font-size: 1.25rem;
+  }
+  .kpiLbl {
+    font-size: 0.7rem;
+  }
+}

@@ -331,9 +331,10 @@
     -webkit-backdrop-filter: none;
     border-bottom: none;
     box-shadow: none;
-    position: relative;
+    position: absolute;
     width: 100%;
     top: 0;
+    z-index: 1000;
   }
 
   .desktopMenu {
