@@ -73,8 +73,11 @@ export default function Navbar() {
     await logoutUserAction();
   };
 
+  const isHome = pathname === '/' || pathname === '/home';
+  const headerClass = `${styles.header} ${isHome ? styles.headerOverlay : styles.headerNormal}`;
+
   return (
-    <header className={styles.header}>
+    <header className={headerClass}>
       <div className={styles.container}>
 
         {/* Logo Placeholder */}
