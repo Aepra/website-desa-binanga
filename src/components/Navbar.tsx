@@ -126,96 +126,98 @@ export default function Navbar() {
 
         <div className={styles.rightSection}>
 
-          {session ? (
-            <div style={{ position: 'relative' }}>
-              <button
-                onClick={() => setProfileOpen(!profileOpen)}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  background: '#f1f5f9',
-                  border: '1px solid #cbd5e1',
-                  padding: '4px 10px 4px 6px',
-                  borderRadius: '24px',
-                  cursor: 'pointer',
-                  transition: 'all 0.15s ease'
-                }}
-                title="Akun Saya"
-              >
-                <div style={{
-                  width: '28px', height: '28px', borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)', color: '#ffffff',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontWeight: 800, fontSize: '0.8rem', boxShadow: '0 2px 6px rgba(37,99,235,0.25)'
-                }}>
-                  {session.name ? session.name[0].toUpperCase() : 'U'}
-                </div>
-                <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#0f172a', maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  {session.name}
-                </span>
-                <ChevronDown size={14} color="#64748b" />
-              </button>
-
-              {/* Profile Dropdown Popup */}
-              {profileOpen && (
-                <div
+          <div className={styles.desktopProfileWrapper}>
+            {session ? (
+              <div style={{ position: 'relative' }}>
+                <button
+                  onClick={() => setProfileOpen(!profileOpen)}
                   style={{
-                    position: 'absolute',
-                    top: 'calc(100% + 8px)',
-                    right: 0,
-                    width: '210px',
-                    background: '#ffffff',
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '12px',
-                    boxShadow: '0 10px 25px rgba(15,23,42,0.15)',
-                    zIndex: 1000,
-                    padding: '10px',
                     display: 'flex',
-                    flexDirection: 'column',
-                    gap: '6px'
+                    alignItems: 'center',
+                    gap: '6px',
+                    background: '#f1f5f9',
+                    border: '1px solid #cbd5e1',
+                    padding: '4px 10px 4px 6px',
+                    borderRadius: '24px',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
                   }}
+                  title="Akun Saya"
                 >
-                  <div style={{ padding: '4px 6px 8px 6px', borderBottom: '1px solid #f1f5f9' }}>
-                    <div style={{ fontWeight: 800, fontSize: '0.85rem', color: '#0f172a' }}>{session.name}</div>
-                    <div style={{ fontSize: '0.72rem', color: '#64748b', wordBreak: 'break-all' }}>{session.username}</div>
+                  <div style={{
+                    width: '28px', height: '28px', borderRadius: '50%',
+                    background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)', color: '#ffffff',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontWeight: 800, fontSize: '0.8rem', boxShadow: '0 2px 6px rgba(37,99,235,0.25)'
+                  }}>
+                    {session.name ? session.name[0].toUpperCase() : 'U'}
                   </div>
+                  <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#0f172a', maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {session.name}
+                  </span>
+                  <ChevronDown size={14} color="#64748b" />
+                </button>
 
-                  <Link
-                    href={session.role === 'ADMIN' || session.role === 'SUPER_ADMIN' ? '/admin/dashboard' : '/user-dashboard'}
-                    onClick={() => setProfileOpen(false)}
+                {/* Profile Dropdown Popup */}
+                {profileOpen && (
+                  <div
                     style={{
-                      display: 'flex', alignItems: 'center', gap: '8px',
-                      padding: '8px', borderRadius: '6px',
-                      textDecoration: 'none', color: '#1e293b', fontWeight: 700,
-                      fontSize: '0.8rem', background: '#eff6ff'
+                      position: 'absolute',
+                      top: 'calc(100% + 8px)',
+                      right: 0,
+                      width: '210px',
+                      background: '#ffffff',
+                      border: '1px solid #e2e8f0',
+                      borderRadius: '12px',
+                      boxShadow: '0 10px 25px rgba(15,23,42,0.15)',
+                      zIndex: 1000,
+                      padding: '10px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '6px'
                     }}
                   >
-                    <LayoutDashboard size={15} color="#2563eb" />
-                    <span>{session.role === 'ADMIN' || session.role === 'SUPER_ADMIN' ? 'Dashboard Admin' : 'Dashboard Warga'}</span>
-                  </Link>
+                    <div style={{ padding: '4px 6px 8px 6px', borderBottom: '1px solid #f1f5f9' }}>
+                      <div style={{ fontWeight: 800, fontSize: '0.85rem', color: '#0f172a' }}>{session.name}</div>
+                      <div style={{ fontSize: '0.72rem', color: '#64748b', wordBreak: 'break-all' }}>{session.username}</div>
+                    </div>
 
-                  <button
-                    onClick={handleLogout}
-                    style={{
-                      display: 'flex', alignItems: 'center', gap: '8px',
-                      padding: '8px', borderRadius: '6px',
-                      border: '1px solid #fecaca', background: '#fef2f2',
-                      color: '#dc2626', fontWeight: 700, fontSize: '0.8rem',
-                      cursor: 'pointer', width: '100%', textAlign: 'left'
-                    }}
-                  >
-                    <LogOut size={15} />
-                    <span>Keluar</span>
-                  </button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <Link href="/login" className={styles.adminButton} title="Login">
-              <CircleUser size={22} />
-            </Link>
-          )}
+                    <Link
+                      href={session.role === 'ADMIN' || session.role === 'SUPER_ADMIN' ? '/admin/dashboard' : '/user-dashboard'}
+                      onClick={() => setProfileOpen(false)}
+                      style={{
+                        display: 'flex', alignItems: 'center', gap: '8px',
+                        padding: '8px', borderRadius: '6px',
+                        textDecoration: 'none', color: '#1e293b', fontWeight: 700,
+                        fontSize: '0.8rem', background: '#eff6ff'
+                      }}
+                    >
+                      <LayoutDashboard size={15} color="#2563eb" />
+                      <span>{session.role === 'ADMIN' || session.role === 'SUPER_ADMIN' ? 'Dashboard Admin' : 'Dashboard Warga'}</span>
+                    </Link>
+
+                    <button
+                      onClick={handleLogout}
+                      style={{
+                        display: 'flex', alignItems: 'center', gap: '8px',
+                        padding: '8px', borderRadius: '6px',
+                        border: '1px solid #fecaca', background: '#fef2f2',
+                        color: '#dc2626', fontWeight: 700, fontSize: '0.8rem',
+                        cursor: 'pointer', width: '100%', textAlign: 'left'
+                      }}
+                    >
+                      <LogOut size={15} />
+                      <span>Keluar</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link href="/login" className={styles.adminButton} title="Login">
+                <CircleUser size={22} />
+              </Link>
+            )}
+          </div>
 
           <button
             className={styles.mobileButton}

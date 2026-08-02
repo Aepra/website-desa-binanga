@@ -1,5 +1,5 @@
 /* ============================================
-   Profil Desa — Modern & Innovative Design
+   Profil Desa â€” Modern & Innovative Design
    ============================================ */
 
 /* --- Animations --- */
@@ -72,7 +72,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 40%, #0f172a 100%);
+  background: linear-gradient(135deg, #0F5C2E 0%, #16803C 40%, #0F5C2E 100%);
   background-size: 200% 200%;
   animation: gradientShift 8s ease infinite;
 }
@@ -119,7 +119,7 @@
 }
 
 .heroTitleAccent {
-  background: linear-gradient(135deg, #60a5fa, #a78bfa, #60a5fa);
+  background: linear-gradient(135deg, #4ADE80, #F2B705, #4ADE80);
   background-size: 200% auto;
   animation: shimmer 3s linear infinite;
   -webkit-background-clip: text;
@@ -151,7 +151,7 @@
 .heroStatValue {
   font-size: 1.6rem;
   font-weight: 800;
-  color: #60a5fa;
+  color: #4ADE80;
   line-height: 1.2;
 }
 
@@ -224,7 +224,7 @@
 
 .sectionDark {
   padding: 56px 5%;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  background: linear-gradient(135deg, #0F5C2E 0%, #16803C 100%);
   color: #ffffff;
 }
 
@@ -241,24 +241,24 @@
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #3b82f6;
+  color: #16803C;
   margin-bottom: 10px;
 }
 
 .sectionLabelLight {
-  color: #60a5fa;
+  color: #4ADE80;
 }
 
 .sectionLabelDot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #3b82f6;
+  background: #16803C;
   animation: pulse 2s ease-in-out infinite;
 }
 
 .sectionLabelDotLight {
-  background: #60a5fa;
+  background: #4ADE80;
 }
 
 .sectionTitle {
@@ -285,7 +285,7 @@
   color: rgba(255, 255, 255, 0.55);
 }
 
-/* === SEJARAH — BENTO GRID LAYOUT === */
+/* === SEJARAH â€” BENTO GRID LAYOUT === */
 .sejarahGrid {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
@@ -367,7 +367,7 @@
 }
 
 .sejarahQuoteCard {
-  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+  background: linear-gradient(135deg, #0F5C2E, #16803C);
   border-radius: 14px;
   padding: 22px;
   display: flex;
@@ -403,7 +403,7 @@
   line-height: 0.78;
   padding-top: 5px;
   padding-right: 8px;
-  color: #1e3a8a;
+  color: #0F5C2E;
   font-weight: 900;
 }
 
@@ -416,7 +416,7 @@
 }
 
 .visiCard {
-  background: linear-gradient(135deg, #0f172a, #1e293b);
+  background: linear-gradient(135deg, #0F5C2E, #16803C);
   border-radius: 18px;
   padding: 28px;
   position: relative;
@@ -447,7 +447,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #60a5fa;
+  color: #4ADE80;
   margin-bottom: 14px;
 }
 
@@ -456,7 +456,7 @@
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #60a5fa;
+  color: #4ADE80;
   margin-bottom: 10px;
 }
 
@@ -493,7 +493,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #1e3a8a;
+  color: #0F5C2E;
   margin-bottom: 14px;
 }
 
@@ -502,7 +502,7 @@
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #1e3a8a;
+  color: #0F5C2E;
   margin-bottom: 14px;
 }
 
@@ -529,7 +529,7 @@
 }
 
 .misiHTML li::marker {
-  color: #1e3a8a;
+  color: #0F5C2E;
   font-weight: 700;
 }
 
@@ -581,7 +581,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #60a5fa;
+  color: #4ADE80;
   margin: 0 auto 10px auto;
   position: relative;
   z-index: 1;
@@ -631,7 +631,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #60a5fa;
+  color: #4ADE80;
   flex-shrink: 0;
 }
 
@@ -715,7 +715,7 @@
 .geoPopValue {
   font-size: 1.15rem;
   font-weight: 800;
-  color: #60a5fa;
+  color: #4ADE80;
   margin-bottom: 2px;
 }
 
@@ -746,13 +746,13 @@
 }
 
 .sourceCard a {
-  color: #60a5fa;
+  color: #4ADE80;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
 .sourceCard a:hover {
-  color: #93c5fd;
+  color: #86EFAC;
 }
 
 /* === PERANGKAT DESA === */
@@ -836,7 +836,7 @@
 .role {
   display: inline-block;
   padding: 3px 10px;
-  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+  background: linear-gradient(135deg, #0F5C2E, #16803C);
   color: #ffffff;
   font-weight: 600;
   font-size: 0.72rem;
@@ -871,7 +871,7 @@
 }
 
 /* =============================================
-   RESPONSIVE — Tablet (≤ 1024px)
+   RESPONSIVE â€” Tablet (â‰¤ 1024px)
    ============================================= */
 @media (max-width: 1024px) {
   .hero {
@@ -919,7 +919,7 @@
 }
 
 /* =============================================
-   RESPONSIVE — Tablet (≤ 900px)
+   RESPONSIVE â€” Tablet (â‰¤ 900px)
    ============================================= */
 @media (max-width: 900px) {
   .sejarahGrid {
@@ -942,15 +942,15 @@
 }
 
 /* =============================================
-   RESPONSIVE — Mobile (≤ 768px)
+   RESPONSIVE â€” Mobile (â‰¤ 768px)
    ============================================= */
 @media (max-width: 768px) {
   .hero {
     height: auto;
     min-height: 0;
     max-height: none;
-    padding: 0; /* Tidak ada padding — full ke atas & samping */
-    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #1e293b 100%);
+    padding: 0; /* Tidak ada padding â€” full ke atas & samping */
+    background: linear-gradient(135deg, #0f172a 0%, #0F5C2E 55%, #1e293b 100%);
     display: block;
     /* Hanya sudut bawah yang membulat */
     border-radius: 0 0 28px 28px;
@@ -1073,7 +1073,7 @@
     height: 150px;
   }
 
-  /* Sections — compact padding for mobile */
+  /* Sections â€” compact padding for mobile */
   .section,
   .sectionAlt,
   .sectionDark {
@@ -1091,7 +1091,7 @@
     height: 5px;
   }
 
-  /* ── SECTION UMUM ── */
+  /* â”€â”€ SECTION UMUM â”€â”€ */
   .section,
   .sectionAlt,
   .sectionDark {
@@ -1119,7 +1119,7 @@
     line-height: 1.55;
   }
 
-  /* ── SEJARAH ── */
+  /* â”€â”€ SEJARAH â”€â”€ */
   .sejarahGrid {
     display: grid;
     grid-template-columns: 1fr;
@@ -1179,7 +1179,7 @@
     line-height: 1.6;
   }
 
-  /* ── VISI MISI ── */
+  /* â”€â”€ VISI MISI â”€â”€ */
   .visiMisiGrid {
     display: grid;
     grid-template-columns: 1fr;
@@ -1261,7 +1261,7 @@
     line-height: 1.5;
   }
 
-  /* ── GEO STATS ── */
+  /* â”€â”€ GEO STATS â”€â”€ */
   .geoBento {
     grid-template-columns: 1fr 1fr;
     gap: 10px;
@@ -1357,7 +1357,7 @@
     padding-left: 14px;
   }
 
-  /* ── PERANGKAT DESA ── */
+  /* â”€â”€ PERANGKAT DESA â”€â”€ */
   .perangkatHeader {
     margin-bottom: 18px;
   }
@@ -1397,13 +1397,13 @@
     transform: translateY(-2px);
   }
 
-  /* ── INFRASTRUKTUR / FASILITAS ── */
+  /* â”€â”€ INFRASTRUKTUR / FASILITAS â”€â”€ */
   .fasilitasGrid {
     grid-template-columns: 1fr;
     gap: 12px;
   }
 
-  /* ── PRESTASI ── */
+  /* â”€â”€ PRESTASI â”€â”€ */
   .prestasiEmpty {
     padding: 28px 18px;
     margin-top: 18px;
@@ -1425,7 +1425,7 @@
 
 
 /* =============================================
-   RESPONSIVE — Small Mobile (≤ 420px)
+   RESPONSIVE â€” Small Mobile (â‰¤ 420px)
    ============================================= */
 @media (max-width: 420px) {
   .hero {
@@ -1501,7 +1501,7 @@
     padding: 8px 0;
   }
 
-  /* Geo — keep 2 col but ultra compact */
+  /* Geo â€” keep 2 col but ultra compact */
   .geoBento {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
@@ -1565,7 +1565,7 @@
     font-size: 0.72rem;
   }
 
-  /* Perangkat — still 2 cols but tighter */
+  /* Perangkat â€” still 2 cols but tighter */
   .grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 8px;
@@ -1594,5 +1594,7 @@
 .subnav::-webkit-scrollbar { display: none; }
 .navItem { flex-shrink: 0; display: flex; align-items: center; gap: 8px; background: transparent; border: none; padding: 10px 24px; border-radius: 100px; color: #475569; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap; text-decoration: none; }
 .navItem:hover { background: rgba(0,0,0,0.05); color: #0f172a; }
-.navItemActive { background: #3b82f6; color: #fff; box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3); }
+.navItemActive { background: #16803C; color: #fff; box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3); }
 .navItemActive:hover { background: #2563eb; color: #fff; }
+
+

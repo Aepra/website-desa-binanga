@@ -144,15 +144,25 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
   let pekerjaanData = dbGlobalStats?.pekerjaanData || [];
   let golDarahData = dbGlobalStats?.golDarahData || [];
 
+  // ── DATA PENDUDUK — selalu dari database admin (tabel Penduduk / StatistikGlobal) ──
   const totalJiwa = globalStats?.totalPenduduk ?? dynamicPendudukDusun.reduce((s: any, d: any) => s + d.jiwa, 0) ?? 0;
   const totalKK   = globalStats?.totalKk ?? dynamicPendudukDusun.reduce((s: any, d: any) => s + d.kk, 0) ?? 0;
   const totalLaki = globalStats?.lakiLaki ?? dynamicPendudukDusun.reduce((s: any, d: any) => s + d.lakiLaki, 0) ?? 0;
   const totalPrp  = globalStats?.perempuan ?? dynamicPendudukDusun.reduce((s: any, d: any) => s + d.perempuan, 0) ?? 0;
   const pctLaki   = totalJiwa > 0 ? Math.round((totalLaki / totalJiwa) * 100) : 0;
   const pctPrp    = totalJiwa > 0 ? Math.round((totalPrp / totalJiwa) * 100) : 0;
-  const luasDesa  = globalStats?.luasDesaHa ?? 0; 
-  const kepadatanPenduduk = dbGlobalStats?.kepadatan || (luasDesa > 0 ? Math.round(totalJiwa / (luasDesa / 100)) : 0);
   const totalDusun = dbDusunList?.length || 4;
+
+  // ── LUAS WILAYAH & JARAK — konstanta resmi BPS Kab. Majene 2025 (tidak diinput admin) ──
+  // Sumber: Kecamatan Sendana Dalam Angka 2025, Tabel 1.1.1 & 1.1.2 (majenekab.bps.go.id)
+  const LUAS_DESA_HA = 168;          // 1,68 km² = 168 ha — data BPS BAPEDA Kab. Majene
+  const JARAK_KE_KEC_KM = 3.7;       // Jarak ke Ibukota Kecamatan Sendana
+  const JARAK_KE_KAB_KM = 26.7;      // Jarak ke Ibukota Kabupaten Majene
+  // Jika admin sudah mengisi luasDesaHa di StatistikGlobal, prioritaskan itu
+  const luasDesa = (globalStats?.luasDesaHa && globalStats.luasDesaHa > 0) ? globalStats.luasDesaHa : LUAS_DESA_HA;
+
+  // Kepadatan = total jiwa dari admin ÷ luas BPS (jiwa per km²)
+  const kepadatanPenduduk = totalJiwa > 0 ? Math.round(totalJiwa / (luasDesa / 100)) : 0;
   
   const lastUpdatedDate = dbGlobalStats?.updatedAt ? new Date(dbGlobalStats.updatedAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Data Baru';
 
@@ -217,11 +227,20 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                 <div className={kpiStyles.kpiLbl}>Dusun</div>
               </div>
           <div className={`${styles.card} ${kpiStyles.kpiCard}`}>
-                <div className={kpiStyles.kpiIcon} style={{ background: '#f0f9ff', color: '#06b6d4' }}>
+                <div className={kpiStyles.kpiIcon} style={{ background: '#f0f9ff', color: '#16803C' }}>
                   <TreePine size={22} />
                 </div>
-                <div className={kpiStyles.kpiVal}>{formatNumber(luasDesa)} ha</div>
+                <div className={kpiStyles.kpiVal}>{luasDesa} ha</div>
                 <div className={kpiStyles.kpiLbl}>Luas Wilayah</div>
+                <div className={kpiStyles.kpiSrc}>BPS Kab. Majene 2025</div>
+              </div>
+          <div className={`${styles.card} ${kpiStyles.kpiCard}`}>
+                <div className={kpiStyles.kpiIcon} style={{ background: '#f0fdf4', color: '#16803C' }}>
+                  <MapPin size={22} />
+                </div>
+                <div className={kpiStyles.kpiVal}>{JARAK_KE_KAB_KM} km</div>
+                <div className={kpiStyles.kpiLbl}>Jarak ke Ibukota Kab.</div>
+                <div className={kpiStyles.kpiSrc}>Sendana → Majene · BPS 2025</div>
               </div>
           <div className={`${styles.card} ${kpiStyles.kpiCard}`}>
                 <div className={kpiStyles.kpiIcon} style={{ background: '#fff1f2', color: '#ef4444' }}>
@@ -229,6 +248,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                 </div>
                 <div className={kpiStyles.kpiVal}>{formatNumber(kepadatanPenduduk)}</div>
                 <div className={kpiStyles.kpiLbl}>Kepadatan Penduduk</div>
+                <div className={kpiStyles.kpiSrc}>jiwa/km² · dihitung otomatis</div>
               </div>
         </div>
 
@@ -261,7 +281,8 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                 </div>
               </div>
               <div className={styles.sumberInlineDark} style={{ borderTopColor: '#334155', color: '#64748b' }}>
-                Sumber: Database Sistem Informasi Desa Binanga (Diperbarui: {lastUpdatedDate})
+                <strong style={{ color: '#94a3b8' }}>Penduduk:</strong> Database Sistem Informasi Desa (Admin) · Diperbarui: {lastUpdatedDate}<br />
+                <strong style={{ color: '#94a3b8' }}>Luas &amp; Jarak:</strong> BPS Kab. Majene 2025 (data tetap)
               </div>
             </div>
 

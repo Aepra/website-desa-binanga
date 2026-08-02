@@ -1,4 +1,4 @@
-.adminPage {
+﻿.adminPage {
   padding: 16px 20px;
   max-width: 100%;
   margin: 0 auto;
@@ -19,7 +19,7 @@
   font-size: 1.3rem;
   font-weight: 800;
   margin: 0 0 4px 0;
-  background: linear-gradient(90deg, #1e293b, #3b82f6);
+  background: linear-gradient(90deg, #1E293B, #16803C);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -50,15 +50,15 @@
 }
 
 .filterSelect:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: #16803C;
+  box-shadow: 0 0 0 3px rgba(22, 128, 60, 0.12);
 }
 
 .btnPrimary {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: #3b82f6;
+  background: #16803C;
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -66,13 +66,13 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
-  box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.2);
+  box-shadow: 0 4px 6px -1px rgba(22, 128, 60, 0.2);
 }
 
 .btnPrimary:hover {
-  background: #2563eb;
+  background: #0F5C2E;
   transform: translateY(-1px);
-  box-shadow: 0 6px 10px -1px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 6px 10px -1px rgba(22, 128, 60, 0.3);
 }
 
 .btnSecondary {
@@ -337,8 +337,8 @@
 }
 
 .formInput:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: #16803C;
+  box-shadow: 0 0 0 3px rgba(22, 128, 60, 0.12);
 }
 
 .modalFooter {
@@ -367,7 +367,7 @@
   to { transform: translateY(0); opacity: 1; }
 }
 
-/* ── COMPACT MOBILE RESPONSIVE STYLES (SCALE 1 SUPER MINI & NO STICKY OVERLAPS) ── */
+/* â”€â”€ COMPACT MOBILE RESPONSIVE STYLES (SCALE 1 SUPER MINI & NO STICKY OVERLAPS) â”€â”€ */
 @media (max-width: 768px) {
   .adminPage {
     padding: 4px 6px;
@@ -420,44 +420,44 @@
     background: transparent !important;
   }
 
-  /* SCALE 1 MICRO TABLE CELLS */
+  /* RESPONSIVE READABLE TABLE CELLS */
   .table {
-    min-width: 100% !important;
-    font-size: 0.65rem !important;
+    min-width: 750px !important;
+    font-size: 0.8rem !important;
   }
 
   .table th {
-    padding: 3px 5px !important;
-    font-size: 0.6rem !important;
+    padding: 6px 8px !important;
+    font-size: 0.75rem !important;
     letter-spacing: 0 !important;
     white-space: nowrap !important;
   }
 
   .table td {
-    padding: 3px 5px !important;
-    font-size: 0.65rem !important;
+    padding: 6px 8px !important;
+    font-size: 0.8rem !important;
     white-space: nowrap !important;
   }
 
   .actionButtons {
-    gap: 3px !important;
+    gap: 4px !important;
   }
 
   .btnIcon {
-    width: 22px !important;
-    height: 22px !important;
-    padding: 2px !important;
-    border-radius: 4px !important;
+    width: 28px !important;
+    height: 28px !important;
+    padding: 4px !important;
+    border-radius: 6px !important;
   }
 
   .btnIcon svg {
-    width: 11px !important;
-    height: 11px !important;
+    width: 14px !important;
+    height: 14px !important;
   }
 
   .badge {
-    padding: 2px 6px;
-    font-size: 0.6rem;
+    padding: 3px 8px;
+    font-size: 0.7rem;
   }
 
   .modalHeader {
@@ -492,3 +492,4 @@
     gap: 8px;
   }
 }
+

@@ -1,8 +1,8 @@
 .footer {
-  background: #0f172a;
-  color: #94a3b8;
-  padding: 80px 5% 30px;
-  border-top: 1px solid #1e293b;
+  background: #0F5C2E;
+  color: rgba(255, 255, 255, 0.75);
+  padding: 60px 5% 30px;
+  border-top: 1px solid #0B4824;
   font-family: 'Inter', sans-serif;
 }
 
@@ -15,7 +15,7 @@
   display: grid;
   grid-template-columns: 2fr 1fr 1.5fr 1.5fr;
   gap: 40px;
-  margin-bottom: 60px;
+  margin-bottom: 50px;
 }
 
 .col {
@@ -29,12 +29,12 @@
   align-items: center;
   gap: 12px;
   text-decoration: none;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .logoImage {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   border-radius: 8px;
   object-fit: cover;
 }
@@ -45,8 +45,8 @@
 }
 
 .logoTitle {
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: 1.2rem;
+  font-weight: 800;
   color: #ffffff;
   letter-spacing: -0.5px;
 }
@@ -54,19 +54,20 @@
 .logoSubtitle {
   font-size: 0.75rem;
   font-weight: 500;
-  color: #94a3b8;
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .desc {
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   line-height: 1.6;
-  margin-bottom: 24px;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 20px;
 }
 
 /* Socials */
 .socials {
   display: flex;
-  gap: 12px;
+  gap: 10px;
 }
 
 .socialLink {
@@ -75,24 +76,24 @@
   justify-content: center;
   width: 36px;
   height: 36px;
-  background: #1e293b;
-  color: #f8fafc;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
   border-radius: 8px;
   transition: all 0.2s ease;
 }
 
 .socialLink:hover {
-  background: #3b82f6;
-  color: #ffffff;
+  background: #F2B705;
+  color: #0F5C2E;
   transform: translateY(-2px);
 }
 
 /* Column Titles */
 .title {
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1.05rem;
+  font-weight: 700;
   color: #ffffff;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 /* Links */
@@ -102,21 +103,21 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
 }
 
 .links a {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #94a3b8;
+  color: rgba(255, 255, 255, 0.85);
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   transition: color 0.2s;
 }
 
 .links a:hover {
-  color: #3b82f6;
+  color: #F2B705;
 }
 
 /* Contact */
@@ -126,57 +127,59 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
 .contactList li {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  font-size: 0.9rem;
+  gap: 10px;
+  font-size: 0.88rem;
   line-height: 1.5;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .contactIcon {
-  color: #3b82f6;
+  color: #F2B705;
   flex-shrink: 0;
   margin-top: 2px;
 }
 
 /* Schedule */
 .scheduleCard {
-  background: #1e293b;
-  padding: 20px;
+  background: rgba(0, 0, 0, 0.15);
+  padding: 16px;
   border-radius: 12px;
   display: flex;
-  gap: 16px;
+  gap: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .scheduleIcon {
-  color: #3b82f6;
+  color: #F2B705;
   flex-shrink: 0;
 }
 
 .scheduleDetails {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   width: 100%;
 }
 
 .scheduleRow {
   display: flex;
   justify-content: space-between;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
 }
 
 .scheduleRow span:first-child {
-  color: #f8fafc;
+  color: #ffffff;
   font-weight: 500;
 }
 
 .closed {
-  color: #ef4444;
+  color: #FDECEC;
   font-weight: 600;
 }
 
@@ -185,13 +188,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 30px;
-  border-top: 1px solid #1e293b;
-  font-size: 0.85rem;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.82rem;
 }
 
 .copyright {
-  color: #f8fafc;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 /* Responsive */

@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { getSession } from '@/lib/auth';
 import {
   FileText,
   Send,
@@ -80,7 +81,10 @@ const daftarLayanan = [
   }
 ];
 
-export default function LayananPage() {
+export default async function LayananPage() {
+  const session = await getSession();
+  const targetHref = session ? '/user-dashboard' : '/login?redirect=/user-dashboard';
+
   return (
     <div className={styles.page}>
       
@@ -98,9 +102,9 @@ export default function LayananPage() {
           </p>
 
           <div className={styles.heroActions}>
-            <Link href="/login" className={styles.primaryBtn}>
+            <Link href={targetHref} className={styles.primaryBtn}>
               <UserCheck size={18} />
-              <span>Masuk / Ajukan Surat Sekarang</span>
+              <span>{session ? 'Ajukan Surat Sekarang' : 'Masuk / Ajukan Surat Sekarang'}</span>
             </Link>
             <a href="#alur" className={styles.secondaryBtn}>
               <HelpCircle size={18} />
@@ -204,7 +208,7 @@ export default function LayananPage() {
                   <span className={styles.estimasiText}>
                     <Clock size={14} /> Estimasi: {item.estimasi}
                   </span>
-                  <Link href="/login" className={styles.cardLinkBtn}>
+                  <Link href={targetHref} className={styles.cardLinkBtn}>
                     Ajukan <ArrowRight size={14} />
                   </Link>
                 </div>
@@ -219,9 +223,9 @@ export default function LayananPage() {
         <div className={styles.ctaContainer}>
           <h2>Butuh Surat Keterangan / Pengaduan Hari Ini?</h2>
           <p>Klik tombol di bawah untuk masuk ke Dashboard Warga dan mengajukan permohonan surat secara langsung.</p>
-          <Link href="/login" className={styles.ctaBtn}>
+          <Link href={targetHref} className={styles.ctaBtn}>
             <UserCheck size={20} />
-            <span>Masuk ke Dashboard Warga</span>
+            <span>{session ? 'Buka Dashboard Warga' : 'Masuk ke Dashboard Warga'}</span>
           </Link>
         </div>
       </section>

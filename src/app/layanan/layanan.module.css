@@ -1,14 +1,14 @@
 .page {
   min-height: 100vh;
-  background-color: #f8fafc;
-  color: #0f172a;
+  background-color: var(--color-background, #ffffff);
+  color: var(--color-text-primary, #1e293b);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
 .heroSection {
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  background: linear-gradient(135deg, #0F5C2E 0%, #16803C 100%);
   color: #ffffff;
-  padding: 80px 24px;
+  padding: 70px 24px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -23,9 +23,9 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(59, 130, 246, 0.2);
-  border: 1px solid rgba(59, 130, 246, 0.4);
-  color: #60a5fa;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(242, 183, 5, 0.4);
+  color: #F2B705;
   padding: 6px 16px;
   border-radius: 30px;
   font-size: 0.82rem;
@@ -36,22 +36,21 @@
 }
 
 .heroTitle {
-  font-size: 2.6rem;
+  font-size: 2.5rem;
   font-weight: 800;
-  line-height: 1.2;
+  line-height: 1.25;
   margin-bottom: 16px;
+  color: #ffffff;
   letter-spacing: -0.5px;
 }
 
 .highlight {
-  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #F2B705;
 }
 
 .heroDesc {
-  font-size: 1.05rem;
-  color: #94a3b8;
+  font-size: 1.02rem;
+  color: rgba(255, 255, 255, 0.88);
   line-height: 1.6;
   max-width: 720px;
   margin: 0 auto 32px;
@@ -69,19 +68,20 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: #2563eb;
+  background: #16803C;
   color: #ffffff;
   padding: 14px 28px;
-  border-radius: 14px;
+  border-radius: 12px;
   font-weight: 700;
   font-size: 0.98rem;
   text-decoration: none;
-  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 10px 25px rgba(15, 92, 46, 0.35);
   transition: all 0.25s ease;
 }
 
 .primaryBtn:hover {
-  background: #1d4ed8;
+  background: #0F5C2E;
   transform: translateY(-2px);
 }
 
@@ -89,11 +89,11 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   color: #ffffff;
   padding: 14px 24px;
-  border-radius: 14px;
+  border-radius: 12px;
   font-weight: 700;
   font-size: 0.95rem;
   text-decoration: none;
@@ -101,7 +101,7 @@
 }
 
 .secondaryBtn:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.22);
 }
 
 .statsSection {
@@ -122,14 +122,14 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 16px;
+  padding: 16px 20px;
   border-radius: 16px;
-  background: #f8fafc;
-  border: 1px solid #f1f5f9;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
 }
 
 .statIcon {
-  color: #2563eb;
+  color: #16803C;
   flex-shrink: 0;
 }
 
@@ -137,24 +137,24 @@
   margin: 0 0 2px 0;
   font-size: 0.98rem;
   font-weight: 800;
-  color: #0f172a;
+  color: #1E293B;
 }
 
 .statCard p {
   margin: 0;
   font-size: 0.82rem;
-  color: #64748b;
+  color: #64748B;
   line-height: 1.4;
 }
 
 .section {
-  padding: 70px 24px;
+  padding: 60px 24px;
   background: #ffffff;
 }
 
 .sectionAlt {
-  padding: 70px 24px;
-  background: #f8fafc;
+  padding: 60px 24px;
+  background: #F8FAFC;
 }
 
 .container {
@@ -164,11 +164,11 @@
 
 .sectionHeader {
   text-align: center;
-  margin-bottom: 48px;
+  margin-bottom: 40px;
 }
 
 .sectionTag {
-  color: #2563eb;
+  color: #16803C;
   font-size: 0.82rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -176,16 +176,16 @@
 }
 
 .sectionTitle {
-  font-size: 2rem;
+  font-size: 1.9rem;
   font-weight: 800;
-  color: #0f172a;
+  color: #1E293B;
   margin: 8px 0 12px;
   letter-spacing: -0.5px;
 }
 
 .sectionSub {
   font-size: 0.95rem;
-  color: #64748b;
+  color: #64748B;
   margin: 0;
 }
 
@@ -196,45 +196,45 @@
 }
 
 .stepCard {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 20px;
-  padding: 28px 24px;
+  background: #ffffff;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  padding: 24px;
   position: relative;
   transition: all 0.3s ease;
 }
 
 .stepCard:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
-  border-color: #3b82f6;
+  box-shadow: 0 12px 30px rgba(22, 128, 60, 0.08);
+  border-color: #16803C;
 }
 
 .stepNumber {
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
-  background: #2563eb;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #16803C;
   color: #ffffff;
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 16px;
-  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 6px 16px rgba(22, 128, 60, 0.25);
 }
 
 .stepCard h3 {
-  font-size: 1.05rem;
+  font-size: 1.02rem;
   font-weight: 800;
-  color: #0f172a;
+  color: #1E293B;
   margin: 0 0 8px 0;
 }
 
 .stepCard p {
   font-size: 0.88rem;
-  color: #64748b;
+  color: #64748B;
   line-height: 1.5;
   margin: 0;
 }
@@ -247,18 +247,18 @@
 
 .layananCard {
   background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 20px;
-  padding: 24px;
-  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.02);
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.03);
   display: flex;
   flex-direction: column;
   transition: all 0.3s ease;
 }
 
 .layananCard:hover {
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
-  border-color: #cbd5e1;
+  box-shadow: 0 12px 32px rgba(22, 128, 60, 0.1);
+  border-color: #16803C;
 }
 
 .cardTop {
@@ -269,8 +269,8 @@
 }
 
 .kategoriBadge {
-  background: #eff6ff;
-  color: #2563eb;
+  background: #EAF6FB;
+  color: #0F5A7A;
   padding: 4px 12px;
   border-radius: 20px;
   font-size: 0.75rem;
@@ -278,8 +278,8 @@
 }
 
 .featureBadge {
-  background: #f0fdf4;
-  color: #16a34a;
+  background: #EAF7EF;
+  color: #0F5C2E;
   border: 1px solid #bbf7d0;
   padding: 4px 10px;
   border-radius: 20px;
@@ -288,34 +288,34 @@
 }
 
 .cardTitle {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 800;
-  color: #0f172a;
+  color: #1E293B;
   margin: 0 0 8px 0;
 }
 
 .cardDesc {
   font-size: 0.88rem;
-  color: #475569;
+  color: #64748B;
   line-height: 1.5;
   margin: 0 0 16px 0;
   flex: 1;
 }
 
 .syaratBox {
-  background: #f8fafc;
-  border: 1px solid #f1f5f9;
-  border-radius: 14px;
-  padding: 14px;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 12px 14px;
   margin-bottom: 16px;
 }
 
 .syaratLabel {
   display: block;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  color: #334155;
-  margin-bottom: 8px;
+  color: #1E293B;
+  margin-bottom: 6px;
   text-transform: uppercase;
 }
 
@@ -330,7 +330,7 @@
 
 .syaratList li {
   font-size: 0.82rem;
-  color: #475569;
+  color: #64748B;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -341,12 +341,12 @@
   align-items: center;
   justify-content: space-between;
   padding-top: 14px;
-  border-top: 1px solid #f1f5f9;
+  border-top: 1px solid #F1F5F9;
 }
 
 .estimasiText {
   font-size: 0.8rem;
-  color: #64748b;
+  color: #64748B;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -357,10 +357,10 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: #0f172a;
+  background: #16803C;
   color: #ffffff;
   padding: 8px 16px;
-  border-radius: 10px;
+  border-radius: 8px;
   font-size: 0.82rem;
   font-weight: 700;
   text-decoration: none;
@@ -368,13 +368,13 @@
 }
 
 .cardLinkBtn:hover {
-  background: #2563eb;
+  background: #0F5C2E;
 }
 
 .ctaSection {
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  background: linear-gradient(135deg, #0F5C2E 0%, #16803C 100%);
   color: #ffffff;
-  padding: 60px 24px;
+  padding: 50px 24px;
   text-align: center;
 }
 
@@ -384,14 +384,15 @@
 }
 
 .ctaContainer h2 {
-  font-size: 1.8rem;
+  font-size: 1.7rem;
   font-weight: 800;
+  color: #ffffff;
   margin: 0 0 12px 0;
 }
 
 .ctaContainer p {
-  color: #94a3b8;
-  font-size: 0.98rem;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.95rem;
   margin: 0 0 24px 0;
 }
 
@@ -399,67 +400,68 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: #2563eb;
-  color: #ffffff;
+  background: #F2B705;
+  color: #0F5C2E;
   padding: 14px 28px;
-  border-radius: 14px;
-  font-weight: 700;
+  border-radius: 12px;
+  font-weight: 800;
   font-size: 0.98rem;
   text-decoration: none;
-  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+  box-shadow: 0 10px 25px rgba(242, 183, 5, 0.3);
   transition: all 0.2s ease;
 }
 
 .ctaBtn:hover {
-  background: #1d4ed8;
+  background: #C48F00;
+  color: #ffffff;
   transform: translateY(-2px);
 }
 
 /* ── MOBILE RESPONSIVE CSS (DENSE & COMPACT) ── */
 @media (max-width: 768px) {
   .heroSection {
-    padding: 50px 16px;
+    padding: 40px 16px;
   }
 
   .heroTitle {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
 
   .heroDesc {
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     margin-bottom: 24px;
   }
 
   .primaryBtn, .secondaryBtn {
     width: 100%;
     justify-content: center;
-    padding: 12px 20px;
-    font-size: 0.9rem;
+    padding: 10px 18px;
+    font-size: 0.88rem;
   }
 
   .section, .sectionAlt {
-    padding: 40px 16px;
+    padding: 32px 16px;
   }
 
   .sectionTitle {
-    font-size: 1.5rem;
+    font-size: 1.35rem;
   }
 
   .stepGrid {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 14px;
   }
 
   .stepCard {
-    padding: 20px 16px;
+    padding: 18px 16px;
   }
 
   .layananGrid {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 14px;
   }
 
   .layananCard {
-    padding: 18px 16px;
+    padding: 16px 14px;
   }
 }

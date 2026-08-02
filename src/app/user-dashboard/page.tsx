@@ -134,7 +134,7 @@ export default function UserDashboardPage() {
   const pendingUmkm = umkmList.filter(u => u.status === 'PENDING').length;
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f1f5f9', color: '#0f172a', fontFamily: 'sans-serif' }}>
+    <div style={{ minHeight: '100vh', background: '#f8fafc', color: '#0f172a', fontFamily: 'sans-serif' }}>
       
       {/* ── MAIN CONTENT CONTAINER ── */}
       <main style={{ maxWidth: '1200px', margin: '24px auto', padding: '0 20px' }}>
@@ -152,23 +152,24 @@ export default function UserDashboardPage() {
 
         {/* Welcome Section */}
         <div style={{
-          background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
-          color: '#ffffff',
-          borderRadius: '24px',
-          padding: '32px',
-          marginBottom: '32px',
-          boxShadow: '0 20px 40px rgba(15,23,42,0.15)',
+          background: 'linear-gradient(135deg, #ffffff 0%, #eff6ff 100%)',
+          color: '#0f172a',
+          borderRadius: '16px',
+          padding: '18px 20px',
+          marginBottom: '24px',
+          border: '1px solid #dbeafe',
+          boxShadow: '0 4px 16px rgba(37,99,235,0.06)',
           position: 'relative',
           overflow: 'hidden'
         }}>
           <div style={{ position: 'relative', zIndex: 2 }}>
-            <span style={{ background: 'rgba(59, 130, 246, 0.2)', border: '1px solid rgba(59, 130, 246, 0.4)', color: '#60a5fa', padding: '4px 12px', borderRadius: '20px', fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+            <span style={{ background: '#eff6ff', border: '1px solid #bfdbfe', color: '#2563eb', padding: '3px 10px', borderRadius: '20px', fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
               Warga Desa Binanga
             </span>
-            <h1 style={{ fontSize: '1.8rem', fontWeight: 800, margin: '12px 0 8px', letterSpacing: '-0.5px' }}>
+            <h1 style={{ fontSize: '1.25rem', fontWeight: 800, margin: '8px 0 4px', color: '#0f172a' }}>
               Selamat Datang, {session?.name}!
             </h1>
-            <p style={{ color: '#94a3b8', fontSize: '0.95rem', maxWidth: '600px', lineHeight: 1.6, margin: 0 }}>
+            <p style={{ color: '#64748b', fontSize: '0.82rem', maxWidth: '600px', lineHeight: 1.5, margin: 0 }}>
               Ajukan permohonan surat & layanan publik, atau daftarkan usaha UMKM Anda secara online langsung ke Kantor Desa Binanga.
             </p>
           </div>

@@ -83,7 +83,17 @@ export default function AdminLayananPage() {
         </div>
 
         {/* Filter Buttons */}
-        <div style={{ display: 'flex', gap: '8px', background: '#f1f5f9', padding: '4px', borderRadius: '12px' }}>
+        <div style={{
+          display: 'flex',
+          gap: '8px',
+          background: '#f1f5f9',
+          padding: '4px',
+          borderRadius: '12px',
+          overflowX: 'auto',
+          WebkitOverflowScrolling: 'touch',
+          whiteSpace: 'nowrap',
+          maxWidth: '100%'
+        }}>
           {['SEMUA', 'MENUNGGU', 'DIPROSES', 'SELESAI', 'DITOLAK'].map((st) => (
             <button
               key={st}

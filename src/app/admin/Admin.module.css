@@ -73,15 +73,15 @@
 }
 
 .input:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+  border-color: #16803C;
+  box-shadow: 0 0 0 2px rgba(22, 128, 60, 0.12);
 }
 
 .primaryBtn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: #3b82f6;
+  background: #16803C;
   color: #fff;
   border: none;
   padding: 7px 14px;
@@ -93,7 +93,7 @@
 }
 
 .primaryBtn:hover {
-  background: #2563eb;
+  background: #0F5C2E;
 }
 
 .actionGroup {

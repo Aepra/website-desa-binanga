@@ -15,7 +15,7 @@
   align-items: center;
   text-align: center;
   padding: 0 5%;
-  background-color: #0f172a;
+  background-color: #0F5C2E;
   background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7)), url('/pic/hero-section.jpeg');
   background-size: cover;
   background-position: center;
@@ -90,15 +90,17 @@
 }
 .primaryBtn {
   padding: 12px 24px;
-  background: #ffffff;
-  color: #0f172a;
+  background: #16803C;
+  color: #ffffff;
   border-radius: 8px;
   text-decoration: none;
-  font-weight: 600;
-  transition: opacity 0.2s;
+  font-weight: 700;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(22, 128, 60, 0.35);
 }
 .primaryBtn:hover {
-  opacity: 0.9;
+  background: #0F5C2E;
+  transform: translateY(-2px);
 }
 .secondaryBtn {
   padding: 12px 24px;
@@ -167,12 +169,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #1e3a8a;
+  color: #0F5C2E;
   transition: all 0.25s ease;
 }
 
 .serviceCard:hover .serviceIcon {
-  background: #1e3a8a;
+  background: #0F5C2E;
   color: #ffffff;
 }
 
@@ -238,7 +240,7 @@
 
 .welcomeNameplate p {
   margin: 0;
-  color: #3b82f6;
+  color: #16803C;
   font-weight: 600;
   font-size: 0.95rem;
   text-transform: uppercase;
@@ -265,7 +267,7 @@
 }
 
 .welcomeContent .sectionTitle span {
-  color: #3b82f6;
+  color: #16803C;
 }
 
 .welcomeText {
@@ -306,7 +308,7 @@
 /* ===== STATS SECTION ===== */
 .statsSection {
   padding: 80px 5%;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  background: linear-gradient(135deg, #0F5C2E 0%, #16803C 100%);
   color: #ffffff;
   text-align: center;
 }
@@ -323,8 +325,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 16px;
   padding: 24px 16px;
   backdrop-filter: blur(10px);
@@ -332,23 +334,22 @@
 }
 
 .statItem:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.18);
   transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .statValue {
   font-size: clamp(1.8rem, 3vw, 2.8rem);
   font-weight: 800;
   margin-bottom: 6px;
-  background: linear-gradient(to right, #60a5fa, #3b82f6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #F2B705;
 }
 
 .statLabel {
   font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.5);
-  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -544,7 +545,7 @@
 /* ===== ADMIN SECTION ===== */
 .adminSection {
   padding: 80px 5%;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  background: linear-gradient(135deg, #0F5C2E 0%, #16803C 100%);
   color: #ffffff;
 }
 
@@ -586,7 +587,7 @@
 }
 
 .primaryButton {
-  background: #2563eb;
+  background: #16803C;
   color: #ffffff;
   padding: 10px 20px;
   border-radius: 10px;
@@ -601,7 +602,7 @@
 }
 
 .primaryButton:hover {
-  background: #1d4ed8;
+  background: #0F5C2E;
   transform: translateY(-2px);
 }
 
@@ -706,7 +707,7 @@
 }
 
 /* =============================================
-   RESPONSIVE — Tablet (≤ 1024px)
+   RESPONSIVE â€” Tablet (â‰¤ 1024px)
    ============================================= */
 @media (max-width: 1024px) {
   .hero {
@@ -728,7 +729,7 @@
 }
 
 /* =============================================
-   RESPONSIVE — Mobile (≤ 768px)
+   RESPONSIVE â€” Mobile (â‰¤ 768px)
    ============================================= */
 @media (max-width: 768px) {
   /* --- HERO: Full Screen --- */
@@ -819,7 +820,7 @@
   .serviceIcon svg {
     width: 20px;
     height: 20px;
-    color: #1e3a8a;
+    color: #0F5C2E;
   }
   .serviceTitle {
     font-size: 0.65rem;
@@ -1016,7 +1017,7 @@
     justify-content: center;
     text-align: center;
     padding: 24px;
-    background: linear-gradient(135deg, rgba(37,99,235,0.2), rgba(30,58,138,0.2));
+    background: linear-gradient(135deg, rgba(22,128,60,0.2), rgba(15,92,46,0.2));
   }
   .statItem:nth-child(4) .statValue {
     font-size: 2.2rem;
@@ -1083,7 +1084,7 @@
 }
 
 /* =============================================
-   RESPONSIVE — Small Mobile (≤ 480px)
+   RESPONSIVE â€” Small Mobile (â‰¤ 480px)
    ============================================= */
 @media (max-width: 480px) {
   /* --- HERO: Ultra Compact --- */

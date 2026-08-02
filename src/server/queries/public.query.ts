@@ -92,13 +92,15 @@ export async function getStatistikDB(): Promise<Statistik> {
     }
   }
 
-  // Luas wilayah tetap ambil dari StatistikGlobal atau fallback default
+  // Luas wilayah tetap ambil dari StatistikGlobal atau fallback ke data BPS resmi
+  // Sumber: BPS Kab. Majene 2025 — Kecamatan Sendana Dalam Angka, Tabel 1.1.1
   const statGlobal = await prisma.statistikGlobal.findFirst({ orderBy: { tahun: 'desc' }});
+  const LUAS_DESA_KM2_BPS = 1.68; // km² dari BPS BAPEDA Kab. Majene (tetap, tidak berubah)
   
   return {
     penduduk: totalPenduduk,
     kepala_keluarga: totalKk,
-    luas_wilayah: statGlobal?.luasDesaHa || 0,
+    luas_wilayah: statGlobal?.luasDesaHa ? statGlobal.luasDesaHa / 100 : LUAS_DESA_KM2_BPS,
     realisasi_anggaran: 0
   };
 }
