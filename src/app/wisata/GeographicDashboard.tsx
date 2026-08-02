@@ -111,7 +111,7 @@ export default function GeographicDashboard() {
             <div style={{ fontSize: '0.75rem', color: '#2563eb', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '4px' }}>
               Waktu Lokal (WITA)
             </div>
-            <div style={{ fontSize: '2rem', fontWeight: 900, color: '#1e3a8a', lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>
+            <div suppressHydrationWarning style={{ fontSize: '2rem', fontWeight: 900, color: '#1e3a8a', lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>
               {currentTime.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
             </div>
           </div>

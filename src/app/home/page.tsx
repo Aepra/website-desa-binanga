@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Landmark, BarChart3, TrendingUp, Newspaper, HeartHandshake, Image, FileSearch, MapPin, Users, Wallet, ChevronRight, CheckCircle2 } from 'lucide-react';
+import { Landmark, BarChart3, TrendingUp, Newspaper, HeartHandshake, Image, FileSearch, MapPin, Users, Wallet, ChevronRight, CheckCircle2, Clock } from 'lucide-react';
 import styles from './page.module.css';
 
 import { useState, useEffect } from 'react';
@@ -266,15 +266,41 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1, ease: "easeOut" }}
               >
-                <Link href="/wisata" className={styles.potensiCard}>
-                  <div className={styles.potensiImage} style={{backgroundImage: `url(${item.foto || '/pic/kantor-desa.jpeg'})`}}></div>
-                  <div className={styles.potensiContent}>
-                    <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0f172a', marginBottom: '8px' }}>{item.nama}</h3>
-                    <p style={{ fontSize: '0.9rem', color: '#64748b', lineHeight: 1.6 }}>
-                      {item.deskripsi.length > 80 ? item.deskripsi.substring(0, 80) + '...' : item.deskripsi}
-                    </p>
+                <div className={styles.potensiCard}>
+                  <Link href="/wisata" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                    <div className={styles.potensiImage} style={{backgroundImage: `url(${item.foto || '/pic/kantor-desa.jpeg'})`}}></div>
+                    <div className={styles.potensiContent}>
+                      <h3 className={styles.wisataTitle}>{item.nama}</h3>
+                      <p className={styles.wisataDesc}>
+                        {item.deskripsi}
+                      </p>
+                      <span className={styles.wisataReadMore}>Baca selengkapnya &rarr;</span>
+                      
+                      {item.jamBuka && (
+                        <div className={styles.wisataInfo}>
+                          <Clock size={12}/> {item.jamBuka}
+                        </div>
+                      )}
+                    </div>
+                  </Link>
+                  <div className={styles.wisataFooter}>
+                    <a 
+                      href={item.linkMaps || "#"} 
+                      target={item.linkMaps ? "_blank" : undefined} 
+                      rel="noopener noreferrer" 
+                      className={styles.wisataMapsBtn}
+                      onClick={(e) => {
+                        if (!item.linkMaps) {
+                          e.preventDefault();
+                          alert('Tautan Google Maps untuk lokasi ini belum ditambahkan oleh Admin.');
+                        }
+                      }}
+                      style={{ opacity: item.linkMaps ? 1 : 0.6 }}
+                    >
+                      <MapPin size={12}/> Lihat Maps
+                    </a>
                   </div>
-                </Link>
+                </div>
               </motion.div>
             )) : (
               <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px', background: '#f8fafc', borderRadius: '16px', border: '1px dashed #cbd5e1' }}>

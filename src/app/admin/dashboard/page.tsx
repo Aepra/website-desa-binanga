@@ -10,10 +10,13 @@ export default async function AdminDashboard() {
   });
   const totalKkDB = uniqueKKGroup.length;
 
-  const totalWisata = await prisma.wisata.count();
+  const totalWisata = await prisma.wisataPotensi.count();
   const totalUmkm = await prisma.umkm.count();
   const totalInfrastruktur = await prisma.infrastruktur.count();
   const totalBerita = await prisma.berita.count();
+
+  const totalDestinasi = await prisma.wisataPotensi.count({ where: { tipe: 'WISATA' } });
+  const totalPotensiDesa = await prisma.wisataPotensi.count({ where: { tipe: 'POTENSI' } });
 
   // 2. Fetch APBDes
   const apbdesActive = await prisma.apbdes.findFirst({
@@ -62,7 +65,7 @@ export default async function AdminDashboard() {
   });
 
   // 4. Fetch Real Category Breakdown for Pie Chart
-  const wisataCategories = await prisma.wisata.groupBy({
+  const wisataCategories = await prisma.wisataPotensi.groupBy({
     by: ['kategori'],
     _count: true
   });

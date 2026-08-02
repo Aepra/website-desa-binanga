@@ -5,7 +5,7 @@ import { revalidatePath } from 'next/cache';
 import { uploadImage } from '@/lib/cloudinary';
 
 export async function getWisata() {
-  return await prisma.wisata.findMany({ orderBy: { createdAt: 'desc' } });
+  return await prisma.wisataPotensi.findMany({ orderBy: { createdAt: 'desc' } });
 }
 
 export async function createWisata(formData: FormData) {
@@ -21,12 +21,14 @@ export async function createWisata(formData: FormData) {
     }
   }
 
-  await prisma.wisata.create({
+  await prisma.wisataPotensi.create({
     data: {
       nama: data.nama as string,
+      tipe: data.tipe as string || 'WISATA',
       kategori: data.kategori as string,
       deskripsi: data.deskripsi as string,
       jamBuka: data.jamBuka as string || null,
+      linkMaps: data.linkMaps as string || null,
       fotoUrl: uploadedUrl || null
     }
   });
@@ -41,9 +43,11 @@ export async function updateWisata(id: string, formData: FormData) {
   
   let updateData: any = {
     nama: data.nama as string,
+    tipe: data.tipe as string || 'WISATA',
     kategori: data.kategori as string,
     deskripsi: data.deskripsi as string,
     jamBuka: data.jamBuka as string || null,
+    linkMaps: data.linkMaps as string || null,
   };
 
   if (file && file.size > 0) {
@@ -54,7 +58,7 @@ export async function updateWisata(id: string, formData: FormData) {
     }
   }
 
-  await prisma.wisata.update({
+  await prisma.wisataPotensi.update({
     where: { id },
     data: updateData
   });
@@ -66,7 +70,7 @@ export async function updateWisata(id: string, formData: FormData) {
 }
 
 export async function deleteWisata(id: string) {
-  await prisma.wisata.delete({ where: { id } });
+  await prisma.wisataPotensi.delete({ where: { id } });
   revalidatePath('/admin/wisata');
   revalidatePath('/');
   revalidatePath('/home');

@@ -95,10 +95,15 @@ export async function createRincian(apbdesId: string, formData: FormData) {
   await prisma.apbdesRincian.create({
     data: {
       apbdesId,
-      tipe: data.tipe as string, // 'PENDAPATAN', 'BELANJA', 'PEMBIAYAAN'
-      kategori: data.kategori as string,
+      tipe: data.tipe as string, // 'PENDAPATAN' atau 'BELANJA'
+      sumberPendapatan: data.sumberPendapatan ? (data.sumberPendapatan as string) : null,
+      bidang: data.bidang ? (data.bidang as string) : null,
+      sumberDana: data.sumberDana ? (data.sumberDana as string) : null,
+      namaKegiatan: data.namaKegiatan ? (data.namaKegiatan as string) : null,
+      volume: data.volume ? parseInt(data.volume as string) : null,
+      satuan: data.satuan ? (data.satuan as string) : null,
       anggaran: parseBigInt(data.anggaran),
-      realisasi: parseBigInt(data.realisasi)
+      realisasi: data.realisasi ? parseBigInt(data.realisasi) : 0n
     }
   });
 

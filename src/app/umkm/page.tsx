@@ -10,9 +10,13 @@ import styles from './umkm.module.css';
 export default function UMKMPotensi() {
   const [umkmData, setUmkmData] = useState<UMKM[]>([]);
   const [activeCat, setActiveCat] = useState('Semua');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getUmkmDB().then(setUmkmData);
+    getUmkmDB().then(data => {
+      setUmkmData(data);
+      setIsLoading(false);
+    });
   }, []);
   
   // Extract unique categories
@@ -51,31 +55,35 @@ export default function UMKMPotensi() {
         </FadeUp>
 
         {/* Product Grid */}
-        <StaggerContainer className={styles.productGrid}>
-          {filteredData.map(item => (
-            <StaggerItem key={item.id} className={styles.productCard}>
-              <div className={styles.productImageWrap}>
-                <img src={item.foto} alt={item.nama} className={styles.productImage} />
-                <span className={styles.productKat}>{item.kategori}</span>
-              </div>
-              <div className={styles.productInfo}>
-                <h3 className={styles.productName}>{item.nama}</h3>
-                <p className={styles.productDesc}>{item.deskripsi}</p>
-                <a
-                  href={`https://wa.me/${item.kontak}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.buyBtn}
-                >
-                  <MessageCircle size={16} />
-                  <span>Pesan Sekarang</span>
-                </a>
-              </div>
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
-
-        {filteredData.length === 0 && (
+        {isLoading ? (
+          <div style={{ textAlign: 'center', padding: '60px 20px', color: '#94a3b8' }}>
+            Memuat produk UMKM...
+          </div>
+        ) : filteredData.length > 0 ? (
+          <StaggerContainer className={styles.productGrid} key={activeCat}>
+            {filteredData.map(item => (
+              <StaggerItem key={item.id} className={styles.productCard}>
+                <div className={styles.productImageWrap}>
+                  <img src={item.foto} alt={item.nama} className={styles.productImage} />
+                  <span className={styles.productKat}>{item.kategori}</span>
+                </div>
+                <div className={styles.productInfo}>
+                  <h3 className={styles.productName}>{item.nama}</h3>
+                  <p className={styles.productDesc}>{item.deskripsi}</p>
+                  <a
+                    href={`https://wa.me/${item.kontak}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.buyBtn}
+                  >
+                    <MessageCircle size={16} />
+                    <span>Pesan Sekarang</span>
+                  </a>
+                </div>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        ) : (
           <div style={{ textAlign: 'center', padding: '60px 20px', color: '#94a3b8' }}>
             <ShoppingBag size={48} opacity={0.3} style={{ margin: '0 auto 16px auto', display: 'block' }} />
             Belum ada produk di kategori ini.

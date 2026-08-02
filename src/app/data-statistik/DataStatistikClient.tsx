@@ -916,7 +916,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                       return (
                         <div key={item.id} style={{ background: '#f8fafc', padding: '20px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
                           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
-                            <strong style={{ fontSize: '1.1rem', color: '#0f172a' }}>{item.kategori}</strong>
+                            <strong style={{ fontSize: '1.1rem', color: '#0f172a' }}>{item.sumberPendapatan || '-'}</strong>
                             <span style={{ fontWeight: 700, color: '#10b981' }}>{percent.toFixed(1)}% Terkumpul</span>
                           </div>
 
@@ -944,7 +944,12 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                     <ResponsiveContainer width="100%" height="100%">
                       <PieChart>
                         <Pie
-                          data={currentApbdes.rincian?.filter((r: any) => r.tipe === 'BELANJA').map((r: any) => ({ name: r.kategori, value: Number(r.anggaran) }))}
+                          data={currentApbdes.rincian?.filter((r: any) => r.tipe === 'BELANJA').reduce((acc: any[], r: any) => {
+                            const existing = acc.find(a => a.name === (r.bidang || 'Lainnya'));
+                            if (existing) existing.value += Number(r.anggaran);
+                            else acc.push({ name: r.bidang || 'Lainnya', value: Number(r.anggaran) });
+                            return acc;
+                          }, [])}
                           cx="50%" cy="50%" innerRadius={60} outerRadius={100} paddingAngle={2} dataKey="value"
                         >
                           {currentApbdes.rincian?.filter((r: any) => r.tipe === 'BELANJA').map((entry: any, index: number) => (
@@ -958,12 +963,21 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                   </div>
 
                   <div style={{ display: 'grid', gap: '16px' }}>
-                    {currentApbdes.rincian?.filter((r: any) => r.tipe === 'BELANJA').map((item: any) => {
+                    {currentApbdes.rincian?.filter((r: any) => r.tipe === 'BELANJA').reduce((acc: any[], r: any) => {
+                      const existing = acc.find(a => a.bidang === (r.bidang || 'Lainnya'));
+                      if (existing) {
+                        existing.anggaran += Number(r.anggaran);
+                        existing.realisasi += Number(r.realisasi);
+                      } else {
+                        acc.push({ id: r.bidang || 'Lainnya', bidang: r.bidang || 'Lainnya', anggaran: Number(r.anggaran), realisasi: Number(r.realisasi) });
+                      }
+                      return acc;
+                    }, []).map((item: any) => {
                       const percent = Number(item.anggaran) > 0 ? (Number(item.realisasi) / Number(item.anggaran)) * 100 : 0;
                       return (
                         <div key={item.id} style={{ background: '#f8fafc', padding: '20px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
                           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
-                            <strong style={{ fontSize: '1.1rem', color: '#0f172a' }}>{item.kategori}</strong>
+                            <strong style={{ fontSize: '1.1rem', color: '#0f172a' }}>{item.bidang}</strong>
                             <span style={{ fontWeight: 700, color: '#ef4444' }}>{percent.toFixed(1)}% Terserap</span>
                           </div>
                           <div style={{ height: '16px', background: '#e2e8f0', borderRadius: '8px', overflow: 'hidden', marginBottom: '12px' }}>
@@ -979,30 +993,8 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                   </div>
                 </div>
 
-                {/* Pembiayaan Section */}
-                <div>
-                  <h4 style={{ fontSize: '1.4rem', fontWeight: 700, color: '#3730a3', marginBottom: '20px', borderBottom: '2px solid #3730a3', paddingBottom: '8px', display: 'inline-block' }}>Pembiayaan Desa</h4>
-                  <div style={{ display: 'grid', gap: '16px' }}>
-                    {currentApbdes.rincian?.filter((r: any) => r.tipe === 'PEMBIAYAAN').map((item: any) => {
-                      const percent = Number(item.anggaran) > 0 ? (Number(item.realisasi) / Number(item.anggaran)) * 100 : 0;
-                      return (
-                        <div key={item.id} style={{ background: '#f8fafc', padding: '20px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
-                            <strong style={{ fontSize: '1.1rem', color: '#0f172a' }}>{item.kategori}</strong>
-                            <span style={{ fontWeight: 700, color: '#6366f1' }}>{percent.toFixed(1)}% Terealisasi</span>
-                          </div>
-                          <div style={{ height: '16px', background: '#e2e8f0', borderRadius: '8px', overflow: 'hidden', marginBottom: '12px' }}>
-                            <div style={{ height: '100%', width: `${Math.min(percent, 100)}%`, background: '#6366f1', transition: 'width 1s ease' }} />
-                          </div>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}>
-                            <span style={{ color: '#64748b' }}>Target: <strong>Rp {Number(item.anggaran).toLocaleString('id-ID')}</strong></span>
-                            <span style={{ color: '#3730a3' }}>Realisasi: <strong>Rp {Number(item.realisasi).toLocaleString('id-ID')}</strong></span>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
+                {/* Pembiayaan Section (Removed because it's no longer tracked) */}
+
 
               </div>
             </div>

@@ -82,14 +82,15 @@ model BeritaImage {
   createdAt DateTime @default(now())
 }
 
-model Wisata {
+model WisataPotensi {
   id        String   @id @default(cuid())
   nama      String
-  kategori  String   // ALAM, SEJARAH, AGROWISATA
+  tipe      String   // WISATA, POTENSI
+  kategori  String   // ALAM, SEJARAH, dll
   deskripsi String   @db.Text
   fotoUrl   String?
-  harga     Int?
   jamBuka   String?
+  linkMaps  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -326,6 +327,7 @@ model Apbdes {
   tahun      String   @unique
   fotoUrl    String?
   isAktif    Boolean  @default(false)
+  paguAnggaran BigInt @default(999960247) // Kunci otomatis target keseimbangan
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
@@ -337,10 +339,20 @@ model ApbdesRincian {
   apbdesId   String
   apbdes     Apbdes   @relation(fields: [apbdesId], references: [id], onDelete: Cascade)
   
-  tipe       String   // PENDAPATAN, BELANJA, PEMBIAYAAN
-  kategori   String   // Contoh: "Dana Desa", "Pembangunan Desa"
-  anggaran   BigInt
-  realisasi  BigInt
+  tipe             String   // PENDAPATAN, BELANJA
+  
+  // Fields untuk PENDAPATAN
+  sumberPendapatan String?  // Dana Desa, Alokasi Dana Desa (ADD), BKK Provinsi, Pendapatan Lain-Lain
+  
+  // Fields untuk BELANJA
+  bidang           String?  // I. Penyelenggaraan Pemerintahan Desa, dst
+  sumberDana       String?  // DDS, ADD, ADD/DLL, PBP/PB, ADD/PBP
+  namaKegiatan     String?  @db.Text
+  volume           Int?
+  satuan           String?  // Bulan, Ls, Unit, KPM
+
+  anggaran         BigInt   // Nominal Rp
+  realisasi        BigInt   @default(0)
   
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt

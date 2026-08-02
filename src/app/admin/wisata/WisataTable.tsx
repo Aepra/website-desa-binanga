@@ -2,16 +2,19 @@
 
 import React, { useState } from 'react';
 import { deleteWisata, updateWisata } from '@/server/actions/wisata.action';
+import { useRouter } from 'next/navigation';
 import { Edit2, Trash2, X, Map, Clock, Loader2 } from 'lucide-react';
 import LoadingOverlay from '@/components/LoadingOverlay';
 
 export default function WisataTable({ data }: { data: any[] }) {
   const [editingItem, setEditingItem] = useState<any | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const router = useRouter();
 
   const handleDelete = async (id: string) => {
     if (confirm('Yakin ingin menghapus data ini?')) {
       await deleteWisata(id);
+      router.refresh();
     }
   };
 
@@ -24,6 +27,7 @@ export default function WisataTable({ data }: { data: any[] }) {
     
     setIsSaving(false);
     setEditingItem(null);
+    router.refresh();
   };
 
   const kategoriWisata = ["Wisata Alam", "Wisata Budaya", "Wisata Edukasi", "Wisata Religi", "Wisata Kuliner", "Wisata Buatan"];

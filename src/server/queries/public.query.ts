@@ -154,9 +154,9 @@ export async function getUmkmDB(limit?: number): Promise<UMKM[]> {
 // 4. WISATA
 // ==============================
 export async function getWisataDB(limit?: number): Promise<Wisata[]> {
-  const data = await prisma.wisata.findMany({
+  const data = await prisma.wisataPotensi.findMany({
     orderBy: { createdAt: 'desc' },
-    take: limit
+    ...(limit ? { take: limit } : {})
   });
 
   return data.map(w => ({
@@ -165,6 +165,8 @@ export async function getWisataDB(limit?: number): Promise<Wisata[]> {
     kategori: w.kategori,
     foto: w.fotoUrl || '',
     deskripsi: w.deskripsi,
+    jamBuka: w.jamBuka,
+    linkMaps: w.linkMaps,
   }));
 }
 
