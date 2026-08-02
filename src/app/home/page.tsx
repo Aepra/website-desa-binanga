@@ -70,14 +70,6 @@ export default function Home() {
           animate="visible"
           variants={containerVariants}
         >
-          {/* Logo Desa di Hero */}
-          <motion.img 
-            variants={itemVariants} 
-            src="/pic/logo-desa.jpeg" 
-            alt="Logo Desa" 
-            className={styles.heroLogo} 
-          />
-
           <motion.div variants={itemVariants} className={styles.badge}>
             PORTAL RESMI PEMERINTAHAN DESA
           </motion.div>

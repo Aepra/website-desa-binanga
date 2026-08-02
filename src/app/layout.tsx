@@ -7,8 +7,11 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "DesaConnect - Layanan Desa Digital",
-  description: "Platform layanan publik untuk desa cerdas dan terhubung",
+  title: "Desa Binanga",
+  description: "Portal Resmi Pemerintahan Desa Binanga",
+  icons: {
+    icon: "/pic/logo-soon.png",
+  },
 };
 
 export default function RootLayout({

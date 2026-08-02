@@ -17,7 +17,7 @@ import { motion } from 'framer-motion';
 // Hardcoded data removed. Data is now fetched dynamically from database.
 
 // Helper to format numbers with Indonesian locale
-const formatNumber = (num) => new Intl.NumberFormat('id-ID').format(num);
+const formatNumber = (num: number) => new Intl.NumberFormat('id-ID').format(num);
 
 export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, dbApbdesList = [], dbInfrastrukturList = [] }: { dbGlobalStats?: any, dbDusunList?: any[], latestYear?: number, dbApbdesList?: any[], dbInfrastrukturList?: any[] }) {
   const [mounted, setMounted] = useState(false);
@@ -35,7 +35,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
 
   const currentApbdes = apbdesList.find(a => a.id === selectedApbdesId);
 
-  useEffect(() => { 
+  useEffect(() => {
     setMounted(true);
     if (typeof window !== 'undefined' && window.location.hash) {
       setTimeout(() => {
@@ -50,7 +50,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
 
   // ── PENGGABUNGAN DATA DATABASE ──
   // Semuanya wajib menggunakan data dari dbGlobalStats dan dbDusunList.
-  
+
   let dynamicPendudukDusun = dbDusunList?.map((d: any) => {
     const comp = d.computed || d.penduduk?.[0] || {};
     return {
@@ -64,19 +64,19 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
 
   let dynamicIjazah = dbGlobalStats?.pendidikan ? [
     { name: 'Tidak\nBerijazah', value: dbGlobalStats.pendidikan.tanpaIjazah || 0, color: '#94a3b8' },
-    { name: 'SD/\nSederajat',   value: dbGlobalStats.pendidikan.sd || 0, color: '#3b82f6' },
-    { name: 'SMP/\nSederajat',  value: dbGlobalStats.pendidikan.smp || 0, color: '#10b981' },
-    { name: 'SMA/\nSederajat',  value: dbGlobalStats.pendidikan.sma || 0, color: '#f59e0b' },
-    { name: 'Diploma',          value: dbGlobalStats.pendidikan.diploma || 0, color: '#8b5cf6' },
-    { name: 'S1',               value: dbGlobalStats.pendidikan.s1 || 0, color: '#ef4444' },
-    { name: 'S2',               value: dbGlobalStats.pendidikan.s2 || 0, color: '#ec4899' },
+    { name: 'SD/\nSederajat', value: dbGlobalStats.pendidikan.sd || 0, color: '#3b82f6' },
+    { name: 'SMP/\nSederajat', value: dbGlobalStats.pendidikan.smp || 0, color: '#10b981' },
+    { name: 'SMA/\nSederajat', value: dbGlobalStats.pendidikan.sma || 0, color: '#f59e0b' },
+    { name: 'Diploma', value: dbGlobalStats.pendidikan.diploma || 0, color: '#8b5cf6' },
+    { name: 'S1', value: dbGlobalStats.pendidikan.s1 || 0, color: '#ef4444' },
+    { name: 'S2', value: dbGlobalStats.pendidikan.s2 || 0, color: '#ec4899' },
   ] : [];
-
+  // hsgd
   let dynamicPiramida = dbGlobalStats?.piramidaUsia || [];
 
   let dynamicPerkawinan = [
-    { name: 'Kawin',       value: dbGlobalStats?.kawin || 4,       color: '#10b981' },
-    { name: 'Cerai Mati',  value: dbGlobalStats?.ceraiMati || 1,  color: '#f59e0b' },
+    { name: 'Kawin', value: dbGlobalStats?.kawin || 4, color: '#10b981' },
+    { name: 'Cerai Mati', value: dbGlobalStats?.ceraiMati || 1, color: '#f59e0b' },
     { name: 'Cerai Hidup', value: dbGlobalStats?.ceraiHidup || 1, color: '#ef4444' },
     { name: 'Belum Kawin', value: dbGlobalStats?.belumKawin || 2, color: '#8b5cf6' },
   ];
@@ -108,7 +108,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
     dbInfrastrukturList.forEach((item: any) => {
       counts[item.kategori] = (counts[item.kategori] || 0) + 1;
     });
-    
+
     const colorMap: Record<string, string> = {
       'Pendidikan': '#3b82f6',
       'Kesehatan': '#8b5cf6',
@@ -146,11 +146,11 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
 
   // ── DATA PENDUDUK — selalu dari database admin (tabel Penduduk / StatistikGlobal) ──
   const totalJiwa = globalStats?.totalPenduduk ?? dynamicPendudukDusun.reduce((s: any, d: any) => s + d.jiwa, 0) ?? 0;
-  const totalKK   = globalStats?.totalKk ?? dynamicPendudukDusun.reduce((s: any, d: any) => s + d.kk, 0) ?? 0;
+  const totalKK = globalStats?.totalKk ?? dynamicPendudukDusun.reduce((s: any, d: any) => s + d.kk, 0) ?? 0;
   const totalLaki = globalStats?.lakiLaki ?? dynamicPendudukDusun.reduce((s: any, d: any) => s + d.lakiLaki, 0) ?? 0;
-  const totalPrp  = globalStats?.perempuan ?? dynamicPendudukDusun.reduce((s: any, d: any) => s + d.perempuan, 0) ?? 0;
-  const pctLaki   = totalJiwa > 0 ? Math.round((totalLaki / totalJiwa) * 100) : 0;
-  const pctPrp    = totalJiwa > 0 ? Math.round((totalPrp / totalJiwa) * 100) : 0;
+  const totalPrp = globalStats?.perempuan ?? dynamicPendudukDusun.reduce((s: any, d: any) => s + d.perempuan, 0) ?? 0;
+  const pctLaki = totalJiwa > 0 ? Math.round((totalLaki / totalJiwa) * 100) : 0;
+  const pctPrp = totalJiwa > 0 ? Math.round((totalPrp / totalJiwa) * 100) : 0;
   const totalDusun = dbDusunList?.length || 4;
 
   // ── LUAS WILAYAH & JARAK — konstanta resmi BPS Kab. Majene 2025 (tidak diinput admin) ──
@@ -163,7 +163,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
 
   // Kepadatan = total jiwa dari admin ÷ luas BPS (jiwa per km²)
   const kepadatanPenduduk = totalJiwa > 0 ? Math.round(totalJiwa / (luasDesa / 100)) : 0;
-  
+
   const lastUpdatedDate = dbGlobalStats?.updatedAt ? new Date(dbGlobalStats.updatedAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Data Baru';
 
   if (!mounted) return <LoadingOverlay show={true} />;
@@ -193,63 +193,63 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
         <div className={kpiStyles.kpiGrid}>
           <div className={`${styles.card} ${kpiStyles.kpiCard}`}>
             <div className={kpiStyles.kpiIcon} style={{ background: '#eff6ff', color: '#3b82f6' }}>
-                <Users size={22} />
-              </div>
-              <div className={kpiStyles.kpiVal}>{formatNumber(totalJiwa)}</div>
+              <Users size={22} />
+            </div>
+            <div className={kpiStyles.kpiVal}>{formatNumber(totalJiwa)}</div>
             <div className={kpiStyles.kpiLbl}>Total Jiwa</div>
           </div>
           <div className={`${styles.card} ${kpiStyles.kpiCard}`}>
-                <div className={kpiStyles.kpiIcon} style={{ background: '#f0fdf4', color: '#10b981' }}>
-                  <Home size={22} />
-                </div>
-                <div className={kpiStyles.kpiVal}>{formatNumber(totalKK)}</div>
-                <div className={kpiStyles.kpiLbl}>Kepala Keluarga</div>
-              </div>
+            <div className={kpiStyles.kpiIcon} style={{ background: '#f0fdf4', color: '#10b981' }}>
+              <Home size={22} />
+            </div>
+            <div className={kpiStyles.kpiVal}>{formatNumber(totalKK)}</div>
+            <div className={kpiStyles.kpiLbl}>Kepala Keluarga</div>
+          </div>
           <div className={`${styles.card} ${kpiStyles.kpiCard}`}>
-                <div className={kpiStyles.kpiIcon} style={{ background: '#eff6ff', color: '#3b82f6' }}>
-                  <Users size={22} />
-                </div>
-                <div className={kpiStyles.kpiVal}>{formatNumber(totalLaki)} <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#3b82f6' }}>({pctLaki}%)</span></div>
-                <div className={kpiStyles.kpiLbl}>Laki-laki</div>
-              </div>
+            <div className={kpiStyles.kpiIcon} style={{ background: '#eff6ff', color: '#3b82f6' }}>
+              <Users size={22} />
+            </div>
+            <div className={kpiStyles.kpiVal}>{formatNumber(totalLaki)} <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#3b82f6' }}>({pctLaki}%)</span></div>
+            <div className={kpiStyles.kpiLbl}>Laki-laki</div>
+          </div>
           <div className={`${styles.card} ${kpiStyles.kpiCard}`}>
-                <div className={kpiStyles.kpiIcon} style={{ background: '#fdf4ff', color: '#a855f7' }}>
-                  <Heart size={22} />
-                </div>
-                <div className={kpiStyles.kpiVal}>{formatNumber(totalPrp)} <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#a855f7' }}>({pctPrp}%)</span></div>
-                <div className={kpiStyles.kpiLbl}>Perempuan</div>
-              </div>
+            <div className={kpiStyles.kpiIcon} style={{ background: '#fdf4ff', color: '#a855f7' }}>
+              <Heart size={22} />
+            </div>
+            <div className={kpiStyles.kpiVal}>{formatNumber(totalPrp)} <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#a855f7' }}>({pctPrp}%)</span></div>
+            <div className={kpiStyles.kpiLbl}>Perempuan</div>
+          </div>
           <div className={`${styles.card} ${kpiStyles.kpiCard}`}>
-                <div className={kpiStyles.kpiIcon} style={{ background: '#fff7ed', color: '#f59e0b' }}>
-                  <MapPin size={22} />
-                </div>
-                <div className={kpiStyles.kpiVal}>{formatNumber(totalDusun)}</div>
-                <div className={kpiStyles.kpiLbl}>Dusun</div>
-              </div>
+            <div className={kpiStyles.kpiIcon} style={{ background: '#fff7ed', color: '#f59e0b' }}>
+              <MapPin size={22} />
+            </div>
+            <div className={kpiStyles.kpiVal}>{formatNumber(totalDusun)}</div>
+            <div className={kpiStyles.kpiLbl}>Dusun</div>
+          </div>
           <div className={`${styles.card} ${kpiStyles.kpiCard}`}>
-                <div className={kpiStyles.kpiIcon} style={{ background: '#f0f9ff', color: '#16803C' }}>
-                  <TreePine size={22} />
-                </div>
-                <div className={kpiStyles.kpiVal}>{luasDesa} ha</div>
-                <div className={kpiStyles.kpiLbl}>Luas Wilayah</div>
-                <div className={kpiStyles.kpiSrc}>BPS Kab. Majene 2025</div>
-              </div>
+            <div className={kpiStyles.kpiIcon} style={{ background: '#f0f9ff', color: '#16803C' }}>
+              <TreePine size={22} />
+            </div>
+            <div className={kpiStyles.kpiVal}>{luasDesa} ha</div>
+            <div className={kpiStyles.kpiLbl}>Luas Wilayah</div>
+            <div className={kpiStyles.kpiSrc}>BPS Kab. Majene 2025</div>
+          </div>
           <div className={`${styles.card} ${kpiStyles.kpiCard}`}>
-                <div className={kpiStyles.kpiIcon} style={{ background: '#f0fdf4', color: '#16803C' }}>
-                  <MapPin size={22} />
-                </div>
-                <div className={kpiStyles.kpiVal}>{JARAK_KE_KAB_KM} km</div>
-                <div className={kpiStyles.kpiLbl}>Jarak ke Ibukota Kab.</div>
-                <div className={kpiStyles.kpiSrc}>Sendana → Majene · BPS 2025</div>
-              </div>
+            <div className={kpiStyles.kpiIcon} style={{ background: '#f0fdf4', color: '#16803C' }}>
+              <MapPin size={22} />
+            </div>
+            <div className={kpiStyles.kpiVal}>{JARAK_KE_KAB_KM} km</div>
+            <div className={kpiStyles.kpiLbl}>Jarak ke Ibukota Kab.</div>
+            <div className={kpiStyles.kpiSrc}>Sendana → Majene · BPS 2025</div>
+          </div>
           <div className={`${styles.card} ${kpiStyles.kpiCard}`}>
-                <div className={kpiStyles.kpiIcon} style={{ background: '#fff1f2', color: '#ef4444' }}>
-                  <AlertTriangle size={22} />
-                </div>
-                <div className={kpiStyles.kpiVal}>{formatNumber(kepadatanPenduduk)}</div>
-                <div className={kpiStyles.kpiLbl}>Kepadatan Penduduk</div>
-                <div className={kpiStyles.kpiSrc}>jiwa/km² · dihitung otomatis</div>
-              </div>
+            <div className={kpiStyles.kpiIcon} style={{ background: '#fff1f2', color: '#ef4444' }}>
+              <AlertTriangle size={22} />
+            </div>
+            <div className={kpiStyles.kpiVal}>{formatNumber(kepadatanPenduduk)}</div>
+            <div className={kpiStyles.kpiLbl}>Kepadatan Penduduk</div>
+            <div className={kpiStyles.kpiSrc}>jiwa/km² · dihitung otomatis</div>
+          </div>
         </div>
 
         <div className={styles.dashboardGrid}>
@@ -311,7 +311,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                   <div className={styles.listLabel}>
                     <div className={styles.listDot} style={{ background: '#3b82f6' }} /> Laki-laki
                   </div>
-                  <div className={styles.listValue}>{totalLaki} ({Math.round((totalLaki/totalJiwa)*100)}%)</div>
+                  <div className={styles.listValue}>{totalLaki} ({Math.round((totalLaki / totalJiwa) * 100)}%)</div>
                 </div>
                 <div className={styles.listItem}>
                   <div className={styles.listLabel}>
@@ -595,7 +595,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                       />
                       <Legend />
                       <Bar dataKey="di_bawah_10" name="< 10 Tahun" fill="#f59e0b" radius={[4, 4, 0, 0]} barSize={20} />
-                      <Bar dataKey="di_atas_10"  name="≥ 10 Tahun" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={20} />
+                      <Bar dataKey="di_atas_10" name="≥ 10 Tahun" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={20} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -623,8 +623,8 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                     />
                     <Legend />
                     <Bar dataKey="perkebunan" name="Perkebunan" fill="#10b981" radius={[4, 4, 0, 0]} barSize={28} />
-                    <Bar dataKey="pemukiman"  name="Pemukiman"  fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={28} />
-                    <Bar dataKey="lainnya"    name="Lainnya (Hutan/Empang)" fill="#f59e0b" radius={[4, 4, 0, 0]} barSize={28} />
+                    <Bar dataKey="pemukiman" name="Pemukiman" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={28} />
+                    <Bar dataKey="lainnya" name="Lainnya (Hutan/Empang)" fill="#f59e0b" radius={[4, 4, 0, 0]} barSize={28} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -646,13 +646,13 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
 
         {/* ── IDM & SDGs DESA (INNOVATIVE UI) ── */}
         <div id="idm" style={{ paddingTop: '80px', paddingBottom: '60px', position: 'relative' }}>
-          
+
           {/* Decorative background blurs */}
           <div style={{ position: 'absolute', top: '10%', left: '5%', width: '300px', height: '300px', background: 'rgba(59, 130, 246, 0.1)', filter: 'blur(80px)', borderRadius: '50%', zIndex: 0, pointerEvents: 'none' }} />
           <div style={{ position: 'absolute', bottom: '10%', right: '5%', width: '400px', height: '400px', background: 'rgba(34, 197, 94, 0.08)', filter: 'blur(100px)', borderRadius: '50%', zIndex: 0, pointerEvents: 'none' }} />
-          
+
           <div style={{ position: 'relative', zIndex: 1 }}>
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -668,9 +668,9 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
             </motion.div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '30px', marginBottom: '60px' }}>
-              
+
               {/* IDM CARD - INNOVATIVE GAUGE */}
-              <motion.div 
+              <motion.div
                 whileHover={{ y: -5 }}
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -680,7 +680,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
               >
                 <h3 style={{ fontSize: '1.4rem', fontWeight: 700, color: '#1e293b', marginBottom: '4px' }}>Indeks Desa Membangun</h3>
                 <p style={{ color: '#94a3b8', fontSize: '0.9rem', marginBottom: '30px', fontWeight: 500 }}>Tahun 2023</p>
-                
+
                 <div style={{ position: 'relative', width: '200px', height: '200px', marginBottom: '24px' }}>
                   <svg width="200" height="200" viewBox="0 0 100 100" style={{ filter: 'drop-shadow(0px 10px 10px rgba(34,197,94,0.2))' }}>
                     <defs>
@@ -692,10 +692,10 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                     {/* Track */}
                     <circle cx="50" cy="50" r="42" stroke="#f1f5f9" strokeWidth="10" fill="none" />
                     {/* Progress */}
-                    <motion.circle 
-                      cx="50" cy="50" r="42" 
-                      stroke="url(#idmGradient)" 
-                      strokeWidth="10" 
+                    <motion.circle
+                      cx="50" cy="50" r="42"
+                      stroke="url(#idmGradient)"
+                      strokeWidth="10"
                       fill="none"
                       strokeLinecap="round"
                       strokeDasharray={2 * Math.PI * 42}
@@ -709,7 +709,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                     <text x="50" y="68" textAnchor="middle" fontSize="7" fontWeight="600" fill="#64748b" letterSpacing="0.5">SKOR IDM</text>
                   </svg>
                 </div>
-                
+
                 <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 24px', background: 'linear-gradient(135deg, #22c55e15, #3b82f615)', border: '1px solid #22c55e40', borderRadius: '30px' }}>
                   <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#22c55e', boxShadow: '0 0 10px #22c55e' }} />
                   <span style={{ fontSize: '1.1rem', fontWeight: 800, color: '#166534', textTransform: 'uppercase', letterSpacing: '1px' }}>Berkembang</span>
@@ -718,7 +718,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
 
               {/* SDGS CARD - INFO PANELS */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
@@ -736,7 +736,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                 </motion.div>
 
                 {/* PEMUTAKHIRAN DATA DETAILS */}
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
@@ -749,7 +749,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                     </div>
                     <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#1e293b', margin: 0 }}>Pemutakhiran Data</h3>
                   </div>
-                  
+
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -778,7 +778,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
             </div>
 
             {/* 18 GOALS GRID - ANIMATED */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -787,7 +787,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
               <h3 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a', margin: 0 }}>Rincian 18 Target SDGs Desa</h3>
               <div style={{ flex: 1, height: '1px', background: 'linear-gradient(to right, #e2e8f0, transparent)' }} />
             </motion.div>
-            
+
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
               {[
                 { id: 1, name: 'Desa Tanpa Kemiskinan', score: 47.89, color: '#e5243b' },
@@ -809,19 +809,19 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                 { id: 17, name: 'Kemitraan Pembangunan', score: 0.00, color: '#19486a' },
                 { id: 18, name: 'Kelembagaan Dinamis', score: 25.18, color: '#00757a' },
               ].map((sdg, index) => (
-                <motion.div 
+                <motion.div
                   key={sdg.id}
                   whileHover={{ y: -5, scale: 1.02 }}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: (index % 3) * 0.1 }}
-                  style={{ 
-                    background: 'rgba(255, 255, 255, 0.7)', 
-                    backdropFilter: 'blur(10px)', 
-                    padding: '20px', 
-                    borderRadius: '16px', 
-                    border: '1px solid rgba(255,255,255,0.8)', 
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.7)',
+                    backdropFilter: 'blur(10px)',
+                    padding: '20px',
+                    borderRadius: '16px',
+                    border: '1px solid rgba(255,255,255,0.8)',
                     boxShadow: '0 10px 30px rgba(0,0,0,0.03)',
                     position: 'relative',
                     overflow: 'hidden'
@@ -832,10 +832,10 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
 
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
                     <div style={{ display: 'flex', gap: '12px' }}>
-                      <div style={{ 
-                        background: `linear-gradient(135deg, ${sdg.color}, ${sdg.color}dd)`, 
-                        color: '#fff', width: '32px', height: '32px', 
-                        borderRadius: '8px', display: 'flex', alignItems: 'center', 
+                      <div style={{
+                        background: `linear-gradient(135deg, ${sdg.color}, ${sdg.color}dd)`,
+                        color: '#fff', width: '32px', height: '32px',
+                        borderRadius: '8px', display: 'flex', alignItems: 'center',
                         justifyContent: 'center', fontWeight: 800, fontSize: '0.9rem',
                         boxShadow: `0 4px 10px ${sdg.color}40`
                       }}>
@@ -849,10 +849,10 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                       {sdg.score.toFixed(2)}
                     </span>
                   </div>
-                  
+
                   {/* Custom Progress Bar */}
                   <div style={{ height: '8px', background: '#f1f5f9', borderRadius: '4px', overflow: 'hidden', width: '100%' }}>
-                    <motion.div 
+                    <motion.div
                       initial={{ width: 0 }}
                       whileInView={{ width: `${sdg.score}%` }}
                       transition={{ duration: 1, ease: "easeOut", delay: 0.2 + (index % 3) * 0.1 }}
@@ -873,12 +873,12 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
             <p style={{ fontSize: '1.1rem', color: '#64748b', maxWidth: '600px', margin: '16px auto 0' }}>
               Rincian interaktif Anggaran Pendapatan dan Belanja Desa (APBDes) beserta target dan realisasi.
             </p>
-            
+
             {dbApbdesList.length > 0 && (
               <div style={{ marginTop: '24px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px' }}>
                 <span style={{ fontWeight: 600, color: '#475569' }}>Pilih Tahun:</span>
-                <select 
-                  value={selectedApbdesId || ''} 
+                <select
+                  value={selectedApbdesId || ''}
                   onChange={(e) => setSelectedApbdesId(e.target.value)}
                   style={{ padding: '10px 16px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '1rem', fontWeight: 600, color: '#0f172a', background: '#fff', cursor: 'pointer', outline: 'none' }}
                 >
@@ -895,13 +895,13 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
               <div style={{ padding: '32px', borderBottom: '1px solid #f1f5f9', background: '#f8fafc', textAlign: 'center' }}>
                 <h3 style={{ fontSize: '2rem', fontWeight: 800, color: '#0f172a', margin: 0 }}>Laporan APBDes Tahun {currentApbdes.tahun}</h3>
               </div>
-              
+
               <div style={{ padding: '32px' }}>
                 {currentApbdes.fotoUrl && (
                   <div style={{ marginBottom: '40px', display: 'flex', justifyContent: 'center' }}>
-                    <img 
-                      src={currentApbdes.fotoUrl} 
-                      alt={`Infografis APBDes ${currentApbdes.tahun}`} 
+                    <img
+                      src={currentApbdes.fotoUrl}
+                      alt={`Infografis APBDes ${currentApbdes.tahun}`}
                       style={{ maxWidth: '100%', height: 'auto', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                     />
                   </div>
@@ -919,7 +919,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                             <strong style={{ fontSize: '1.1rem', color: '#0f172a' }}>{item.kategori}</strong>
                             <span style={{ fontWeight: 700, color: '#10b981' }}>{percent.toFixed(1)}% Terkumpul</span>
                           </div>
-                          
+
                           {/* Progress Bar Container */}
                           <div style={{ height: '16px', background: '#e2e8f0', borderRadius: '8px', overflow: 'hidden', marginBottom: '12px' }}>
                             <div style={{ height: '100%', width: `${Math.min(percent, 100)}%`, background: '#10b981', transition: 'width 1s ease' }} />
@@ -938,7 +938,7 @@ export default function DataStatistik({ dbGlobalStats, dbDusunList, latestYear, 
                 {/* Belanja Section */}
                 <div style={{ marginBottom: '40px' }}>
                   <h4 style={{ fontSize: '1.4rem', fontWeight: 700, color: '#991b1b', marginBottom: '20px', borderBottom: '2px solid #991b1b', paddingBottom: '8px', display: 'inline-block' }}>Belanja Desa</h4>
-                  
+
                   {/* Belanja Pie Chart */}
                   <div style={{ height: '300px', marginBottom: '32px' }}>
                     <ResponsiveContainer width="100%" height="100%">

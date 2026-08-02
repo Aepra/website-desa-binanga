@@ -144,7 +144,7 @@ export default function LayananChatThread({
               <User size={16} color="#2563eb" />
               <span>Deskripsi Pengajuan Awal Warga:</span>
             </div>
-            <p style={{ margin: 0, fontSize: '0.9rem', color: '#1e293b', lineHeight: 1.6, whitespace: 'pre-wrap' }}>
+            <p style={{ margin: 0, fontSize: '0.9rem', color: '#1e293b', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
               {item.deskripsi}
             </p>
           </div>
@@ -241,7 +241,7 @@ export default function LayananChatThread({
                     </div>
 
                     {msg.pesan && (
-                      <p style={{ margin: '0 0 8px 0', fontSize: '0.88rem', color: '#0f172a', lineHeight: 1.5, whitespace: 'pre-wrap' }}>
+                      <p style={{ margin: '0 0 8px 0', fontSize: '0.88rem', color: '#0f172a', lineHeight: 1.5, whiteSpace: 'pre-wrap' }}>
                         {msg.pesan}
                       </p>
                     )}

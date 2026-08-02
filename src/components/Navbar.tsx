@@ -81,7 +81,7 @@ export default function Navbar() {
         {/* Logo Placeholder */}
 
         <Link href="/home" className={styles.logo} title="Home">
-          <img src="/pic/logo-desa.jpeg" alt="Logo Desa Binanga" className={styles.logoImage} />
+          <img src="/pic/logo-soon.png" alt="Logo Desa Binanga" className={styles.logoImage} />
           <div className={styles.logoText}>
             <span className={styles.logoTitle}>Desa Binanga</span>
             <span className={styles.logoSubtitle}>Kecamatan Sendana, Kabupaten Majene</span>

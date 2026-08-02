@@ -10,7 +10,7 @@ export async function GET(request: Request) {
   }
 
   const umkms = await prisma.umkm.findMany({
-    where: { pemilik: session.user.email },
+    where: { pemilik: session.username },
     orderBy: { createdAt: 'desc' },
   });
   return NextResponse.json(umkms);
