@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   icons: {
     icon: "/pic/logo-soon.png",
   },
+  verification: {
+    google: "ujIHV5N2kQ-pG-RDi9Kl_YTJmZ0NeJhF3mX1Tpja9-o",
+  },
 };
 
 import NextTopLoader from 'nextjs-toploader';
