@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Post } from '@/lib/api';
 import { getPostsDB } from '@/server/queries/public.query';
 import { Search, MapPin, Bell, Calendar, ChevronRight, Newspaper, ShieldAlert, CheckCircle } from 'lucide-react';
-import { FadeUp, StaggerContainer, StaggerItem } from '@/components/Animate';
+import { FadeUp, StaggerContainer, StaggerItem } from '@/components/ui/Animate';
 import Link from 'next/link';
 import styles from './berita.module.css';
 

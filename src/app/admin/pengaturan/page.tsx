@@ -1,8 +1,8 @@
 import { getPengaturan, savePengaturan } from '@/server/actions/pengaturan.action';
 import { Clock, UserCheck, Target, Save, Settings as SettingsIcon } from 'lucide-react';
-import KadesPhotoUploader from '@/components/KadesPhotoUploader';
-import SubmitButton from '@/components/SubmitButton';
-import RichTextEditor from '@/components/RichTextEditor';
+import KadesPhotoUploader from '@/components/ui/KadesPhotoUploader';
+import SubmitButton from '@/components/ui/SubmitButton';
+import RichTextEditor from '@/components/ui/RichTextEditor';
 import { prisma } from '@/lib/prisma';
 
 export default async function PengaturanPage() {

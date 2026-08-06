@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { getBansos, addBansos, updateBansos, deleteBansos } from '@/server/actions/bansos.action';
 import { Edit2, Trash2, Plus, Search, Check, X, Loader2 } from 'lucide-react';
-import LoadingOverlay from '@/components/LoadingOverlay';
+import LoadingOverlay from '@/components/ui/LoadingOverlay';
 import styles from '../Admin.module.css';
 
 type BansosItem = {

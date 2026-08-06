@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { deleteWisata, updateWisata } from '@/server/actions/wisata.action';
 import { useRouter } from 'next/navigation';
 import { Edit2, Trash2, X, Map, Clock, Loader2 } from 'lucide-react';
-import LoadingOverlay from '@/components/LoadingOverlay';
+import LoadingOverlay from '@/components/ui/LoadingOverlay';
 
 export default function WisataTable({ data }: { data: any[] }) {
   const [editingItem, setEditingItem] = useState<any | null>(null);

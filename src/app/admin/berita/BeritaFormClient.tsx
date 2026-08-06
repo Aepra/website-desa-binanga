@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { PlusCircle, Image as ImageIcon } from 'lucide-react';
-import SubmitButton from '@/components/SubmitButton';
+import SubmitButton from '@/components/ui/SubmitButton';
 import { createBerita } from '@/server/actions/berita.action';
 
 export default function BeritaFormClient() {

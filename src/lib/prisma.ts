@@ -4,7 +4,11 @@ import { Pool } from 'pg';
 
 const globalForPrisma = global as unknown as { prisma4: PrismaClient | undefined; pool: Pool | undefined };
 
-const pool = globalForPrisma.pool || new Pool({ connectionString: process.env.DATABASE_URL });
+const pool = globalForPrisma.pool || new Pool({ 
+  connectionString: process.env.DATABASE_URL,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 10000
+});
 
 // Increase max listeners to prevent warning when creating many connections in dev
 pool.setMaxListeners(20);

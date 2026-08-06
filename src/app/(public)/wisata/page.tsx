@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Wisata } from '@/lib/api';
 import { getWisataDB } from '@/server/queries/public.query';
 import { CloudSun, Navigation, Tent, Users, Map, Clock, Ticket, ZoomIn } from 'lucide-react';
-import { FadeUp, StaggerContainer, StaggerItem } from '@/components/Animate';
+import { FadeUp, StaggerContainer, StaggerItem } from '@/components/ui/Animate';
 import GeographicDashboard from './GeographicDashboard';
 import styles from './wisata.module.css';
 

@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { getSemuaPenduduk, addPenduduk, updatePenduduk, deletePenduduk, PendudukData } from '@/server/actions/penduduk.action';
+import { useState, useEffect, useRef } from 'react';
+import { getSemuaPenduduk, addPenduduk, updatePenduduk, deletePenduduk, importPendudukBatch, PendudukData } from '@/server/actions/penduduk.action';
+import * as XLSX from 'xlsx';
 import { Edit2, Trash2, Plus, Search, Check, X, FileText, Download, Loader2 } from 'lucide-react';
-import LoadingOverlay from '@/components/LoadingOverlay';
+import LoadingOverlay from '@/components/ui/LoadingOverlay';
 import styles from './penduduk.module.css';
 
 type PendudukItem = PendudukData & { id: string };
@@ -28,6 +29,14 @@ export default function PendudukAdminPage() {
   // Form State
   const [isOpen, setIsOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);
+
+  // Excel Import States
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+  const [importErrors, setImportErrors] = useState<string[]>([]);
+  const [importData, setImportData] = useState<any[]>([]);
+  const [isImporting, setIsImporting] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   const initialForm: PendudukData = {
     noKk: '',
@@ -91,19 +100,27 @@ export default function PendudukAdminPage() {
   const handleCloseForm = () => {
     setIsOpen(false);
     setEditingId(null);
+    setFormError(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
+    setFormError(null);
     try {
+      let res;
       if (editingId) {
-        await updatePenduduk(editingId, formData);
+        res = await updatePenduduk(editingId, formData);
       } else {
-        await addPenduduk(formData);
+        res = await addPenduduk(formData);
       }
-      handleCloseForm();
-      await loadData();
+      
+      if (res && res.success === false) {
+        setFormError(res.error || 'Terjadi kesalahan');
+      } else {
+        handleCloseForm();
+        await loadData();
+      }
     } finally {
       setIsSaving(false);
     }
@@ -118,6 +135,92 @@ export default function PendudukAdminPage() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const REQUIRED_COLUMNS = [
+    'NIK', 'No KK', 'Nama Lengkap', 'Jenis Kelamin', 'Tempat Lahir', 'Tanggal Lahir',
+    'Agama', 'Pendidikan Terakhir', 'Pekerjaan Utama', 'Golongan Darah',
+    'Status Perkawinan', 'SHDK', 'Dusun Domisili', 'Status Kependudukan'
+  ];
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setImportErrors([]);
+    setImportData([]);
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      try {
+        const bstr = evt.target?.result;
+        const wb = XLSX.read(bstr, { type: 'binary' });
+        const wsname = wb.SheetNames[0];
+        const ws = wb.Sheets[wsname];
+        const data = XLSX.utils.sheet_to_json(ws, { header: 1 }) as any[][];
+        
+        if (data.length === 0) {
+          setImportErrors(['File Excel kosong.']);
+          return;
+        }
+
+        const headers = (data[0] || []).map((h: any) => h?.toString().trim());
+        const errors: string[] = [];
+
+        // Cek jumlah kolom
+        if (headers.length < REQUIRED_COLUMNS.length) {
+          errors.push(`Jumlah kolom kurang. Diharapkan ${REQUIRED_COLUMNS.length} kolom, tetapi hanya ada ${headers.length}.`);
+        } else if (headers.length > REQUIRED_COLUMNS.length) {
+          errors.push(`Jumlah kolom berlebih. Diharapkan ${REQUIRED_COLUMNS.length} kolom, tetapi ada ${headers.length}.`);
+        }
+
+        // Cek nama kolom (case-insensitive & exact match checks)
+        const missingCols = REQUIRED_COLUMNS.filter(req => !headers.includes(req));
+        if (missingCols.length > 0) {
+          errors.push(`Kolom yang hilang / salah nama: ${missingCols.join(', ')}`);
+        }
+        
+        const extraCols = headers.filter(h => !REQUIRED_COLUMNS.includes(h));
+        if (extraCols.length > 0 && headers.length >= REQUIRED_COLUMNS.length) {
+          errors.push(`Kolom tidak dikenal: ${extraCols.join(', ')}`);
+        }
+
+        if (errors.length > 0) {
+          setImportErrors(errors);
+        } else {
+          // Parse as objects
+          const jsonData = XLSX.utils.sheet_to_json(ws);
+          setImportData(jsonData);
+        }
+      } catch (error) {
+        setImportErrors(['Gagal membaca file Excel. Pastikan formatnya benar (.xlsx atau .csv).']);
+      }
+    };
+    reader.readAsBinaryString(file);
+  };
+
+  const handleImportSubmit = async () => {
+    if (importData.length === 0) return;
+    setIsImporting(true);
+    try {
+      const plainData = JSON.parse(JSON.stringify(importData));
+      const res = await importPendudukBatch(plainData, filterTahun);
+      if (res.success) {
+        setIsImportModalOpen(false);
+        setImportData([]);
+        if (fileInputRef.current) fileInputRef.current.value = '';
+        await loadData();
+        alert(`Berhasil mengimpor ${res.count} data penduduk.`);
+      } else {
+        const errorList = res.duplicates && res.duplicates.length > 0 
+          ? [`${res.error}`, `NIK Duplikat: ${res.duplicates.join(', ')}`] 
+          : [res.error || 'Terjadi kesalahan validasi di server.'];
+        setImportErrors(errorList);
+      }
+    } catch (error) {
+      setImportErrors(['Terjadi kesalahan sistem saat menyimpan data ke database.']);
+    } finally {
+      setIsImporting(false);
+    }
   };
 
   const filteredItems = items.filter(item => 
@@ -143,6 +246,13 @@ export default function PendudukAdminPage() {
               <option key={y} value={y}>Tahun {y}</option>
             ))}
           </select>
+          <button 
+            className={styles.btnSecondary} 
+            onClick={() => setIsImportModalOpen(true)}
+            style={{ background: '#f8fafc', color: '#0f172a', border: '1px solid #e2e8f0', padding: '10px 18px', borderRadius: '12px', fontWeight: 700, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}
+          >
+            <Download size={18} /> Import Excel
+          </button>
           <button className={styles.btnPrimary} onClick={() => handleOpenForm()}>
             <Plus size={18} /> Tambah Data
           </button>
@@ -235,10 +345,16 @@ export default function PendudukAdminPage() {
         <div className={styles.modalOverlay}>
           <div className={styles.modal} style={{ maxWidth: '800px' }}>
             <div className={styles.modalHeader}>
-              <h2 className={styles.modalTitle}>{editingId ? 'Edit Data Penduduk' : 'Tambah Data Penduduk'}</h2>
+              <h2 className={styles.modalTitle}>{editingId ? 'Edit Data Penduduk' : 'Tambah Penduduk Baru'}</h2>
               <button className={styles.modalClose} onClick={handleCloseForm}><X size={24} /></button>
             </div>
             
+            {formError && (
+              <div style={{ margin: '20px 24px 0', padding: '12px 16px', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', color: '#b91c1c', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <X size={16} /> {formError}
+              </div>
+            )}
+
             <form onSubmit={handleSubmit} className={styles.modalBody}>
               <div className={styles.formGrid}>
                 <div className={styles.formGroup}>
@@ -342,7 +458,82 @@ export default function PendudukAdminPage() {
           </div>
         </div>
       )}
-      <LoadingOverlay show={isSaving} />
+
+      {isImportModalOpen && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent} style={{ maxWidth: '600px' }}>
+            <div className={styles.modalHeader}>
+              <h2 className={styles.modalTitle}>Import Data Penduduk</h2>
+              <button className={styles.closeBtn} onClick={() => { setIsImportModalOpen(false); setImportErrors([]); setImportData([]); }}>
+                <X size={20} />
+              </button>
+            </div>
+            
+            <div style={{ padding: '24px' }}>
+              <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '16px' }}>
+                Unggah file Excel (.xlsx atau .csv) yang berisi data penduduk. <strong>Format kolom harus sama persis</strong> dengan standar sistem.
+              </p>
+              
+              <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '12px', border: '1px solid #e2e8f0', marginBottom: '20px' }}>
+                <h4 style={{ margin: '0 0 8px', fontSize: '0.85rem', color: '#0f172a' }}>Daftar Kolom Wajib:</h4>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                  {REQUIRED_COLUMNS.map(col => (
+                    <span key={col} style={{ background: '#ffffff', border: '1px solid #cbd5e1', padding: '2px 8px', borderRadius: '4px', fontSize: '0.75rem', color: '#334155' }}>
+                      {col}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div style={{ marginBottom: '20px' }}>
+                <input 
+                  type="file" 
+                  accept=".xlsx, .xls, .csv" 
+                  onChange={handleFileUpload} 
+                  ref={fileInputRef}
+                  style={{ display: 'block', width: '100%', padding: '10px', border: '1px dashed #cbd5e1', borderRadius: '8px', cursor: 'pointer' }}
+                />
+              </div>
+
+              {importErrors.length > 0 && (
+                <div style={{ background: '#fef2f2', border: '1px solid #fecaca', padding: '16px', borderRadius: '12px', marginBottom: '20px' }}>
+                  <h4 style={{ color: '#dc2626', margin: '0 0 8px', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <X size={16} /> Gagal Membaca File
+                  </h4>
+                  <ul style={{ margin: 0, paddingLeft: '20px', color: '#b91c1c', fontSize: '0.85rem' }}>
+                    {importErrors.map((err, i) => <li key={i}>{err}</li>)}
+                  </ul>
+                </div>
+              )}
+
+              {importData.length > 0 && importErrors.length === 0 && (
+                <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', padding: '16px', borderRadius: '12px', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <Check size={24} color="#16a34a" />
+                  <div>
+                    <h4 style={{ color: '#166534', margin: 0, fontSize: '0.95rem' }}>File Valid!</h4>
+                    <p style={{ color: '#15803d', margin: '4px 0 0', fontSize: '0.85rem' }}>Ditemukan {importData.length} baris data yang siap diunggah.</p>
+                  </div>
+                </div>
+              )}
+
+              <div className={styles.modalFooter}>
+                <button type="button" className={styles.btnSecondary} onClick={() => { setIsImportModalOpen(false); setImportErrors([]); setImportData([]); }} disabled={isImporting}>Batal</button>
+                <button 
+                  type="button" 
+                  className={styles.btnPrimary} 
+                  disabled={importData.length === 0 || importErrors.length > 0 || isImporting}
+                  onClick={handleImportSubmit}
+                >
+                  {isImporting ? <Loader2 size={18} style={{ animation: 'spin 1s linear infinite' }} /> : <Download size={18} />}
+                  {isImporting ? 'Menyimpan Data...' : 'Upload & Simpan'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <LoadingOverlay show={isSaving || isImporting} />
     </div>
   );
 }

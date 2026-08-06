@@ -1,6 +1,6 @@
 import { getUMKM, createUMKM, deleteUMKM } from '@/server/actions/umkm.action';
 import { updateUmkmStatusAdmin } from '@/server/actions/user-dashboard.action';
-import SubmitButton from '@/components/SubmitButton';
+import SubmitButton from '@/components/ui/SubmitButton';
 
 export default async function UMKMPage() {
   const data = await getUMKM();

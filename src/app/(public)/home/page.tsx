@@ -9,7 +9,7 @@ import { useState, useEffect } from 'react';
 import { getPengaturan } from '@/server/actions/pengaturan.action';
 import { getStatistikDB, getPostsDB, getUmkmDB, getWisataDB, getApbdesActiveDB, getInfrastrukturDB } from '@/server/queries/public.query';
 import { getPerangkat } from '@/server/actions/struktur.action';
-import OrgChart from '@/components/OrgChart';
+import OrgChart from '@/components/features/OrgChart';
 import type { Post, UMKM, Wisata, Statistik } from '@/lib/api';
 
 export default function Home() {

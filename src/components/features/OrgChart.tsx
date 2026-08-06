@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import { Plus, X, Trash2, ZoomIn, ZoomOut, RotateCcw, Loader2 } from 'lucide-react';
-import PhotoUploader from './PhotoUploader';
-import LoadingOverlay from './LoadingOverlay';
+import PhotoUploader from '@/components/ui/PhotoUploader';
+import LoadingOverlay from '@/components/ui/LoadingOverlay';
 
 interface Perangkat {
   id: string;

@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import {
   User,
   LogOut,
@@ -20,23 +21,32 @@ import {
   ExternalLink,
   ShieldCheck,
   Send,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Loader2,
+  Trash2
 } from 'lucide-react';
-import LayananChatThread from '@/components/LayananChatThread';
+import LayananChatThread from '@/components/features/LayananChatThread';
 import {
   getCurrentUserSession,
   logoutUserAction,
   getUmkmByUser,
   createUmkmUser,
   getLayananByUser,
-  createLayananUser
+  createLayananUser,
+  deleteLayananUser
 } from '@/server/actions/user-dashboard.action';
+import { daftarLayanan } from '@/lib/layanan-config';
 
 export default function UserDashboardPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const tabParam = searchParams.get('tab');
+  
   const [session, setSession] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'overview' | 'layanan' | 'umkm'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'layanan' | 'umkm'>(
+    (tabParam as 'overview' | 'layanan' | 'umkm') || 'overview'
+  );
 
   // Data states
   const [umkmList, setUmkmList] = useState<any[]>([]);
@@ -51,6 +61,11 @@ export default function UserDashboardPage() {
 
   // Character counter for UMKM description
   const [umkmDeskripsi, setUmkmDeskripsi] = useState('');
+  
+  // Dynamic Layanan Form State
+  const [selectedLayananId, setSelectedLayananId] = useState(daftarLayanan[0].id);
+  const selectedLayanan = daftarLayanan.find(l => l.id === selectedLayananId) || daftarLayanan[0];
+  const [layananFiles, setLayananFiles] = useState<File[]>([]);
 
   useEffect(() => {
     async function loadData() {
@@ -82,18 +97,57 @@ export default function UserDashboardPage() {
     setFormError('');
     setFormSuccess('');
 
+    const service = daftarLayanan.find(l => l.id === selectedLayananId);
+    if (service && layananFiles.length < service.syarat.length) {
+      setFormError(`Mohon unggah minimal ${service.syarat.length} berkas syarat (Anda baru mengunggah ${layananFiles.length} berkas).`);
+      setSubmitting(false);
+      return;
+    }
+
     const formData = new FormData(e.currentTarget);
+    formData.delete('lampiranFiles'); // Hapus input file default
+    layananFiles.forEach(file => {
+      formData.append('lampiranFiles', file);
+    });
+
+    // Format dynamic fields into deskripsi
+    if (service) {
+      formData.set('perihal', service.title);
+      if (service.fields && service.fields.length > 0) {
+        const parts = service.fields.map(f => {
+          const val = formData.get(f.name);
+          return `**${f.label}:**\n${val}`;
+        });
+        formData.set('deskripsi', parts.join('\n\n'));
+      }
+    }
+    
     const res = await createLayananUser(formData);
 
     if (res.success) {
       setFormSuccess('Permohonan layanan berhasil dikirim! Admin akan memproses permohonan Anda.');
       setShowLayananModal(false);
+      setLayananFiles([]);
       const updated = await getLayananByUser();
       setLayananList(updated);
     } else {
       setFormError(res.error || 'Gagal mengirim permohonan.');
     }
     setSubmitting(false);
+  }
+
+  async function handleDeleteLayanan(id: string) {
+    if (!window.confirm('Apakah Anda yakin ingin menghapus permohonan layanan ini? Data percakapan dan berkas juga akan terhapus secara permanen.')) {
+      return;
+    }
+    
+    // Optional: show a loading state here if desired, but since it's just a row deletion, an optimistic or simple await is fine.
+    const res = await deleteLayananUser(id);
+    if (res.success) {
+      setLayananList(prev => prev.filter(l => l.id !== id));
+    } else {
+      alert('Gagal menghapus permohonan: ' + res.error);
+    }
   }
 
   async function handleUmkmSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -166,8 +220,8 @@ export default function UserDashboardPage() {
             <span style={{ background: '#eff6ff', border: '1px solid #bfdbfe', color: '#2563eb', padding: '3px 10px', borderRadius: '20px', fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
               Warga Desa Binanga
             </span>
-            <h1 style={{ fontSize: '1.25rem', fontWeight: 800, margin: '8px 0 4px', color: '#0f172a' }}>
-              Selamat Datang, {session?.name}!
+            <h1 className="header-title" style={{ fontSize: '1.25rem', fontWeight: 800, margin: '8px 0 4px', color: '#0f172a' }}>
+              Halo, {session?.name || 'Warga'}! 👋
             </h1>
             <p style={{ color: '#64748b', fontSize: '0.82rem', maxWidth: '600px', lineHeight: 1.5, margin: 0 }}>
               Ajukan permohonan surat & layanan publik, atau daftarkan usaha UMKM Anda secara online langsung ke Kantor Desa Binanga.
@@ -175,7 +229,6 @@ export default function UserDashboardPage() {
           </div>
         </div>
 
-        {/* ── TABS HEADER (HORIZONTALLY SCROLLABLE ON MOBILE) ── */}
         <div style={{
           display: 'flex',
           gap: '8px',
@@ -226,12 +279,10 @@ export default function UserDashboardPage() {
           </button>
         </div>
 
-        {/* ── TAB CONTENT 1: OVERVIEW ── */}
         {activeTab === 'overview' && (
           <div>
-            {/* Quick Action Grid */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', marginBottom: '32px' }}>
-              <div style={{ background: '#ffffff', padding: '24px', borderRadius: '18px', border: '1px solid #e2e8f0', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' }}>
+              <div className="stat-card" style={{ background: '#ffffff', padding: '24px', borderRadius: '18px', border: '1px solid #e2e8f0', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
                   <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: '#eff6ff', color: '#2563eb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <FileText size={24} />
@@ -252,7 +303,7 @@ export default function UserDashboardPage() {
                 </button>
               </div>
 
-              <div style={{ background: '#ffffff', padding: '24px', borderRadius: '18px', border: '1px solid #e2e8f0', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' }}>
+              <div className="stat-card" style={{ background: '#ffffff', padding: '24px', borderRadius: '18px', border: '1px solid #e2e8f0', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
                   <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: '#f0fdf4', color: '#16a34a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Store size={24} />
@@ -274,7 +325,6 @@ export default function UserDashboardPage() {
               </div>
             </div>
 
-            {/* Recent Layanan List */}
             <div style={{ background: '#ffffff', borderRadius: '20px', border: '1px solid #e2e8f0', padding: '24px', boxShadow: '0 4px 12px rgba(0,0,0,0.02)' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -302,54 +352,80 @@ export default function UserDashboardPage() {
                   <p style={{ margin: 0, fontWeight: 600 }}>Belum ada permohonan layanan yang diajukan.</p>
                 </div>
               ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                  {layananList.slice(0, 3).map((item) => (
-                    <div key={item.id} style={{ padding: '20px', borderRadius: '16px', background: '#f8fafc', border: '1px solid #e2e8f0' }}>
-                      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px', marginBottom: '10px' }}>
-                        <div>
-                          <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#2563eb', textTransform: 'uppercase' }}>{item.perihal}</span>
-                          <h4 style={{ fontSize: '1rem', fontWeight: 800, color: '#0f172a', margin: '2px 0 4px' }}>{item.judul}</h4>
-                          <p style={{ fontSize: '0.78rem', color: '#64748b', margin: 0 }}>Dikirim pada {new Date(item.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
-                        </div>
-                        <StatusBadge status={item.status} />
-                      </div>
-
-                      {/* Pesan Balasan Admin (jika ada) */}
-                      {item.catatanAdmin && (
-                        <div style={{ background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '12px', padding: '12px 14px', marginTop: '12px' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#1d4ed8', fontWeight: 700, fontSize: '0.82rem', marginBottom: '4px' }}>
-                            <ShieldCheck size={16} />
-                            <span>Pesan / Balasan dari Admin Desa:</span>
-                          </div>
-                          <p style={{ margin: 0, fontSize: '0.85rem', color: '#1e3a8a', lineHeight: 1.5 }}>
-                            {item.catatanAdmin}
-                          </p>
-                        </div>
-                      )}
-
-                      {/* Tombol Unduh Surat (jika sudah diupload admin) */}
-                      {item.fileSuratUrl && (
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#f0fdf4', border: '1px solid #bbf7d0', padding: '10px 14px', borderRadius: '12px', marginTop: '12px' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#15803d' }}>
-                            <CheckCircle size={18} />
-                            <span style={{ fontWeight: 700, fontSize: '0.82rem' }}>Surat / Berkas Siap Diunduh</span>
-                          </div>
-                          <a
-                            href={item.fileSuratUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{
-                              display: 'flex', alignItems: 'center', gap: '6px', background: '#16a34a', color: '#ffffff',
-                              padding: '6px 12px', borderRadius: '8px', textDecoration: 'none', fontWeight: 700, fontSize: '0.8rem'
-                            }}
-                          >
-                            <Download size={14} />
-                            <span>Unduh Berkas</span>
-                          </a>
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                <div style={{ overflowX: 'auto', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                  <table style={{ width: '100%', minWidth: '600px', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.88rem' }}>
+                    <thead>
+                      <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+                        <th className="table-th" style={{ color: '#64748b', fontWeight: 700, textTransform: 'uppercase', width: '120px' }}>Tanggal</th>
+                        <th className="table-th" style={{ color: '#64748b', fontWeight: 700, textTransform: 'uppercase' }}>Layanan / Perihal</th>
+                        <th className="table-th" style={{ color: '#64748b', fontWeight: 700, textTransform: 'uppercase', width: '120px', textAlign: 'center' }}>Status</th>
+                        <th className="table-th" style={{ color: '#64748b', fontWeight: 700, textTransform: 'uppercase', width: '90px', textAlign: 'center' }}>Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {layananList.slice(0, 3).map((item, index) => (
+                        <tr key={item.id} style={{ 
+                          background: index % 2 === 0 ? '#ffffff' : '#fafafb', 
+                          borderBottom: '1px solid #f1f5f9',
+                          transition: 'background 0.2s ease'
+                        }} onMouseOver={(e) => e.currentTarget.style.background = '#f1f5f9'} onMouseOut={(e) => e.currentTarget.style.background = index % 2 === 0 ? '#ffffff' : '#fafafb'}>
+                          <td className="table-td" style={{ whiteSpace: 'nowrap' }}>
+                            <span style={{ color: '#0f172a', fontWeight: 700, display: 'block' }}>
+                              {new Date(item.createdAt).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })}
+                            </span>
+                          </td>
+                          <td className="table-td" style={{ color: '#334155', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '300px' }}>
+                            {item.judul}
+                          </td>
+                          <td className="table-td" style={{ textAlign: 'center' }}>
+                            <StatusBadge status={item.status} />
+                          </td>
+                          <td className="table-td" style={{ textAlign: 'center' }}>
+                            <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', alignItems: 'center' }}>
+                              <Link
+                                href={`/user-dashboard/layanan/${item.id}`}
+                                style={{
+                                  background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+                                  color: '#ffffff',
+                                  border: 'none',
+                                  padding: '4px 14px',
+                                  borderRadius: '20px',
+                                  cursor: 'pointer',
+                                  fontSize: '0.72rem',
+                                  fontWeight: 700,
+                                  boxShadow: '0 2px 6px rgba(37,99,235,0.25)',
+                                  textDecoration: 'none',
+                                  display: 'inline-block'
+                                }}
+                              >
+                                Buka
+                              </Link>
+                              <button 
+                                onClick={() => handleDeleteLayanan(item.id)}
+                                title="Hapus Permohonan"
+                                style={{
+                                  background: '#fef2f2',
+                                  color: '#dc2626',
+                                  border: '1px solid #fecaca',
+                                  padding: '6px',
+                                  borderRadius: '50%',
+                                  cursor: 'pointer',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  transition: 'background 0.2s'
+                                }}
+                                onMouseOver={(e) => e.currentTarget.style.background = '#fee2e2'}
+                                onMouseOut={(e) => e.currentTarget.style.background = '#fef2f2'}
+                              >
+                                <Trash2 size={14} />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               )}
             </div>
@@ -383,18 +459,86 @@ export default function UserDashboardPage() {
                 <p style={{ color: '#64748b', fontSize: '0.88rem', margin: '0 0 20px' }}>Klik tombol di atas untuk mengajukan permohonan surat atau pengaduan.</p>
               </div>
             ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                {layananList.map((item) => (
-                  <LayananChatThread
-                    key={item.id}
-                    item={item}
-                    currentUserRole={session?.role || 'WARGA'}
-                    onRefresh={async () => {
-                      const updated = await getLayananByUser();
-                      setLayananList(updated);
-                    }}
-                  />
-                ))}
+              <div style={{ background: '#ffffff', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 4px 24px rgba(15,23,42,0.04)', border: '1px solid #e2e8f0' }}>
+                <div style={{ overflowX: 'auto' }}>
+                  <table style={{ width: '100%', minWidth: '700px', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.88rem' }}>
+                    <thead>
+                      <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+                        <th className="table-th" style={{ color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', width: '140px' }}>Tanggal</th>
+                        <th className="table-th" style={{ color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Layanan / Perihal</th>
+                        <th className="table-th" style={{ color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', width: '140px', textAlign: 'center' }}>Status</th>
+                        <th className="table-th" style={{ color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', width: '100px', textAlign: 'center' }}>Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {layananList.map((item, index) => (
+                        <tr key={item.id} style={{ 
+                          background: index % 2 === 0 ? '#ffffff' : '#fafafb', 
+                          borderBottom: '1px solid #f1f5f9',
+                          transition: 'background 0.2s ease'
+                        }} onMouseOver={(e) => e.currentTarget.style.background = '#f1f5f9'} onMouseOut={(e) => e.currentTarget.style.background = index % 2 === 0 ? '#ffffff' : '#fafafb'}>
+                          <td className="table-td" style={{ whiteSpace: 'nowrap' }}>
+                            <span style={{ color: '#0f172a', fontWeight: 700, display: 'block' }}>
+                              {new Date(item.createdAt).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })}
+                            </span>
+                            <span style={{ color: '#64748b', fontSize: '0.7rem' }}>
+                              {new Date(item.createdAt).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}
+                            </span>
+                          </td>
+                          <td className="table-td" style={{ color: '#334155', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '400px' }}>
+                            {item.judul}
+                          </td>
+                          <td className="table-td" style={{ textAlign: 'center' }}>
+                            <StatusBadge status={item.status} />
+                          </td>
+                          <td className="table-td" style={{ textAlign: 'center' }}>
+                            <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', alignItems: 'center' }}>
+                              <Link
+                                href={`/user-dashboard/layanan/${item.id}`}
+                                style={{
+                                  background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+                                  color: '#ffffff',
+                                  border: 'none',
+                                  padding: '6px 16px',
+                                  borderRadius: '20px',
+                                  cursor: 'pointer',
+                                  fontSize: '0.75rem',
+                                  fontWeight: 700,
+                                  boxShadow: '0 2px 8px rgba(37,99,235,0.25)',
+                                  transition: 'transform 0.1s ease',
+                                  textDecoration: 'none',
+                                  display: 'inline-block'
+                                }}
+                              >
+                                Buka
+                              </Link>
+                              <button 
+                                onClick={() => handleDeleteLayanan(item.id)}
+                                title="Hapus Permohonan"
+                                style={{
+                                  background: '#fef2f2',
+                                  color: '#dc2626',
+                                  border: '1px solid #fecaca',
+                                  padding: '8px',
+                                  borderRadius: '50%',
+                                  cursor: 'pointer',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  transition: 'background 0.2s'
+                                }}
+                                onMouseOver={(e) => e.currentTarget.style.background = '#fee2e2'}
+                                onMouseOut={(e) => e.currentTarget.style.background = '#fef2f2'}
+                              >
+                                <Trash2 size={16} />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             )}
           </div>
@@ -477,48 +621,137 @@ export default function UserDashboardPage() {
         )}
       </main>
 
-      {/* ── MODAL 1: FORM PERMOHONAN LAYANAN ── */}
+      {/* ── MODAL 1: FORM PERMOHONAN LAYANAN DINAMIS ── */}
       {showLayananModal && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(15,23,42,0.6)', backdropFilter: 'blur(4px)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-          <div style={{ background: '#ffffff', borderRadius: '24px', width: '100%', maxWidth: '520px', padding: '32px', boxShadow: '0 20px 40px rgba(0,0,0,0.2)' }}>
+          <div style={{ background: '#ffffff', borderRadius: '24px', width: '100%', maxWidth: '640px', padding: '32px', boxShadow: '0 20px 40px rgba(0,0,0,0.2)', maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
               <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0f172a', margin: 0 }}>Ajukan Permohonan Layanan</h3>
               <button onClick={() => setShowLayananModal(false)} style={{ background: 'none', border: 'none', fontSize: '1.2rem', cursor: 'pointer', color: '#94a3b8' }}>✕</button>
             </div>
 
             <form onSubmit={handleLayananSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div>
-                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#334155', marginBottom: '6px' }}>Nama Pemohon</label>
-                <input type="text" name="namaPemohon" defaultValue={session?.name} required style={{ width: '100%', padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '0.92rem' }} />
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#334155', marginBottom: '6px' }}>Nama Pemohon</label>
+                  <input type="text" name="namaPemohon" defaultValue={session?.name} required style={{ width: '100%', padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '0.92rem', background: '#f8fafc' }} />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#334155', marginBottom: '6px' }}>Pilih Jenis Layanan</label>
+                  <select 
+                    value={selectedLayananId} 
+                    onChange={(e) => setSelectedLayananId(e.target.value)}
+                    required 
+                    style={{ width: '100%', padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '0.92rem', background: '#fff' }}
+                  >
+                    {daftarLayanan.map(l => (
+                      <option key={l.id} value={l.id}>{l.title}</option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
-              <div>
-                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#334155', marginBottom: '6px' }}>Perihal / Jenis Layanan</label>
-                <select name="perihal" required style={{ width: '100%', padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '0.92rem', background: '#fff' }}>
-                  <option value="Surat Pengantar KTP / KK">Surat Pengantar KTP / KK</option>
-                  <option value="Surat Keterangan Usaha (SKU)">Surat Keterangan Usaha (SKU)</option>
-                  <option value="Surat Keterangan Domisili">Surat Keterangan Domisili</option>
-                  <option value="Surat Keterangan Tidak Mampu (SKTM)">Surat Keterangan Tidak Mampu (SKTM)</option>
-                  <option value="Pengaduan Warga">Pengaduan Warga</option>
-                  <option value="Permohonan Informasi">Permohonan Informasi</option>
-                  <option value="Lainnya">Lainnya</option>
-                </select>
+              <div style={{ background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '12px', padding: '16px', marginBottom: '4px' }}>
+                <p style={{ margin: '0 0 12px 0', fontSize: '0.88rem', color: '#1e3a8a', lineHeight: 1.5 }}>
+                  {selectedLayanan.desc}
+                </p>
+                <div style={{ fontSize: '0.82rem', color: '#1d4ed8' }}>
+                  <strong>Syarat Berkas yang Wajib Diunggah:</strong>
+                  <ul style={{ margin: '4px 0 0 16px', padding: 0 }}>
+                    {selectedLayanan.syarat.map((s, idx) => (
+                      <li key={idx}>{s}</li>
+                    ))}
+                  </ul>
+                </div>
               </div>
 
               <div>
                 <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#334155', marginBottom: '6px' }}>Judul Permohonan</label>
-                <input type="text" name="judul" required placeholder="Contoh: Permohonan SKU untuk Usaha Warung Makan" style={{ width: '100%', padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '0.92rem' }} />
+                <input type="text" name="judul" defaultValue={`Permohonan ${selectedLayanan.title}`} required style={{ width: '100%', padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '0.92rem' }} />
               </div>
 
-              <div>
-                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#334155', marginBottom: '6px' }}>Deskripsi / Rincian Kebutuhan</label>
-                <textarea name="deskripsi" required rows={4} placeholder="Jelaskan kebutuhan atau detail pengaduan Anda secara lengkap..." style={{ width: '100%', padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '0.92rem' }} />
+              {/* Dynamic Fields */}
+              {selectedLayanan.fields && selectedLayanan.fields.length > 0 && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '16px', border: '1px solid #e2e8f0', borderRadius: '12px', background: '#f8fafc' }}>
+                  <h4 style={{ margin: 0, fontSize: '0.9rem', fontWeight: 800, color: '#334155' }}>Detail Permohonan</h4>
+                  {selectedLayanan.fields.map((field, idx) => (
+                    <div key={idx}>
+                      <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#334155', marginBottom: '6px' }}>
+                        {field.label} {field.required && '*'}
+                      </label>
+                      {field.type === 'textarea' ? (
+                        <textarea name={field.name} placeholder={field.placeholder} required={field.required} rows={3} style={{ width: '100%', padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '0.92rem', resize: 'none' }} />
+                      ) : (
+                        <input type={field.type} name={field.name} placeholder={field.placeholder} required={field.required} style={{ width: '100%', padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '0.92rem' }} />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Default Deskripsi if no fields are specified */}
+              {(!selectedLayanan.fields || selectedLayanan.fields.length === 0) && (
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#334155', marginBottom: '6px' }}>Deskripsi / Keterangan</label>
+                  <textarea name="deskripsi" required rows={4} placeholder="Jelaskan kebutuhan Anda secara lengkap..." style={{ width: '100%', padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '0.92rem', resize: 'none' }} />
+                </div>
+              )}
+
+              <div style={{ marginTop: '8px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+                  <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#334155' }}>Unggah Berkas Syarat (KTP/KK/Foto)</label>
+                  <span style={{ fontSize: '0.75rem', fontWeight: 600, color: layananFiles.length >= selectedLayanan.syarat.length ? '#16a34a' : '#dc2626' }}>
+                    {layananFiles.length} / {selectedLayanan.syarat.length} Berkas (Min. {selectedLayanan.syarat.length})
+                  </span>
+                </div>
+                
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginBottom: '12px' }}>
+                  {layananFiles.map((file, idx) => (
+                    <div key={idx} style={{ position: 'relative', width: '80px', height: '80px', borderRadius: '12px', overflow: 'hidden', border: '1px solid #e2e8f0' }}>
+                      <img src={URL.createObjectURL(file)} alt={`Preview ${idx}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <button 
+                        type="button" 
+                        onClick={() => setLayananFiles(prev => prev.filter((_, i) => i !== idx))}
+                        style={{ position: 'absolute', top: '4px', right: '4px', background: 'rgba(15,23,42,0.7)', color: '#fff', border: 'none', borderRadius: '50%', width: '20px', height: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', cursor: 'pointer' }}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+                  
+                  <label style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '80px', height: '80px', borderRadius: '12px', border: '1px dashed #cbd5e1', background: '#f8fafc', color: '#64748b', cursor: 'pointer', transition: 'all 0.2s ease' }} onMouseOver={(e) => { e.currentTarget.style.borderColor = '#2563eb'; e.currentTarget.style.color = '#2563eb'; }} onMouseOut={(e) => { e.currentTarget.style.borderColor = '#cbd5e1'; e.currentTarget.style.color = '#64748b'; }}>
+                    <Plus size={24} />
+                    <span style={{ fontSize: '0.65rem', fontWeight: 600, marginTop: '4px' }}>Tambah</span>
+                    <input 
+                      type="file" 
+                      accept="image/*,application/pdf" 
+                      multiple 
+                      style={{ display: 'none' }} 
+                      onChange={(e) => {
+                        const files = Array.from(e.target.files || []);
+                        setLayananFiles(prev => [...prev, ...files]);
+                      }}
+                    />
+                  </label>
+                </div>
               </div>
+
+              {formError && (
+                <div style={{ background: '#fef2f2', border: '1px solid #fecaca', color: '#dc2626', padding: '10px 14px', borderRadius: '10px', fontSize: '0.85rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <AlertCircle size={16} /> {formError}
+                </div>
+              )}
+
+              {submitting && (
+                <div style={{ background: '#eff6ff', border: '1px solid #bfdbfe', color: '#1d4ed8', padding: '10px 14px', borderRadius: '10px', fontSize: '0.85rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Loader2 className="animate-spin" size={16} /> Sedang mengunggah berkas & memproses permohonan...
+                </div>
+              )}
 
               <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
                 <button type="button" onClick={() => setShowLayananModal(false)} style={{ flex: 1, padding: '12px', background: '#f1f5f9', color: '#475569', border: 'none', borderRadius: '10px', fontWeight: 700, cursor: 'pointer' }}>Batal</button>
-                <button type="submit" disabled={submitting} style={{ flex: 1, padding: '12px', background: '#2563eb', color: '#ffffff', border: 'none', borderRadius: '10px', fontWeight: 700, cursor: 'pointer' }}>
-                  {submitting ? 'Sending...' : 'Kirim Permohonan'}
+                <button type="submit" disabled={submitting} style={{ flex: 1, padding: '12px', background: '#2563eb', color: '#ffffff', border: 'none', borderRadius: '10px', fontWeight: 700, cursor: submitting ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                  {submitting ? <><Loader2 className="animate-spin" size={16} /> Memproses...</> : 'Kirim Permohonan & Berkas'}
                 </button>
               </div>
             </form>
@@ -597,10 +830,16 @@ export default function UserDashboardPage() {
                 <input type="file" name="foto" accept="image/*" style={{ width: '100%', padding: '10px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '0.88rem' }} />
               </div>
 
+              {submitting && (
+                <div style={{ background: '#eff6ff', border: '1px solid #bfdbfe', color: '#1d4ed8', padding: '10px 14px', borderRadius: '10px', fontSize: '0.85rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Loader2 className="animate-spin" size={16} /> Sedang mendaftarkan UMKM Anda...
+                </div>
+              )}
+
               <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
                 <button type="button" onClick={() => setShowUmkmModal(false)} style={{ flex: 1, padding: '12px', background: '#f1f5f9', color: '#475569', border: 'none', borderRadius: '10px', fontWeight: 700, cursor: 'pointer' }}>Batal</button>
-                <button type="submit" disabled={submitting} style={{ flex: 1, padding: '12px', background: '#16a34a', color: '#ffffff', border: 'none', borderRadius: '10px', fontWeight: 700, cursor: 'pointer' }}>
-                  {submitting ? 'Mengirim...' : 'Daftarkan UMKM'}
+                <button type="submit" disabled={submitting} style={{ flex: 1, padding: '12px', background: '#16a34a', color: '#ffffff', border: 'none', borderRadius: '10px', fontWeight: 700, cursor: submitting ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                  {submitting ? <><Loader2 className="animate-spin" size={16} /> Menyimpan...</> : 'Daftarkan UMKM Sekarang'}
                 </button>
               </div>
             </form>

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { UserPlus, Trash2, ShieldCheck, Mail, User as UserIcon, Search, AlertCircle, X, Loader2 } from 'lucide-react';
-import LoadingOverlay from '@/components/LoadingOverlay';
+import LoadingOverlay from '@/components/ui/LoadingOverlay';
 import { createAdminUser, deleteAdminUser } from '@/server/actions/admin-user.action';
 import styles from '../Admin.module.css';
 

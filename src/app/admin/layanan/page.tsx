@@ -12,20 +12,17 @@ import {
   ExternalLink,
   Download,
   AlertCircle,
-  Filter
+  Filter,
+  Trash2
 } from 'lucide-react';
-import { getAllLayananAdmin, updateLayananAdmin } from '@/server/actions/user-dashboard.action';
-import LayananChatThread from '@/components/LayananChatThread';
+import Link from 'next/link';
+import { getAllLayananAdmin, deleteLayananAdmin } from '@/server/actions/user-dashboard.action';
 
 export default function AdminLayananPage() {
   const [layananList, setLayananList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState<string>('SEMUA');
-
-  // Selected item for action
-  const [selectedItem, setSelectedItem] = useState<any>(null);
-  const [submitting, setSubmitting] = useState(false);
-  const [message, setMessage] = useState({ type: '', text: '' });
+  const [searchQuery, setSearchQuery] = useState('');
 
   async function loadData() {
     const data = await getAllLayananAdmin();
@@ -37,27 +34,26 @@ export default function AdminLayananPage() {
     loadData();
   }, []);
 
-  async function handleUpdateStatus(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setSubmitting(true);
-    setMessage({ type: '', text: '' });
-
-    const formData = new FormData(e.currentTarget);
-    const res = await updateLayananAdmin(formData);
-
-    if (res.success) {
-      setMessage({ type: 'success', text: 'Status permohonan & dokumen berhasil diperbarui!' });
-      setSelectedItem(null);
-      await loadData();
-    } else {
-      setMessage({ type: 'error', text: res.error || 'Gagal memperbarui permohonan.' });
+  async function handleDeleteLayanan(id: string) {
+    if (!window.confirm('Apakah Anda yakin ingin menghapus permohonan layanan ini dari sistem? Seluruh data percakapan dan berkas juga akan ikut terhapus.')) {
+      return;
     }
-    setSubmitting(false);
+    
+    const res = await deleteLayananAdmin(id);
+    if (res.success) {
+      setLayananList(prev => prev.filter(l => l.id !== id));
+    } else {
+      alert('Gagal menghapus permohonan: ' + res.error);
+    }
   }
 
-  const filteredList = filterStatus === 'SEMUA'
-    ? layananList
-    : layananList.filter(l => l.status === filterStatus);
+  const filteredList = layananList.filter(l => {
+    const matchStatus = filterStatus === 'SEMUA' || l.status === filterStatus;
+    const matchSearch = l.judul.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                        l.namaPemohon.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        l.userEmail.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchStatus && matchSearch;
+  });
 
   if (loading) {
     return (
@@ -69,58 +65,64 @@ export default function AdminLayananPage() {
   }
 
   return (
-    <div style={{ padding: '24px', maxWidth: '1200px', margin: '0 auto' }}>
+    <div className="admin-container" style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
+      <style dangerouslySetInnerHTML={{__html: `
+        .admin-container { font-size: 0.85rem; }
+        .table-th { padding: 12px 16px !important; font-size: 0.7rem !important; }
+        .table-td { padding: 10px 16px !important; }
+        @media (max-width: 768px) {
+          .admin-container { padding: 12px !important; }
+          .header-title { font-size: 1.15rem !important; }
+          .table-th, .table-td { padding: 8px 12px !important; font-size: 0.75rem !important; }
+        }
+      `}} />
       
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '28px', flexWrap: 'wrap', gap: '16px' }}>
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '16px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <h1 style={{ fontSize: '1.6rem', fontWeight: 800, color: '#0f172a', margin: 0 }}>
-            Kelola Permohonan Layanan & Aduan Warga
+          <h1 className="header-title" style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', margin: 0 }}>
+            Layanan & Aduan Warga
           </h1>
-          <p style={{ color: '#64748b', fontSize: '0.9rem', margin: '4px 0 0' }}>
-            Tinjau permohonan surat dari warga, perbarui status, dan unggah berkas surat yang siap diunduh.
+          <p style={{ color: '#64748b', fontSize: '0.85rem', margin: '4px 0 0' }}>
+            Kelola permohonan surat warga.
           </p>
         </div>
 
-        {/* Filter Buttons */}
-        <div style={{
-          display: 'flex',
-          gap: '8px',
-          background: '#f1f5f9',
-          padding: '4px',
-          borderRadius: '12px',
-          overflowX: 'auto',
-          WebkitOverflowScrolling: 'touch',
-          whiteSpace: 'nowrap',
-          maxWidth: '100%'
-        }}>
-          {['SEMUA', 'MENUNGGU', 'DIPROSES', 'SELESAI', 'DITOLAK'].map((st) => (
-            <button
-              key={st}
-              onClick={() => setFilterStatus(st)}
-              style={{
-                padding: '6px 14px', borderRadius: '8px', border: 'none', fontWeight: 700, fontSize: '0.78rem', cursor: 'pointer',
-                background: filterStatus === st ? '#ffffff' : 'transparent',
-                color: filterStatus === st ? '#2563eb' : '#64748b',
-                boxShadow: filterStatus === st ? '0 2px 6px rgba(0,0,0,0.06)' : 'none'
-              }}
-            >
-              {st}
-            </button>
-          ))}
+        {/* Filter Buttons & Search */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
+          <input 
+            type="text" 
+            placeholder="Cari nama atau layanan..." 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={{ padding: '6px 12px', fontSize: '0.85rem', borderRadius: '6px', border: '1px solid #cbd5e1', outline: 'none', width: '220px' }}
+          />
+
+          <div style={{
+            display: 'flex',
+            gap: '4px',
+            background: '#f1f5f9',
+            padding: '4px',
+            borderRadius: '8px',
+            overflowX: 'auto',
+          }}>
+            {['SEMUA', 'MENUNGGU', 'DIPROSES', 'SELESAI', 'DITOLAK'].map((st) => (
+              <button
+                key={st}
+                onClick={() => setFilterStatus(st)}
+                style={{
+                  padding: '4px 10px', borderRadius: '6px', border: 'none', fontWeight: 700, fontSize: '0.75rem', cursor: 'pointer',
+                  background: filterStatus === st ? '#ffffff' : 'transparent',
+                  color: filterStatus === st ? '#2563eb' : '#64748b',
+                  boxShadow: filterStatus === st ? '0 1px 3px rgba(0,0,0,0.06)' : 'none'
+                }}
+              >
+                {st}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
-
-      {message.text && (
-        <div style={{
-          padding: '14px 18px', borderRadius: '12px', marginBottom: '24px',
-          background: message.type === 'success' ? '#f0fdf4' : '#fef2f2',
-          border: message.type === 'success' ? '1px solid #bbf7d0' : '1px solid #fecaca',
-          color: message.type === 'success' ? '#15803d' : '#dc2626', fontWeight: 600
-        }}>
-          {message.text}
-        </div>
-      )}
 
       {/* Main Table / Card List */}
       {filteredList.length === 0 ? (
@@ -130,83 +132,89 @@ export default function AdminLayananPage() {
           <p style={{ color: '#64748b', fontSize: '0.88rem', margin: 0 }}>Belum ada permohonan warga yang sesuai dengan filter ini.</p>
         </div>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {filteredList.map((item) => (
-            <div key={item.id} style={{ marginBottom: '8px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '12px', marginBottom: '8px' }}>
-                <button
-                  onClick={() => setSelectedItem(item)}
-                  style={{
-                    padding: '8px 16px', background: '#0f172a', color: '#ffffff', border: 'none', borderRadius: '10px',
-                    fontWeight: 700, fontSize: '0.82rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px'
-                  }}
-                >
-                  <span>⚙️ Ubah Status & Upload Surat PDF</span>
-                </button>
-              </div>
-
-              <LayananChatThread
-                item={item}
-                currentUserRole="ADMIN"
-                onRefresh={loadData}
-              />
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* MODAL EDIT & UPLOAD SURAT */}
-      {selectedItem && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(15,23,42,0.6)', backdropFilter: 'blur(4px)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-          <div style={{ background: '#ffffff', borderRadius: '24px', width: '100%', maxWidth: '560px', padding: '32px', boxShadow: '0 20px 40px rgba(0,0,0,0.2)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
-              <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a', margin: 0 }}>Proses Permohonan Warga</h3>
-              <button onClick={() => setSelectedItem(null)} style={{ background: 'none', border: 'none', fontSize: '1.2rem', cursor: 'pointer', color: '#94a3b8' }}>✕</button>
-            </div>
-
-            <form onSubmit={handleUpdateStatus} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <input type="hidden" name="id" value={selectedItem.id} />
-
-              <div style={{ background: '#f8fafc', padding: '14px', borderRadius: '12px', border: '1px solid #e2e8f0', fontSize: '0.85rem' }}>
-                <div><strong>Pemohon:</strong> {selectedItem.namaPemohon} ({selectedItem.userEmail})</div>
-                <div style={{ marginTop: '4px' }}><strong>Perihal:</strong> {selectedItem.perihal}</div>
-                <div style={{ marginTop: '4px' }}><strong>Judul:</strong> {selectedItem.judul}</div>
-              </div>
-
-              <div>
-                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#334155', marginBottom: '6px' }}>Ubah Status Permohonan *</label>
-                <select name="status" defaultValue={selectedItem.status} required style={{ width: '100%', padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '0.92rem', background: '#fff' }}>
-                  <option value="MENUNGGU">MENUNGGU (Belum Diproses)</option>
-                  <option value="DIPROSES">DIPROSES (Sedang Dikerjakan)</option>
-                  <option value="SELESAI">SELESAI (Surat Siap Diunduh)</option>
-                  <option value="DITOLAK">DITOLAK (Ditolak / Kurang Syarat)</option>
-                </select>
-              </div>
-
-              <div>
-                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#334155', marginBottom: '6px' }}>Catatan / Balasan Admin untuk Warga</label>
-                <textarea name="catatanAdmin" defaultValue={selectedItem.catatanAdmin || ''} rows={3} placeholder="Masukkan instruksi, pemberitahuan, atau alasan jika ditolak..." style={{ width: '100%', padding: '12px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '0.92rem' }} />
-              </div>
-
-              <div>
-                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#334155', marginBottom: '6px' }}>Unggah File Surat / Berkas Resmi (Maksimal 5 File via Cloudinary)</label>
-                <input type="file" name="fileSurat" multiple accept="application/pdf,image/*" style={{ width: '100%', padding: '10px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '0.88rem' }} />
-                <p style={{ fontSize: '0.75rem', color: '#64748b', margin: '4px 0 0' }}>Anda dapat memilih hingga 5 file sekaligus. Berkas ini otomatis tersimpan di Cloudinary dan dapat diunduh oleh warga.</p>
-              </div>
-
-              {submitting && (
-                <div style={{ background: '#eff6ff', border: '1px solid #bfdbfe', color: '#1d4ed8', padding: '10px 14px', borderRadius: '10px', fontSize: '0.85rem', fontWeight: 600 }}>
-                  ⚡ Memproses & Mengunggah Berkas Surat ke Cloudinary... Mohon tunggu.
-                </div>
-              )}
-
-              <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
-                <button type="button" onClick={() => setSelectedItem(null)} style={{ flex: 1, padding: '12px', background: '#f1f5f9', color: '#475569', border: 'none', borderRadius: '10px', fontWeight: 700, cursor: 'pointer' }}>Batal</button>
-                <button type="submit" disabled={submitting} style={{ flex: 1, padding: '12px', background: submitting ? '#94a3b8' : '#2563eb', color: '#ffffff', border: 'none', borderRadius: '10px', fontWeight: 700, cursor: submitting ? 'not-allowed' : 'pointer' }}>
-                  {submitting ? 'Mengunggah & Menyimpan...' : 'Simpan & Update Status'}
-                </button>
-              </div>
-            </form>
+        <div style={{ background: '#ffffff', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 4px 24px rgba(15,23,42,0.04)', border: '1px solid #e2e8f0' }}>
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', minWidth: '700px', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.88rem' }}>
+              <thead>
+                <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+                  <th className="table-th" style={{ color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', width: '100px' }}>Tanggal</th>
+                  <th className="table-th" style={{ color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', width: '180px' }}>Pemohon</th>
+                  <th className="table-th" style={{ color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Layanan / Perihal</th>
+                  <th className="table-th" style={{ color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', width: '120px', textAlign: 'center' }}>Status</th>
+                  <th className="table-th" style={{ color: '#64748b', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', width: '90px', textAlign: 'center' }}>Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredList.map((item, index) => (
+                  <tr key={item.id} style={{ 
+                    background: index % 2 === 0 ? '#ffffff' : '#fafafb', 
+                    borderBottom: '1px solid #f1f5f9',
+                    transition: 'background 0.2s ease'
+                  }} onMouseOver={(e) => e.currentTarget.style.background = '#f1f5f9'} onMouseOut={(e) => e.currentTarget.style.background = index % 2 === 0 ? '#ffffff' : '#fafafb'}>
+                    <td className="table-td" style={{ whiteSpace: 'nowrap' }}>
+                      <span style={{ color: '#0f172a', fontWeight: 700, display: 'block' }}>
+                        {new Date(item.createdAt).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })}
+                      </span>
+                      <span style={{ color: '#64748b', fontSize: '0.7rem' }}>
+                        {new Date(item.createdAt).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}
+                      </span>
+                    </td>
+                    <td className="table-td" style={{ color: '#0f172a', fontWeight: 700, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '180px' }}>
+                      {item.namaPemohon}
+                    </td>
+                    <td className="table-td" style={{ color: '#334155', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '250px' }}>
+                      {item.judul}
+                    </td>
+                    <td className="table-td" style={{ textAlign: 'center' }}>
+                      <StatusBadge status={item.status} />
+                    </td>
+                    <td className="table-td" style={{ textAlign: 'center' }}>
+                      <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', alignItems: 'center' }}>
+                        <Link
+                          href={`/admin/layanan/${item.id}`}
+                          style={{
+                            background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+                            color: '#ffffff',
+                            border: 'none',
+                            padding: '6px 16px',
+                            borderRadius: '20px',
+                            cursor: 'pointer',
+                            fontSize: '0.75rem',
+                            fontWeight: 700,
+                            boxShadow: '0 2px 8px rgba(37,99,235,0.25)',
+                            transition: 'transform 0.1s ease',
+                            textDecoration: 'none',
+                            display: 'inline-block'
+                          }}
+                        >
+                          Buka
+                        </Link>
+                        <button 
+                          onClick={() => handleDeleteLayanan(item.id)}
+                          title="Hapus Permohonan"
+                          style={{
+                            background: '#fef2f2',
+                            color: '#dc2626',
+                            border: '1px solid #fecaca',
+                            padding: '8px',
+                            borderRadius: '50%',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            transition: 'background 0.2s'
+                          }}
+                          onMouseOver={(e) => e.currentTarget.style.background = '#fee2e2'}
+                          onMouseOut={(e) => e.currentTarget.style.background = '#fef2f2'}
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       )}
@@ -217,13 +225,13 @@ export default function AdminLayananPage() {
 
 function StatusBadge({ status }: { status: string }) {
   if (status === 'SELESAI') {
-    return <span style={{ background: '#f0fdf4', color: '#16a34a', border: '1px solid #bbf7d0', padding: '4px 10px', borderRadius: '20px', fontSize: '0.78rem', fontWeight: 700 }}>SELESAI</span>;
+    return <span style={{ background: '#f0fdf4', color: '#166534', border: '1px solid #bbf7d0', padding: '4px 10px', borderRadius: '20px', fontSize: '0.72rem', fontWeight: 800 }}>SELESAI</span>;
   }
   if (status === 'DIPROSES') {
-    return <span style={{ background: '#eff6ff', color: '#2563eb', border: '1px solid #bfdbfe', padding: '4px 10px', borderRadius: '20px', fontSize: '0.78rem', fontWeight: 700 }}>DIPROSES</span>;
+    return <span style={{ background: '#eff6ff', color: '#1d4ed8', border: '1px solid #bfdbfe', padding: '4px 10px', borderRadius: '20px', fontSize: '0.72rem', fontWeight: 800 }}>DIPROSES</span>;
   }
   if (status === 'DITOLAK') {
-    return <span style={{ background: '#fef2f2', color: '#dc2626', border: '1px solid #fecaca', padding: '4px 10px', borderRadius: '20px', fontSize: '0.78rem', fontWeight: 700 }}>DITOLAK</span>;
+    return <span style={{ background: '#fef2f2', color: '#991b1b', border: '1px solid #fecaca', padding: '4px 10px', borderRadius: '20px', fontSize: '0.72rem', fontWeight: 800 }}>DITOLAK</span>;
   }
-  return <span style={{ background: '#fefce8', color: '#ca8a04', border: '1px solid #fef08a', padding: '4px 10px', borderRadius: '20px', fontSize: '0.78rem', fontWeight: 700 }}>MENUNGGU</span>;
+  return <span style={{ background: '#fffbeb', color: '#b45309', border: '1px solid #fde68a', padding: '4px 10px', borderRadius: '20px', fontSize: '0.72rem', fontWeight: 800 }}>MENUNGGU</span>;
 }

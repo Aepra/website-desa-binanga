@@ -1,7 +1,7 @@
 'use client';
 
 import { Target, Lightbulb, Map, Compass, MapPin, Ruler, Users, Award, Landmark, BookOpen, Clock, TreePine, Waves, Building2, Heart, GraduationCap, Home, AlertTriangle, CheckCircle2, Star, ChevronRight } from 'lucide-react';
-import { FadeUp, FadeIn, StaggerContainer, StaggerItem } from '@/components/Animate';
+import { FadeUp, FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/Animate';
 import styles from './profil.module.css';
 import fasStyles from './fasilitas.module.css';
 import { useState } from 'react';
@@ -121,7 +121,7 @@ const WARNA_TIPE: Record<string, string> = {
   info:          '#8b5cf6',
 };
 
-import OrgChart from '@/components/OrgChart';
+import OrgChart from '@/components/features/OrgChart';
 
 export default function ProfilDesaClient({ 
   dbSejarah, 

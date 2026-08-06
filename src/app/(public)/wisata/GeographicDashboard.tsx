@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { CloudSun, Sun, CloudRain, Clock, Map, Navigation, Thermometer, Wind, Droplets } from 'lucide-react';
-import { StaggerContainer, StaggerItem } from '@/components/Animate';
+import { StaggerContainer, StaggerItem } from '@/components/ui/Animate';
 import styles from './wisata.module.css';
 
 export default function GeographicDashboard() {

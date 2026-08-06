@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { UMKM } from '@/lib/api';
 import { getUmkmDB } from '@/server/queries/public.query';
 import { ShoppingBag, MessageCircle, Star } from 'lucide-react';
-import { FadeUp, StaggerContainer, StaggerItem } from '@/components/Animate';
+import { FadeUp, StaggerContainer, StaggerItem } from '@/components/ui/Animate';
 import styles from './umkm.module.css';
 
 export default function UMKMPotensi() {

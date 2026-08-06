@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react';
 import { PlusCircle } from 'lucide-react';
 import { createRincian } from '@/server/actions/apbdes.action';
-import SubmitButton from '@/components/SubmitButton';
+import SubmitButton from '@/components/ui/SubmitButton';
 
 export default function ApbdesForm({ apbdesId }: { apbdesId: string }) {
   const [tipe, setTipe] = useState('PENDAPATAN');

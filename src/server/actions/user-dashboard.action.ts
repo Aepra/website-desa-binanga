@@ -100,12 +100,16 @@ export async function createLayananUser(formData: FormData) {
   const perihal = (formData.get('perihal') as string)?.trim();
   const judul = (formData.get('judul') as string)?.trim();
   const deskripsi = (formData.get('deskripsi') as string)?.trim();
+  const files = formData.getAll('lampiranFiles') as File[];
 
   if (!perihal || !judul || !deskripsi) {
     return { success: false, error: 'Perihal, Judul, dan Deskripsi permohonan wajib diisi.' };
   }
 
-  await prisma.layanan.create({
+  const validFiles = files.filter(f => f && f.size > 0);
+
+  // 1. Create the Layanan Ticket
+  const newLayanan = await prisma.layanan.create({
     data: {
       userEmail: session.username,
       namaPemohon,
@@ -116,9 +120,60 @@ export async function createLayananUser(formData: FormData) {
     },
   });
 
+  // 2. Upload initial files to Cloudinary if any
+  if (validFiles.length > 0) {
+    const fileUrls = await uploadMultipleImages(validFiles, 'website-desa-binanga/layanan_lampiran');
+    const fileUrlData = fileUrls.length === 1 ? fileUrls[0] : (fileUrls.length > 1 ? JSON.stringify(fileUrls) : null);
+
+    // 3. Create the first message containing the files
+    await prisma.layananPesan.create({
+      data: {
+        layananId: newLayanan.id,
+        pengirim: 'WARGA',
+        namaPengirim: session.name || session.username,
+        pesan: `[Sistem] Warga melampirkan ${fileUrls.length} berkas syarat awal pengurusan layanan.`,
+        fileUrl: fileUrlData,
+      },
+    });
+  }
+
   revalidatePath('/user-dashboard');
   revalidatePath('/admin/layanan');
   return { success: true };
+}
+
+export async function deleteLayananUser(id: string) {
+  const session = await getSession();
+  if (!session) return { success: false, error: 'Unauthorized' };
+
+  try {
+    const email = (session.username || '').trim();
+    
+    // Pastikan layanan yang dihapus adalah milik user yang sedang login
+    const layanan = await prisma.layanan.findFirst({
+      where: {
+        id,
+        userEmail: {
+          equals: email,
+          mode: 'insensitive'
+        }
+      }
+    });
+
+    if (!layanan) {
+      return { success: false, error: 'Permohonan tidak ditemukan atau bukan milik Anda' };
+    }
+
+    await prisma.layanan.delete({
+      where: { id }
+    });
+
+    revalidatePath('/user-dashboard');
+    revalidatePath('/admin/layanan');
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
 }
 
 export async function getLayananByUser() {
@@ -138,6 +193,26 @@ export async function getLayananByUser() {
       pesanList: { orderBy: { createdAt: 'asc' } }
     },
     orderBy: { createdAt: 'desc' },
+  });
+}
+
+export async function getLayananByIdUser(id: string) {
+  const session = await getSession();
+  if (!session) return null;
+
+  const email = (session.username || '').trim();
+
+  return await prisma.layanan.findFirst({
+    where: {
+      id,
+      userEmail: {
+        equals: email,
+        mode: 'insensitive'
+      }
+    },
+    include: {
+      pesanList: { orderBy: { createdAt: 'asc' } }
+    }
   });
 }
 
@@ -209,6 +284,35 @@ export async function getAllLayananAdmin() {
     },
     orderBy: { createdAt: 'desc' },
   });
+}
+
+export async function getLayananByIdAdmin(id: string) {
+  return await prisma.layanan.findUnique({
+    where: { id },
+    include: {
+      pesanList: { orderBy: { createdAt: 'asc' } }
+    }
+  });
+}
+
+export async function deleteLayananAdmin(id: string) {
+  const session = await getSession();
+  if (!session || (session.role !== 'SUPER_ADMIN' && session.role !== 'ADMIN' && session.role !== 'KADES')) {
+    return { success: false, error: 'Unauthorized' };
+  }
+
+  try {
+    const layanan = await prisma.layanan.findUnique({ where: { id } });
+    if (!layanan) return { success: false, error: 'Data tidak ditemukan' };
+
+    await prisma.layanan.delete({ where: { id } });
+
+    revalidatePath('/user-dashboard');
+    revalidatePath('/admin/layanan');
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
 }
 
 export async function updateLayananAdmin(formData: FormData) {

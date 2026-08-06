@@ -11,7 +11,7 @@ import {
 } from 'recharts';
 import styles from './statistik.module.css';
 import kpiStyles from './kpi.module.css';
-import LoadingOverlay from '@/components/LoadingOverlay';
+import LoadingOverlay from '@/components/ui/LoadingOverlay';
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 // Hardcoded data removed. Data is now fetched dynamically from database.

@@ -24,62 +24,7 @@ export const metadata = {
   description: 'Portal Pengajuan Surat Keterangan, Pengaduan Warga, dan Layanan Administrasi Desa Binanga secara Online.',
 };
 
-const daftarLayanan = [
-  {
-    id: 'sku',
-    title: 'Surat Keterangan Usaha (SKU)',
-    kategori: 'Pelayanan Usaha',
-    desc: 'Surat keterangan resmi untuk keperluan kelengkapan pengajuan kredit bank, izin usaha, atau bantuan UMKM.',
-    syarat: ['Foto KTP Pemilik Usaha', 'Foto Tempat / Produk Usaha', 'No. WhatsApp Aktif'],
-    estimasi: '1 - 2 Hari Kerja',
-    badge: 'Populer'
-  },
-  {
-    id: 'ktp-kk',
-    title: 'Surat Pengantar KTP / KK',
-    kategori: 'Kependudukan',
-    desc: 'Surat pengantar resmi dari desa untuk penerbitan/perubahan data KTP-el dan Kartu Keluarga di Disdukcapil.',
-    syarat: ['Foto Kartu Keluarga (KK)', 'Foto KTP Lama / Surat Kehilangan', 'Data Alasan Perubahan'],
-    estimasi: '1 Hari Kerja',
-    badge: 'Utama'
-  },
-  {
-    id: 'domisili',
-    title: 'Surat Keterangan Domisili',
-    kategori: 'Kependudukan',
-    desc: 'Surat bukti tempat tinggal/domisili warga atau badan usaha di wilayah Desa Binanga.',
-    syarat: ['Foto KTP Pemohon', 'Foto KK', 'Alamat Lengkap Dusun'],
-    estimasi: '1 Hari Kerja',
-    badge: 'Cepat'
-  },
-  {
-    id: 'sktm',
-    title: 'Surat Keterangan Tidak Mampu (SKTM)',
-    kategori: 'Bantuan Sosial & Pendidikan',
-    desc: 'Surat keterangan untuk beasiswa sekolah/kuliah, keringanan biaya berobat rumah sakit, atau bantuan bansos.',
-    syarat: ['Foto KTP & KK Pemohon', 'Surat Rekomendasi RT/RW', 'Tujuan Penggunaan SKTM'],
-    estimasi: '1 - 2 Hari Kerja',
-    badge: 'Sosial'
-  },
-  {
-    id: 'aduan',
-    title: 'Pengaduan & Aspirasi Warga',
-    kategori: 'Layanan Publik',
-    desc: 'Wadah penyampaian laporan kejadian, pengaduan infrastruktur jalan/fasilitas, atau aspirasi ke Pemerintah Desa.',
-    syarat: ['Foto Bukti Kejadian / Lokasi', 'Uraian Kronologi Lengkap', 'Nomor Kontak Pelapor'],
-    estimasi: 'Ditanggapi 24 Jam',
-    badge: 'Responsif'
-  },
-  {
-    id: 'informasi',
-    title: 'Permohonan Informasi Publik',
-    kategori: 'Transparansi',
-    desc: 'Permohonan data atau dokumen publik desa sesuai undang-undang keterbukaan informasi publik.',
-    syarat: ['Identitas Diri (KTP)', 'Tujuan Permohonan Informasi'],
-    estimasi: '2 - 3 Hari Kerja',
-    badge: 'Publik'
-  }
-];
+import { daftarLayanan } from '@/lib/layanan-config';
 
 export default async function LayananPage() {
   const session = await getSession();

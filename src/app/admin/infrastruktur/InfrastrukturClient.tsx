@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { createInfrastruktur, updateInfrastruktur, deleteInfrastruktur } from '@/server/actions/infrastruktur.action';
 import { Plus, Edit2, Trash2, Save, X, Building2, Loader2 } from 'lucide-react';
-import LoadingOverlay from '@/components/LoadingOverlay';
+import LoadingOverlay from '@/components/ui/LoadingOverlay';
 
 export default function InfrastrukturClient({ initialData, dusunList }: { initialData: any[], dusunList: any[] }) {
   const [data, setData] = useState(initialData);

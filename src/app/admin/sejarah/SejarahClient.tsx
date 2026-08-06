@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { createSejarah, updateSejarah, deleteSejarah } from '@/server/actions/sejarah.action';
 import { Plus, Edit2, Trash2, Save, X, BookOpen, Loader2 } from 'lucide-react';
-import LoadingOverlay from '@/components/LoadingOverlay';
+import LoadingOverlay from '@/components/ui/LoadingOverlay';
 
 export default function SejarahClient({ initialData }: { initialData: any[] }) {
   const [data, setData] = useState(initialData);
