@@ -217,7 +217,7 @@ export default function Home() {
             >
               {berita.map((item) => (
                 <motion.a variants={itemVariants} key={item.id} href={`/berita-agenda/${item.slug}`} style={{ textDecoration: 'none' }} className={styles.newsCard}>
-                  <img src={item.cover || '/pic/kantor-desa.jpeg'} alt={item.judul} className={styles.newsImage} />
+                  <img src={item.cover || 'https://placehold.co/600x400/e2e8f0/475569?text=Tidak+Ada+Gambar'} alt={item.judul} className={styles.newsImage} />
                   <div className={styles.newsContent}>
                     <div className={styles.newsMeta}>
                       <span style={{ color: '#1e3a8a', fontWeight: 600 }}>{item.kategori}</span>
@@ -268,7 +268,7 @@ export default function Home() {
               >
                 <div className={styles.potensiCard}>
                   <Link href="/wisata" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                    <div className={styles.potensiImage} style={{backgroundImage: `url(${item.foto || '/pic/kantor-desa.jpeg'})`}}></div>
+                    <div className={styles.potensiImage} style={{backgroundImage: `url(${item.foto || 'https://placehold.co/600x400/e2e8f0/475569?text=Tidak+Ada+Gambar'})`}}></div>
                     <div className={styles.potensiContent}>
                       <h3 className={styles.wisataTitle}>{item.nama}</h3>
                       <p className={styles.wisataDesc}>
