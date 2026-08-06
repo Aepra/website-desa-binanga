@@ -37,15 +37,7 @@ import {
 } from '@/server/actions/user-dashboard.action';
 import { daftarLayanan } from '@/lib/layanan-config';
 
-export default function UserDashboardPage() {
-  return (
-    <Suspense fallback={<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>Memuat...</div>}>
-      <UserDashboardContent />
-    </Suspense>
-  );
-}
-
-function UserDashboardContent() {
+export default function UserDashboardClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const tabParam = searchParams.get('tab');
