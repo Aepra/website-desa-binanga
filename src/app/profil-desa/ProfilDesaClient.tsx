@@ -266,12 +266,14 @@ export default function ProfilDesaClient({
 
           <div className={styles.sejarahGrid}>
             <div className={styles.sejarahImageBlock}>
-              <img
-                src="https://images.unsplash.com/photo-1596700078832-6e279dfd9e26?q=80&w=800"
-                alt="Desa Binanga, Kecamatan Sendana"
-                className={styles.sejarahImage}
-              />
-              <div className={styles.sejarahImageOverlay}>
+              <iframe 
+                src="https://player.vimeo.com/video/1216015466?autoplay=0&loop=1&byline=0&title=0" 
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none', zIndex: 1 }}
+                allow="autoplay; fullscreen; picture-in-picture"
+                allowFullScreen
+                title="Desa Binanga, Kecamatan Sendana"
+              ></iframe>
+              <div className={styles.sejarahImageOverlay} style={{ zIndex: 2, pointerEvents: 'none' }}>
                 <span className={styles.sejarahImageTag}>Pesisir Selat Makassar, Sulawesi Barat</span>
               </div>
             </div>

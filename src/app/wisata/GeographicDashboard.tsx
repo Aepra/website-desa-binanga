@@ -44,10 +44,14 @@ export default function GeographicDashboard() {
       
       {/* 1. Highlight Image (span 2x2) */}
       <StaggerItem className={`${styles.bentoCard} ${styles.bentoHighlight}`}>
-        <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Pesona Alam Asri Binanga" className={styles.bBg} />
-        <div className={styles.bOverlay}>
-          <h3 className={styles.bTitleBig}>Pesona Alam Asri</h3>
-          <p className={styles.bDesc}>Desa Binanga memiliki kontur perbukitan hijau yang menyejukkan, berpadu harmonis dengan pesisir laut tropis.</p>
+        <div style={{ width: '100%', height: '100%', position: 'relative', background: '#000' }}>
+          <iframe 
+            src="https://player.vimeo.com/video/1216015466?autoplay=0&loop=1&byline=0&title=0" 
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none', zIndex: 1 }}
+            allow="autoplay; fullscreen; picture-in-picture"
+            allowFullScreen
+            title="Pesona Alam Asri Binanga"
+          ></iframe>
         </div>
       </StaggerItem>
 

@@ -11,8 +11,7 @@ export function FadeUp({ children, delay = 0, className = '', ...props }: FadePr
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-10%" }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay, ease: "easeOut" }}
       className={className}
       {...props}
@@ -26,8 +25,7 @@ export function FadeIn({ children, delay = 0, className = '', ...props }: FadePr
   return (
     <motion.div
       initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true, margin: "-10%" }}
+      animate={{ opacity: 1 }}
       transition={{ duration: 0.8, delay, ease: "easeOut" }}
       className={className}
       {...props}
@@ -41,8 +39,7 @@ export function StaggerContainer({ children, className = '', ...props }: HTMLMot
   return (
     <motion.div
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-10%" }}
+      animate="visible"
       variants={{
         visible: { transition: { staggerChildren: 0.15 } },
         hidden: {}

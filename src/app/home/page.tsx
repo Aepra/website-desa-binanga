@@ -25,7 +25,7 @@ export default function Home() {
   useEffect(() => {
     getPengaturan().then(setPengaturan);
     getStatistikDB().then(setStatistik);
-    getPostsDB(3).then(setBerita);
+    getPostsDB(5).then(setBerita);
     getUmkmDB(3).then(setUmkmList);
     getWisataDB(4).then(setWisataList);
     getPerangkat().then(setPerangkat);
@@ -209,25 +209,42 @@ export default function Home() {
 
           {berita.length > 0 ? (
             <motion.div 
-              className={styles.newsGrid}
+              className={styles.newsLayout}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
               variants={containerVariants}
             >
-              {berita.map((item) => (
-                <motion.a variants={itemVariants} key={item.id} href={`/berita-agenda/${item.slug}`} style={{ textDecoration: 'none' }} className={styles.newsCard}>
-                  <img src={item.cover || 'https://placehold.co/600x400/e2e8f0/475569?text=Tidak+Ada+Gambar'} alt={item.judul} className={styles.newsImage} />
-                  <div className={styles.newsContent}>
-                    <div className={styles.newsMeta}>
-                      <span style={{ color: '#1e3a8a', fontWeight: 600 }}>{item.kategori}</span>
-                      <span>{new Date(item.tanggal).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
-                    </div>
-                    <h3 className={styles.newsTitle}>{item.judul}</h3>
-                    <p className={styles.newsSummary}>{item.ringkasan}</p>
+              {/* Berita Terbaru */}
+              <motion.a variants={itemVariants} href={`/berita-agenda/${berita[0].slug}`} className={styles.latestNewsCard}>
+                <img src={berita[0].cover || 'https://placehold.co/800x500/e2e8f0/475569?text=Tidak+Ada+Gambar'} alt={berita[0].judul} className={styles.latestNewsImage} />
+                <div className={styles.latestNewsOverlay}>
+                  <div className={styles.newsMeta} style={{ marginBottom: '12px' }}>
+                    <span style={{ color: '#2563eb', fontWeight: 700, backgroundColor: '#fff', padding: '4px 12px', borderRadius: '20px', fontSize: '0.8rem' }}>{berita[0].kategori}</span>
+                    <span style={{ color: '#f8fafc', fontWeight: 600, fontSize: '0.9rem', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>{new Date(berita[0].tanggal).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
                   </div>
-                </motion.a>
-              ))}
+                  <h3 className={styles.latestNewsTitle}>{berita[0].judul}</h3>
+                  <p className={styles.latestNewsSummary}>{berita[0].ringkasan}</p>
+                </div>
+              </motion.a>
+
+              {/* Daftar Berita Lainnya */}
+              {berita.length > 1 && (
+                <div className={styles.otherNewsContainer}>
+                  {berita.slice(1).map((item) => (
+                    <motion.a variants={itemVariants} key={item.id} href={`/berita-agenda/${item.slug}`} className={styles.otherNewsCard}>
+                      <img src={item.cover || 'https://placehold.co/400x300/e2e8f0/475569?text=Tidak+Ada+Gambar'} alt={item.judul} className={styles.otherNewsImage} />
+                      <div className={styles.otherNewsContent}>
+                        <div className={styles.newsMeta}>
+                          <span style={{ color: '#1e3a8a', fontWeight: 600 }}>{item.kategori}</span>
+                          <span>{new Date(item.tanggal).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+                        </div>
+                        <h3 className={styles.otherNewsTitle}>{item.judul}</h3>
+                      </div>
+                    </motion.a>
+                  ))}
+                </div>
+              )}
             </motion.div>
           ) : (
             <div style={{ textAlign: 'center', padding: '40px', background: '#f8fafc', borderRadius: '16px', border: '1px dashed #cbd5e1' }}>
