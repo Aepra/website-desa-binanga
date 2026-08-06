@@ -1,10 +1,10 @@
 export interface Wisata {
   id: string;
   nama: string;
+  tipe?: string | null;
   kategori: string;
   foto: string;
   deskripsi: string;
-  harga?: number | null;
   jamBuka?: string | null;
   linkMaps?: string | null;
 }

@@ -34,8 +34,8 @@ export default function WisataDesa() {
     getWisataDB().then(setWisata);
   }, []);
 
-  const destinasiList = wisata.filter(w => w.kategori.toLowerCase().includes('wisata') && w.kategori !== 'Potensi Wisata');
-  const potensiList = wisata.filter(w => !w.kategori.toLowerCase().includes('wisata') || w.kategori === 'Potensi Wisata');
+  const destinasiList = wisata.filter(w => w.tipe === 'WISATA');
+  const potensiList = wisata.filter(w => w.tipe === 'POTENSI');
 
   const scrollTo = (id: string) => {
     setActiveTab(id);

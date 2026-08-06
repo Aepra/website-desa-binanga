@@ -162,6 +162,7 @@ export async function getWisataDB(limit?: number): Promise<Wisata[]> {
   return data.map(w => ({
     id: w.id,
     nama: w.nama,
+    tipe: w.tipe,
     kategori: w.kategori,
     foto: w.fotoUrl || '',
     deskripsi: w.deskripsi,
