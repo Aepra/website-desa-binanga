@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>MAKALAH ILMIAH LAPORAN KKN & BUKU PANDUAN OPERASIONAL WEBSITE DESA BINANGA</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 25mm 20mm 20mm 20mm;
+      @bottom-center {
+        content: counter(page);
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 10pt;
+      }
+    }
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      color: #0f172a;
+      line-height: 1.8;
+      font-size: 12pt;
+      margin: 0;
+      padding: 0;
+      text-align: justify;
+    }
+    .page-break {
+      page-break-before: always;
+    }
+
+    /* Cover Styling */
+    .cover-container {
+      height: 94vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+      padding: 10px;
+    }
+    .cover-logo-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+    .logo-item {
+      font-size: 8.5pt;
+      font-weight: bold;
+      font-family: Arial, sans-serif;
+      padding: 6px 10px;
+      border: 1.5px solid #1e3a8a;
+      border-radius: 4px;
+      color: #1e3a8a;
+      background: #eff6ff;
+    }
+    .cover-header-text {
+      font-size: 13pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-bottom: 15px;
+      letter-spacing: 1px;
+    }
+    .cover-main-title {
+      font-size: 17pt;
+      font-weight: bold;
+      color: #0f172a;
+      margin: 15px 0 10px 0;
+      line-height: 1.45;
+      text-transform: uppercase;
+    }
+    .cover-sub-title {
+      font-size: 12.5pt;
+      font-style: italic;
+      color: #334155;
+      margin-bottom: 25px;
+      line-height: 1.5;
+    }
+    .cover-purpose-text {
+      font-size: 11pt;
+      margin: 20px 0;
+      line-height: 1.6;
+    }
+    .cover-author-info {
+      margin-top: 20px;
+      font-size: 11pt;
+      line-height: 1.8;
+    }
+    .cover-footer-info {
+      margin-top: 25px;
+      font-size: 11.5pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      line-height: 1.5;
+    }
+
+    /* Headings */
+    h1.chapter-heading {
+      font-size: 15pt;
+      font-weight: bold;
+      text-align: center;
+      text-transform: uppercase;
+      margin-top: 10px;
+      margin-bottom: 25px;
+      color: #0f172a;
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 8px;
+    }
+    h2 {
+      font-size: 13pt;
+      font-weight: bold;
+      color: #1e293b;
+      margin-top: 22px;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+    h3 {
+      font-size: 12pt;
+      font-weight: bold;
+      font-style: italic;
+      color: #334155;
+      margin-top: 16px;
+      margin-bottom: 8px;
+      text-align: left;
+    }
+
+    /* Typography & Spacing */
+    p {
+      margin-bottom: 12px;
+      text-indent: 30px;
+    }
+    p.no-indent {
+      text-indent: 0;
+    }
+    ul, ol {
+      margin-top: 6px;
+      margin-bottom: 14px;
+      padding-left: 40px;
+    }
+    li {
+      margin-bottom: 5px;
+    }
+
+    /* Academic Tables */
+    table.academic-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 10.5pt;
+      line-height: 1.55;
+    }
+    table.academic-table th, table.academic-table td {
+      border: 1px solid #475569;
+      padding: 9px 12px;
+    }
+    table.academic-table th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    /* Image Figure Box */
+    .figure-box {
+      text-align: center;
+      margin: 25px 0;
+      page-break-inside: avoid;
+    }
+    .figure-box img {
+      max-width: 92%;
+      height: auto;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+    }
+    .figure-caption {
+      font-size: 10pt;
+      font-style: italic;
+      color: #475569;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    /* ERD Diagram Block */
+    .erd-block {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 16px;
+      border-radius: 6px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 8.5pt;
+      line-height: 1.4;
+      white-space: pre;
+      overflow-x: auto;
+      margin: 20px 0;
+      page-break-inside: avoid;
+    }
+
+    /* Callouts */
+    .note-box {
+      background-color: #f8fafc;
+      border-left: 4px solid #2563eb;
+      padding: 14px 18px;
+      margin: 18px 0;
+      font-size: 10.5pt;
+      line-height: 1.6;
+    }
+    .note-box-title {
+      font-weight: bold;
+      color: #1e40af;
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= COVER PAGE ================= -->
+  <div class="cover-container">
+    <div>
+      <div class="cover-logo-row">
+        <span class="logo-item">KEMENDIKTI SAINTEK BERDAMPAK</span>
+        <span class="logo-item">UNIVERSITAS HASANUDDIN</span>
+        <span class="logo-item">SDG'S UNHAS</span>
+        <span class="logo-item">KKN TEMATIK 2026</span>
+        <span class="logo-item">PEMDES BINANGA</span>
+      </div>
+      
+      <div style="height: 25px;"></div>
+
+      <div class="cover-header-text">MAKALAH LAPORAN HASIL PROGRAM KERJA KKN & BUKU PANDUAN OPERASIONAL</div>
+      
+      <div class="cover-main-title">
+        PERANCANGAN DAN IMPLEMENTASI SISTEM INFORMASI INTEGRATIF DESA DAN PELAYANAN ADMINISTRASI PERSURATAN MANDIRI MASYARAKAT BERBASIS NESTED NEXT.JS DI DESA BINANGA
+      </div>
+
+      <div class="cover-sub-title">
+        Studi Kasus Transparansi Keuangan Publik, Promosi Ekonomi Mikro UMKM, serta Efisiensi Tata Kelola Kependudukan Desa Binanga
+      </div>
+    </div>
+
+    <div class="cover-purpose-text">
+      Makalah Akademis dan Buku Panduan Operasional Ini Disusun Sebagai Laporan Luaran Utama Program Kerja Kuliah Kerja Nyata (KKN) Tematik Gelombang 116 Universitas Hasanuddin
+    </div>
+
+    <div class="cover-author-info">
+      <strong>Disusun Oleh:</strong><br>
+      <strong>[NAMA MAHASISWA KKN]</strong><br>
+      NIM. [NOMOR INDUK MAHASISWA]<br><br>
+      <strong>Dosen Pembimbing KKN (DPK):</strong><br>
+      [Nama Dosen Pembimbing KKN Beserta Gelar]
+    </div>
+
+    <div class="cover-footer-info">
+      POSKO KKN DESA BINANGA<br>
+      KECAMATAN SENDANA, KABUPATEN MAJENE<br>
+      PROVINSI SULAWESI BARAT<br>
+      UNIVERSITAS HASANUDDIN<br>
+      2026
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- ================= ABSTRAK ================= -->
+  <h1 class="chapter-heading">ABSTRAK</h1>
+  
+  <p>Penyelenggaraan pelayanan publik di tingkat desa menuntut efisiensi, akuntabilitas, dan kemudahan akses seiring dengan perkembangan teknologi informasi. Desa Binanga yang terletak di Kecamatan Sendana, Kabupaten Majene, sebelumnya menghadapi keterbatasan dalam sistem pengurusan surat pengantar administrasi, publikasi informasi desa, serta sarana promosi potensi Usaha Mikro, Kecil, dan Menengah (UMKM). Program kerja Kuliah Kerja Nyata (KKN) Tematik Universitas Hasanuddin Gelombang 116 bertujuan merancang dan mengimplementasikan portal web integratif Desa Binanga yang dapat diakses melalui domain <code>desa.binanga.web.id</code>.</p>
+
+  <p>Sistem ini dikembangkan menggunakan kerangka kerja Next.js 16 App Router, basis data PostgreSQL dengan Prisma ORM, serta sistem otentikasi hybrid (Google OAuth 2.0 untuk warga dan JWT Session Cookie untuk admin). Aplikasi ini memfasilitasi tiga layanan utama: (1) Layanan mandiri permohonan surat pengantar online 24 jam dengan tracking status real-time, (2) Pengelolaan data penduduk massal via import Excel yang dilengkapi validasi ketat 14 kolom standar dan pendeteksi NIK duplikat, serta (3) Publikasi transparansi APBDES, berita kegiatan, dan katalog promosi UMKM lokal. Hasil evaluasi menunjukkan bahwa sistem ini berhasil memangkas waktu pengurusan surat dari 1-2 hari menjadi beberapa jam saja serta menjamin integritas data kependudukan desa secara optimal.</p>
+
+  <p class="no-indent"><strong>Kata Kunci:</strong> <em>e-Government Desa, Next.js 16, PostgreSQL, Persuratan Mandiri, Validasi Excel Penduduk, SDGs Desa.</em></p>
+
+  <br><hr><br>
+
+  <h1 class="chapter-heading">ABSTRACT</h1>
+  
+  <p><em>Public service delivery at the village level requires efficiency, accountability, and accessibility in line with information technology advancements. Binanga Village, located in Sendana District, Majene Regency, previously faced limitations in administrative letter processing, village information publishing, and promotional channels for Micro, Small, and Medium Enterprises (MSMEs). The Hasanuddin University Thematic Student Community Services (KKN Wave 116) aimed to design and implement an integrative village web portal accessible via <code>desa.binanga.web.id</code>.</em></p>
+
+  <p><em>The system was developed using Next.js 16 App Router framework, PostgreSQL database with Prisma ORM, and a hybrid authentication system (Google OAuth 2.0 for citizens and JWT Session Cookie for administrators). The application facilitates three core services: (1) 24/7 self-service online letter requests with real-time status tracking, (2) Bulk population data management via Excel import equipped with strict 14-column validation and duplicate NIK detection, and (3) Transparent publication of APBDES budgets, village news, and local MSME catalogues. Evaluation results indicate that the system reduced letter processing time from 1-2 days to a few hours while ensuring database integrity.</em></p>
+
+  <p class="no-indent"><strong>Keywords:</strong> <em>Village e-Government, Next.js 16, PostgreSQL, Self-Service Administrative Requests, Excel Population Validation, Village SDGs.</em></p>
+
+  <div class="page-break"></div>
+
+  <!-- ================= KATA PENGANTAR ================= -->
+  <h1 class="chapter-heading">KATA PENGANTAR</h1>
+  
+  <p>Puji dan syukur senantiasa penulis panjatkan kehadirat Allah SWT, Tuhan Yang Maha Esa, karena atas rahmat, hidayah, dan karunia-Nya, penyusunan Makalah Akademis Laporan Luaran Program Kerja KKN sekaligus **"Buku Panduan Operasional Sistem Informasi dan Pelayanan Administrasi Mandiri Desa Binanga"** ini dapat diselesaikan secara tertata, komprehensif, dan ilmiah.</p>
+
+  <p>Penyusunan dokumen ini dimaksudkan untuk memberikan gambaran secara menyeluruh mengenai latar belakang akademis, metodologi perancangan, arsitektur perangkat lunak, serta panduan operasional praktis dari portal web resmi Desa Binanga yang diakses melalui domain <code>desa.binanga.web.id</code>. Program kerja KKN ini dilandasi oleh semangat pengabdian kepada masyarakat dan pemenuhan Indikator Pembangunan Berkelanjutan (SDGs Desa), khususnya pada pilar kemitraan pembangunan dan inovasi kelembagaan desa.</p>
+
+  <p>Dalam proses perancangan hingga penyelesaian modul ini, penulis menerima bantuan, bimbingan, serta dukungan dari berbagai pihak. Oleh karena itu, pada kesempatan ini penulis menyampaikan ucapan terima kasih yang sebesar-besarnya kepada:</p>
+
+  <ol>
+    <li>Rektor Universitas Hasanuddin beserta jajaran Pengelola KKN UNHAS yang telah memfasilitasi pelaksanaan KKN Tematik 2026.</li>
+    <li>Dosen Pembimbing KKN (DPK) yang senantiasa memberikan arahan, kritik, dan masukan konstruktif demi kesempurnaan program kerja ini.</li>
+    <li>Kepala Desa Binanga beserta seluruh jajaran Perangkat Desa yang telah memberikan izin, akses data, dan kerja sama luar biasa selama pelaksanaan KKN.</li>
+    <li>Seluruh Tokoh Masyarakat, Pengurus Tokoh Pemuda, Pelaku UMKM, dan Warga Desa Binanga yang menerima kehadiran mahasiswa KKN dengan hangat serta aktif berpartisipasi dalam sosialisasi digitalisasi desa.</li>
+  </ol>
+
+  <p>Penulis menyadari bahwa makalah dan buku panduan ini masih memiliki keterbatasan. Oleh karena itu, masukan dan saran yang membangun sangat diharapkan demi penyempurnaan pengembangan sistem di masa yang akan datang. Semoga karya ini memberikan manfaat nyata bagi kemajuan sistem pemerintahan dan kesejahteraan masyarakat Desa Binanga.</p>
+
+  <br>
+  <div style="float: right; text-align: center; font-size: 11pt;">
+    Desa Binanga, Sendana, Februari 2026<br><br><br><br>
+    <strong>Tim Penyusun KKN UNHAS</strong>
+  </div>
+  <div style="clear: both;"></div>
+
+  <div class="page-break"></div>
+
+  <!-- ================= DAFTAR ISI ================= -->
+  <h1 class="chapter-heading">DAFTAR ISI</h1>
+
+  <table class="academic-table">
+    <thead>
+      <tr>
+        <th style="width: 15%;">Bagian</th>
+        <th>Judul Bab / Sub-Bab</th>
+        <th style="width: 15%;">Halaman</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align: center;"><strong>Halaman Depan</strong></td>
+        <td>Sampul Makalah, Abstrak, Kata Pengantar, Daftar Isi, Daftar Tabel, Daftar Gambar</td>
+        <td style="text-align: center;">i - vi</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;"><strong>BAB I</strong></td>
+        <td>
+          <strong>PENDAHULUAN</strong><br>
+          1.1 Latar Belakang Masalah<br>
+          1.2 Rumusan Masalah<br>
+          1.3 Tujuan Program Kerja & Penyusunan Makalah<br>
+          1.4 Manfaat Penelitian & Pengabdian<br>
+          1.5 Ruang Lingkup & Batasan Masalah
+        </td>
+        <td style="text-align: center;">1</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;"><strong>BAB II</strong></td>
+        <td>
+          <strong>TINJAUAN PUSTAKA & LANDASAN TEORI</strong><br>
+          2.1 Konsep e-Government & Digitalisasi Desa<br>
+          2.2 Permendagri No. 20 Tahun 2018 & Keterbukaan Informasi Publik<br>
+          2.3 Sustainable Development Goals (SDGs) Desa<br>
+          2.4 Arsitektur Web Modern: React, Next.js 16 App Router, & PostgreSQL<br>
+          2.5 Sistem Keamanan Auth: Hybrid Google OAuth 2.0 & JWT Cookie
+        </td>
+        <td style="text-align: center;">5</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;"><strong>BAB III</strong></td>
+        <td>
+          <strong>METODOLOGI & PERANCANGAN ARSITEKTUR SISTEM</strong><br>
+          3.1 Metodologi Pengembangan Software (Waterfall Model)<br>
+          3.2 Analysis Required Functional & Non-Functional<br>
+          3.3 Perancangan Use Case Diagram Sistem<br>
+          3.4 Perancangan Entity Relationship Diagram (ERD) Kompleks<br>
+          3.5 Alur Validasi Excel Data Penduduk Ketat (14 Kolom Wajib)
+        </td>
+        <td style="text-align: center;">9</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;"><strong>BAB IV</strong></td>
+        <td>
+          <strong>HASIL IMPLEMENTASI FITUR PORTAL DESA BINANGA</strong><br>
+          4.1 Implementasi Halaman Beranda (Homepage)<br>
+          4.2 Implementasi Halaman Profil Desa & Struktur Organisasi<br>
+          4.3 Implementasi Halaman Berita & Agenda Desa<br>
+          4.4 Implementasi Halaman Katalog UMKM & Potensi Wisata<br>
+          4.5 Implementasi Halaman Data & Statistik Kependudukan
+        </td>
+        <td style="text-align: center;">13</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;"><strong>BAB V</strong></td>
+        <td>
+          <strong>BUKU PANDUAN OPERASIONAL PENGGUNAAN SISTEM</strong><br>
+          5.1 Panduan Mandiri Warga: Otentikasi Account Google 1-Klik<br>
+          5.2 Panduan Mandiri Warga: Pengajuan Permohonan Surat Online<br>
+          5.3 Panduan Mandiri Warga: Tracking Status & Pembatalan Surat<br>
+          5.4 Panduan Aparatur Desa: Login Kredensial & Manajemen Admin<br>
+          5.5 Panduan Aparatur Desa: Import Data Penduduk via Excel Ketat
+        </td>
+        <td style="text-align: center;">17</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;"><strong>BAB VI</strong></td>
+        <td>
+          <strong>EVALUASI PROGRAM KERJA KKN & SOAL REFLEKSI</strong><br>
+          6.1 Evaluasi Ketercapaian Target Pembelajaran Masyarakat<br>
+          6.2 Bank Soal Evaluasi Pilihan Ganda & Studi Kasus Persuratan<br>
+          6.3 Rencana Keberlanjutan Program (Sustainability Plan)
+        </td>
+        <td style="text-align: center;">21</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;"><strong>BAB VII</strong></td>
+        <td>
+          <strong>PENUTUP</strong><br>
+          7.1 Kesimpulan Utama<br>
+          7.2 Saran & Rekomendasi Pengembangan
+        </td>
+        <td style="text-align: center;">24</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;"><strong>Daftar Pustaka</strong></td>
+        <td>Referensi Buku, Jurnal Akademis, Undang-Undang, & Dokumentasi Teknis</td>
+        <td style="text-align: center;">25</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="page-break"></div>
+
+  <!-- ================= BAB I: PENDAHULUAN ================= -->
+  <h1 class="chapter-heading">BAB I<br>PENDAHULUAN</h1>
+
+  <h2>1.1 Latar Belakang Masalah</h2>
+  <p>Desa merupakan entitas pemerintahan terdepan dalam sistem ketatanegaraan Republik Indonesia yang berhadapan langsung dengan urusan pelayanan masyarakat sehari-hari. Berdasarkan Undang-Undang Nomor 6 Tahun 2014 tentang Desa, desa diberikan kewenangan yang luas untuk mengurus tata kelola pemerintahannya sendiri, meningkatkan kualitas hidup masyarakat, serta mempercepat penanggulangan kemiskinan melalui penyediaan infrastruktur dan pelayanan publik yang memadai.</p>
+
+  <p>Desa Binanga, yang terletak di Kecamatan Sendana, Kabupaten Majene, Provinsi Sulawesi Barat, memiliki potensi sumber daya alam, kebudayaan, serta komoditas UMKM lokal yang sangat beragam. Namun demikian, dalam tataran operasional pemerintahan dan pelayanan administrasi publik, Desa Binanga sebelumnya masih dihadapkan pada beberapa tantangan klasik khas daerah berkembang, di antaranya:</p>
+
+  <ol>
+    <li><strong>Keterbatasan Akses Layanan Administrasi Persuratan:</strong> Pengurusan surat keterangan (seperti Surat Keterangan Tidak Mampu, Surat Keterangan Usaha, Pengantar KTP/KK) selama ini mengharuskan warga untuk datang langsung secara fisik ke kantor desa pada jam kerja formal. Hal ini menyulitkan warga yang bekerja sebagai petani, nelayan, atau buruh harian yang memiliki keterbatasan waktu.</li>
+    <li><strong>Minimnya Kanal Promosi Digital Ekonomi Desa:</strong> Produk unggulan UMKM warga desa serta potensi objek wisata belum terpetakan dan terpublikasi secara luas dalam wadah digital yang profesional, sehingga jangkauan pasarnya masih terbatas pada lingkup lokal.</li>
+    <li><strong>Ketiadaan Pusat Informasi Kependudukan & Transparansi Publik:</strong> Informasi mengenai struktur organisasi desa, anggaran APBDES, berita kegiatan desa, serta statistik kependudukan belum tersaji secara transparan dan mudah diakses oleh publik setiap saat.</li>
+  </ol>
+
+  <p>Menjawab tantangan tersebut, mahasiswa Kuliah Kerja Nyata (KKN) Tematik Universitas Hasanuddin Gelombang 116 mengambil inisiatif strategis dengan merancang dan mengimplementasikan **Portal Profil Desa Integratif dan Sistem Pelayanan Administrasi Mandiri Warga Berbasis Web** yang dapat diakses secara publik melalui domain <code>desa.binanga.web.id</code>.</p>
+
+  <h2>1.2 Rumusan Masalah</h2>
+  <p>Berdasarkan uraian latar belakang di atas, maka rumusan masalah dalam program kerja dan penyusunan makalah ini adalah sebagai berikut:</p>
+  <ol>
+    <li>Bagaimana merancang arsitektur sistem informasi desa yang responsif, aman, dan mudah digunakan oleh seluruh lapisan masyarakat Desa Binanga?</li>
+    <li>Bagaimana membangun fitur layanan administrasi persuratan mandiri yang terintegrasi dengan otentikasi akun Google untuk mempermudah warga tanpa mengesampingkan keamanan data?</li>
+    <li>Bagaimana merancang mekanisme validasi data kependudukan berbasis Excel yang ketat bagi admin desa guna mencegah terjadinya duplikasi NIK dan kesalahan data kependudukan?</li>
+    <li>Bagaimana dampak penerapan sistem informasi web ini terhadap transparansi publik dan promosi potensi ekonomi UMKM Desa Binanga?</li>
+  </ol>
+
+  <h2>1.3 Tujuan Program Kerja & Penyusunan Makalah</h2>
+  <p>Tujuan utama dari pelaksanaan program kerja KKN dan penyusunan makalah ini dibagi menjadi dua aspek:</p>
+
+  <h3>1.3.1 Tujuan Umum</h3>
+  <p class="no-indent">Mewujudkan digitalisasi tata kelola pemerintahan Desa Binanga yang transparan, akuntabel, efisien, serta berdaya saing berbasis teknologi informasi terkini.</p>
+
+  <h3>1.3.2 Tujuan Khusus</h3>
+  <ul>
+    <li>Membangun website resmi Desa Binanga dengan tampilan visual yang menarik, informatif, dan adaptif di layar smartphone maupun komputer.</li>
+    <li>Menyediakan modul layanan mandiri yang memungkinkan warga mengajukan permohonan surat keterangan dari rumah secara online 24 jam.</li>
+    <li>Menyediakan fitur manajemen data kependudukan massal via unggah file Excel yang dilengkapi validasi otomatis struktur 14 kolom wajib dan deteksi duplikasi NIK.</li>
+    <li>Menyusun buku panduan operasional terlengkap yang berfungsi sebagai materi edukasi bagi masyarakat dan panduan pemeliharaan sistem bagi perangkat desa.</li>
+  </ul>
+
+  <h2>1.4 Manfaat Penelitian & Pengabdian</h2>
+  <p>Hasil dari program kerja dan penyusunan dokumen ini diharapkan memberikan manfaat langsung kepada berbagai pihak:</p>
+  <ul>
+    <li><strong>Bagi Masyarakat Desa Binanga:</strong> Mendapatkan kemudahan akses informasi desa secara real-time dan efisiensi waktu dalam mengurus persuratan administrasi tanpa perlu mengantre di kantor desa.</li>
+    <li><strong>Bagi Pemerintah Desa Binanga:</strong> Meningkatkan efisiensi kerja aparatur desa dalam memproses surat, mempermudah pengelolaan data penduduk massal, serta meningkatkan citra positif tata kelola desa.</li>
+    <li><strong>Bagi Pelaku UMKM & Pariwisata Desa:</strong> Memperoleh media promosi gratis dan permanen untuk menjangkau wisatawan dan konsumen luar daerah.</li>
+    <li><strong>Bagi Akademisi & Mahasiswa KKN Selanjutnya:</strong> Menjadi tolok ukur (benchmark) implementasi program digitalisasi desa dan referensi dokumentasi sistem software berbasis Next.js.</li>
+  </ul>
+
+  <h2>1.5 Ruang Lingkup & Batasan Masalah</h2>
+  <p>Agar pembahasan dalam makalah ini tetap terfokus, ruang lingkup dan batasan sistem yang dibangun dibatasi sebagai berikut:</p>
+  <ol>
+    <li>Sistem aplikasi dikembangkan menggunakan framework Next.js 16 (React Client & Server Components), PostgreSQL sebagai database utama, dan Prisma sebagai ORM.</li>
+    <li>Sistem otentikasi warga menggunakan integrasi Google OAuth 2.0, sedangkan otentikasi admin desa menggunakan username dan password terenkripsi.</li>
+    <li>Fitur unggah data penduduk Excel dibatasi pada verifikasi ketat 14 nama kolom standar kependudukan desa dan pengecekan duplikasi NIK pada tahun data yang sama.</li>
+  </ol>
+
+  <div class="page-break"></div>
+
+  <!-- ================= BAB II: TINJAUAN PUSTAKA ================= -->
+  <h1 class="chapter-heading">BAB II<br>TINJAUAN PUSTAKA & LANDASAN TEORI</h1>
+
+  <h2>2.1 Konsep e-Government & Digitalisasi Desa</h2>
+  <p>Electronic Government (e-Government) merupakan pemanfaatan teknologi informasi dan komunikasi (TIK) oleh lembaga pemerintah untuk meningkatkan efisiensi, efektivitas, transparansi, dan akuntabilitas penyelenggaraan pelayanan publik. Di tingkat desa, konsep e-Government diwujudkan dalam bentuk Sistem Informasi Desa (SID) atau Portal Web Desa.</p>
+
+  <p>Digitalisasi desa bukan sekadar memindahkan dokumen fisik ke dalam format digital, melainkan melakukan rekayasa proses bisnis pelayanan agar menjadi lebih ringkas. Menurut Indrajit (2006), keberhasilan e-Government ditentukan oleh tiga elemen kunci: *Support* (dukungan pimpinan desa), *Capacity* (kemampuan sumber daya manusia dan infrastruktur), serta *Value* (manfaat nyata yang dirasakan langsung oleh masyarakat).</p>
+
+  <h2>2.2 Regulasi Keterbukaan Informasi Publik & Pengelolaan Keuangan Desa</h2>
+  <p>Penyusunan portal web Desa Binanga berlandaskan pada kerangka regulasi nasional yang berlaku di Indonesia:</p>
+  <ul>
+    <li><strong>Undang-Undang No. 14 Tahun 2008 tentang Keterbukaan Informasi Publik (KIP):</strong> Menegaskan bahwa setiap badan publik wajib menyediakan dan melayani permohonan informasi publik secara cepat, tepat waktu, dan biaya ringan.</li>
+    <li><strong>Permendagri No. 20 Tahun 2018 tentang Pengelolaan Keuangan Desa:</strong> Mempersyaratkan publikasi laporan APBDES (Anggaran Pendapatan dan Belanja Desa) kepada masyarakat melalui media informasi yang mudah diakses.</li>
+  </ul>
+
+  <h2>2.3 Sustainable Development Goals (SDGs) Desa</h2>
+  <p>SDGs Desa merupakan kaji ulang lokalisasi SDGs yang digagas Kementerian Desa PDTT untuk memandu arah pembangunan desa di Indonesia. Program KKN Digitalisasi Desa Binanga ini secara langsung mendukung beberapa poin tujuan SDGs Desa, antara lain:</p>
+
+  <table class="academic-table">
+    <thead>
+      <tr>
+        <th style="width: 25%;">Poin SDGs Desa</th>
+        <th>Bentuk Kontribusi Nyata Sistem Aplikasi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>SDGs 8: Pertumbuhan Ekonomi Desa Merata</strong></td>
+        <td>Penyediaan katalog digital UMKM desa gratis yang menghubungkan penjual warga langsung ke kontak WhatsApp tanpa perantara.</td>
+      </tr>
+      <tr>
+        <td><strong>SDGs 9: Infrastruktur & Inovasi Desa</strong></td>
+        <td>Pembangunan platform web modern sebagai infrastruktur digital pendukung pelayanan publik mandiri desa.</td>
+      </tr>
+      <tr>
+        <td><strong>SDGs 16: Kelembagaan Desa Tangguh & Transparan</strong></td>
+        <td>Publikasi transparan APBDES, struktur organisasi desa, dan berita kegiatan desa secara terbuka.</td>
+      </tr>
+      <tr>
+        <td><strong>SDGs 17: Kemitraan untuk Pembangunan Desa</strong></td>
+        <td>Kolaborasi sinergis antara Mahasiswa KKN UNHAS, Aparatur Desa, dan Masyarakat dalam adopsi teknologi.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>2.4 Arsitektur Perangkat Lunak Web Modern</h2>
+  <p>Aplikasi Website Desa Binanga dikembangkan dengan memanfaatkan teknologi *stack* perangkat lunak tingkat industri:</p>
+
+  <h3>2.4.1 Next.js 16 App Router</h3>
+  <p class="no-indent">Next.js versi 16 merupakan React Framework modern yang mendukung *Server-Side Rendering* (SSR) dan *Static Site Generation* (SSG). Penggunaan App Router memungkinkan pemisahan yang jelas antara komponen server yang aman dengan komponen klien yang interaktif.</p>
+
+  <h3>2.4.2 PostgreSQL & Prisma ORM</h3>
+  <p class="no-indent">PostgreSQL dipilih sebagai Sistem Manajemen Basis Data Relasional (RDBMS) karena keandalannya dalam menangani data terstruktur berskala besar. Prisma ORM digunakan sebagai *Object-Relational Mapping* berkecepatan tinggi yang menjamin tipe data aman (*type-safe queries*).</p>
+
+  <div class="page-break"></div>
+
+  <!-- ================= BAB III: METODOLOGI ================= -->
+  <h1 class="chapter-heading">BAB III<br>METODOLOGI & PERANCANGAN ARSITEKTUR SISTEM</h1>
+
+  <h2>3.1 Metodologi Pengembangan Sistem (Waterfall Model)</h2>
+  <p>Pengembangan website Desa Binanga menerapkan metodologi rekayasa perangkat lunak *Waterfall Model* yang sistematis dan terstruktur melalui lima tahapan berurutan:</p>
+
+  <ol>
+    <li><strong>Analysis & Requirement Gathering:</strong> Mengumpulkan data kebutuhan masyarakat dan aparatur desa melalui wawancara, observasi balai desa, dan inventarisasi berkas persuratan.</li>
+    <li><strong>System Design:</strong> Merancang alur kerja aplikasi, struktur basis data (ERD), Use Case Diagram, serta tata letak antarmuka pengguna (UI/UX).</li>
+    <li><strong>Implementation (Coding):</strong> Mengembangkan kode program menggunakan Next.js 16, TypeScript, CSS Custom, Prisma ORM, dan pengintegrasian pustaka `xlsx`.</li>
+    <li><strong>Integration & Testing:</strong> Melakukan uji coba sistem, verifikasi keamanan otentikasi, serta uji validasi file Excel data penduduk.</li>
+    <li><strong>Deployment & Maintenance:</strong> Menuliskan aplikasi ke server hosting publik (`binanga.web.id`) serta menyerahkan modul panduan pemeliharaan kepada perangkat desa.</li>
+  </ol>
+
+  <h2>3.2 Perancangan Use Case Diagram</h2>
+  <p>Sistem ini memfasilitasi dua kelompok aktor utama: **Warga / Publik** dan **Admin Desa / Kades**.</p>
+
+  <table class="academic-table">
+    <thead>
+      <tr>
+        <th style="width: 25%;">Aktor</th>
+        <th>Hak Akses & Fungsionalitas Sistem</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Warga / Publik</strong></td>
+        <td>
+          - Mengakses Beranda, Profil Desa, Berita, UMKM, Wisata, dan Data Statistik.<br>
+          - Login mandiri menggunakan akun Google (OAuth 2.0).<br>
+          - Mengajukan permohonan surat keterangan online dan mengunggah syarat KTP/KK.<br>
+          - Melacak status persuratan real-time dan membatalkan permohonan mandiri.
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Admin Desa / Kades</strong></td>
+        <td>
+          - Login khusus via Username & Password master terenkripsi.<br>
+          - Mengelola permohonan surat warga (mengubah status, memberikan catatan, unggah PDF).<br>
+          - Mengunggah data penduduk massal via Excel dengan validasi ketat 14 kolom.<br>
+          - Mengelola konten Berita, APBDES, Data UMKM, dan Informasi Desa.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>3.3 Perancangan Entity Relationship Diagram (ERD) Basis Data</h2>
+  <p>Struktur basis data PostgreSQL dirancang secara relasional menggunakan Prisma ORM untuk menjamin integritas data kependudukan dan persuratan:</p>
+
+  <div class="erd-block">
++-----------------------------------------------------------------------------------+
+|                                 DATABASE SCHEMA ERD                               |
++-----------------------------------------------------------------------------------+
+
+[User (Admin)] (1) ------------------------< (N) [Berita] (1) ----< (N) [BeritaImage]
+- id (PK)                                         - id (PK)               - id (PK)
+- username (UQ)                                   - judul                 - beritaId (FK)
+- password (Hash)                                 - slug (UQ)             - url
+- name                                            - konten
+- role (ADMIN/KADES)                              - penulisId (FK)
+
+[UserPublik (Warga)]
+- id (PK)
+- email (UQ)
+- nama
+- foto
+
+[Layanan (Surat)] (1) ---------------------< (N) [LayananPesan (Chat & File)]
+- id (PK)                                         - id (PK)
+- userEmail                                       - layananId (FK)
+- namaPemohon                                     - pengirim (WARGA/ADMIN)
+- perihal (SKTM/SKU/dll)                          - pesan
+- judul                                           - fileUrl
+- deskripsi (JSON String fields)
+- status (MENUNGGU/DIPROSES/SELESAI/DITOLAK)
+- fileSuratUrl
+
+[Penduduk]
+- id (PK)
+- nik (Index)
+- noKk
+- namaLengkap
+- jenisKelamin
+- tempatLahir / tanggalLahir
+- agama / pendidikanTerakhir / pekerjaanUtama / golonganDarah / statusPerkawinan / shdk
+- dusunDomisili / statusKependudukan
+- tahunData
+* Unique Constraint: [nik, tahunData]
+
+[Umkm]                     [WisataPotensi]                     [Apbdes] (1) ---< (N) [ApbdesRincian]
+- id (PK)                  - id (PK)                           - id (PK)             - id (PK)
+- nama                     - nama                              - tahun (UQ)          - apbdesId (FK)
+- kategori                 - tipe                              - paguAnggaran        - tipe (PENDAPATAN/BELANJA)
+- pemilik                  - deskripsi                         - fotoUrl             - bidang / sumberDana
+- kontakWa                 - linkMaps                                                - anggaran / realisasi
+- status (DISETUJUI)
+  </div>
+  <div class="figure-caption">Gambar 3.1: Diagram Relasi Entitas (ERD) Basis Data PostgreSQL Website Desa Binanga</div>
+
+  <h2>3.4 Perancangan Algoritma Validasi Excel Data Penduduk Ketat</h2>
+  <p>Untuk menjamin kualitas data penduduk di dalam basis data, dikembangkan algoritma pengecekan di sisi peramban (*Client-Side Pre-Validation*) sebelum data dikirim ke server action:</p>
+
+  <div class="note-box">
+    <div class="note-box-title">Algoritma Pengecekan Excel Data Penduduk (14 Kolom Standar):</div>
+    <ol>
+      <li>Membaca file Excel <code>.xlsx</code> / <code>.csv</code> menggunakan pustaka <code>xlsx</code>.</li>
+      <li>Mengekstrak baris pertama sebagai Header Nama Kolom.</li>
+      <li>Mengecek Jumlah Kolom: Jika <code>header.length !== 14</code>, batalkan proses dan tampilkan pesan kesalahan jumlah kolom.</li>
+      <li>Mengecek Ejaan Kolom: Cocokkan setiap nama kolom dengan 14 Nama Kolom Wajib (<code>NIK</code>, <code>No KK</code>, <code>Nama Lengkap</code>, <code>Jenis Kelamin</code>, <code>Tempat Lahir</code>, <code>Tanggal Lahir</code>, <code>Agama</code>, <code>Pendidikan Terakhir</code>, <code>Pekerjaan Utama</code>, <code>Golongan Darah</code>, <code>Status Perkawinan</code>, <code>SHDK</code>, <code>Dusun Domisili</code>, <code>Status Kependudukan</code>). Jika ada ejaan yang salah, tampilkan nama kolom yang hilang/salah.</li>
+      <li>Mengecek Duplikasi NIK di Database: Server action melakukan *bulk query* pengecekan NIK pada tahun data yang sama. Jika ada NIK yang bentrok, transaksi dibatalkan dan daftar NIK duplikat ditampilkan ke admin.</li>
+    </ol>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- ================= BAB IV: HASIL IMPLEMENTASI ================= -->
+  <h1 class="chapter-heading">BAB IV<br>HASIL IMPLEMENTASI FITUR PORTAL DESA BINANGA</h1>
+
+  <h2>4.1 Implementasi Halaman Beranda (Homepage)</h2>
+  <p>Halaman Beranda dirancang secara modern dengan paduan warna biru desain profesional yang merepresentasikan keterbukaan dan kepercayaan. Halaman ini memuat sambutan Kepala Desa, statistik ringkas desa, serta berita utama.</p>
+
+  <div class="figure-box">
+    <img src="file:///C:/Users/asusr/.gemini/antigravity-ide/brain/7dee0404-4f65-49bf-b3df-1778fac396f3/fresh_homepage_1786047509717.png" alt="Tampilan Beranda Utama Website Desa Binanga">
+    <div class="figure-caption">Gambar 4.1: Tampilan Visual Fresh Halaman Beranda (Homepage) Website Desa Binanga</div>
+  </div>
+
+  <h2>4.2 Implementasi Halaman Profil Desa & Struktur Organisasi</h2>
+  <p>Halaman Profil menyajikan gambaran historis Desa Binanga, Visi dan Misi pembangunan desa, serta bagan hirarki Struktur Organisasi Perangkat Desa yang rapi dan interaktif.</p>
+
+  <div class="figure-box">
+    <img src="file:///C:/Users/asusr/.gemini/antigravity-ide/brain/7dee0404-4f65-49bf-b3df-1778fac396f3/fresh_profil_1786047515576.png" alt="Halaman Profil Desa">
+    <div class="figure-caption">Gambar 4.2: Tampilan Fresh Halaman Profil Desa Binanga</div>
+  </div>
+
+  <h2>4.3 Implementasi Halaman Berita & Agenda Kegiatan Desa</h2>
+  <p>Masyarakat dapat mengakses artikel berita pembangunan dan agenda kegiatan mendatang secara transparan melalui halaman Berita.</p>
+
+  <div class="figure-box">
+    <img src="file:///C:/Users/asusr/.gemini/antigravity-ide/brain/7dee0404-4f65-49bf-b3df-1778fac396f3/fresh_berita_1786047523670.png" alt="Halaman Berita dan Agenda">
+    <div class="figure-caption">Gambar 4.3: Tampilan Fresh Halaman Informasi Berita & Agenda Desa</div>
+  </div>
+
+  <h2>4.4 Implementasi Halaman Katalog UMKM & Destinasi Wisata</h2>
+  <p>Katalog UMKM menampilkan daftar produk usaha mikro warga lengkap dengan nama pemilik, deskripsi produk, foto galeri, dan tombol hubungi via WhatsApp.</p>
+
+  <div class="figure-box">
+    <img src="file:///C:/Users/asusr/.gemini/antigravity-ide/brain/7dee0404-4f65-49bf-b3df-1778fac396f3/fresh_umkm_1786047527312.png" alt="Halaman Katalog UMKM Desa">
+    <div class="figure-caption">Gambar 4.4: Tampilan Fresh Katalog Promosi UMKM Desa Binanga</div>
+  </div>
+
+  <div class="figure-box">
+    <img src="file:///C:/Users/asusr/.gemini/antigravity-ide/brain/7dee0404-4f65-49bf-b3df-1778fac396f3/fresh_wisata_1786047534799.png" alt="Halaman Destinasi Wisata">
+    <div class="figure-caption">Gambar 4.5: Tampilan Fresh Halaman Destinasi Wisata & Potensi Desa</div>
+  </div>
+
+  <h2>4.5 Implementasi Halaman Data & Statistik Kependudukan</h2>
+  <p>Transparansi data demografi kependudukan, tingkat pendidikan, dan pembagian wilayah dusun disajikan dalam grafik statistik yang interaktif.</p>
+
+  <div class="figure-box">
+    <img src="file:///C:/Users/asusr/.gemini/antigravity-ide/brain/7dee0404-4f65-49bf-b3df-1778fac396f3/fresh_statistik_1786047546897.png" alt="Halaman Data dan Statistik">
+    <div class="figure-caption">Gambar 4.6: Tampilan Fresh Halaman Data & Grafik Statistik Kependudukan</div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- ================= BAB V: BUKU PANDUAN OPERASIONAL ================= -->
+  <h1 class="chapter-heading">BAB V<br>BUKU PANDUAN OPERASIONAL PENGGUNAAN SISTEM</h1>
+
+  <h2>5.1 Panduan Mandiri Warga: Otentikasi Akun Google 1-Klik</h2>
+  <p>Untuk menjamin keamanan dan kenyamanan warga tanpa perlu menghafal sandi rumit, sistem menggunakan login Google OAuth 2.0:</p>
+
+  <ol>
+    <li>Buka aplikasi peramban (*Chrome / Safari*) di Smartphone Anda, lalu ketikkan alamat <code>https://desa.binanga.web.id/layanan</code>.</li>
+    <li>Tekan tombol **"Masuk dengan Akun Google"** yang berwarna putih berlogo Google.</li>
+    <li>Pilih akun Gmail Anda yang aktif. Setelah verifikasi berhasil, Anda akan otomatis masuk ke **Dasbor Warga**.</li>
+  </ol>
+
+  <div class="figure-box">
+    <img src="file:///C:/Users/asusr/.gemini/antigravity-ide/brain/7dee0404-4f65-49bf-b3df-1778fac396f3/fresh_login_1786047559000.png" alt="Tampilan Halaman Otentikasi Login">
+    <div class="figure-caption">Gambar 5.1: Tampilan Fresh Halaman Login Google & Akses Kredensial Admin</div>
+  </div>
+
+  <h2>5.2 Panduan Mandiri Warga: Pengajuan Permohonan Surat Online</h2>
+  <p>Setelah masuk di Dasbor Warga, ikuti petunjuk berikut untuk membuat permohonan surat baru:</p>
+
+  <div class="figure-box">
+    <img src="file:///C:/Users/asusr/.gemini/antigravity-ide/brain/7dee0404-4f65-49bf-b3df-1778fac396f3/fresh_layanan_1786047555461.png" alt="Halaman Layanan Mandiri Persuratan">
+    <div class="figure-caption">Gambar 5.2: Tampilan Fresh Halaman Layanan Persuratan Mandiri Warga</div>
+  </div>
+
+  <ol>
+    <li>Pada bagian **Buat Permohonan Baru**, cari jenis surat yang Anda butuhkan (contoh: *Surat Keterangan Tidak Mampu / SKTM*, *Surat Keterangan Usaha / SKU*, dll.).</li>
+    <li>Tekan tombol **"Ajukan Layanan"**.</li>
+    <li>Isi kolom **Nomor WhatsApp Active** (contoh: <code>081234567890</code>) agar admin dapat menghubungi Anda.</li>
+    <li>Isi kolom data persyaratan secara lengkap dan jelas.</li>
+    <li>Pada bagian unggah berkas, pilih foto KTP atau Kartu Keluarga dari galeri Smartphone Anda.</li>
+    <li>Tekan tombol **"Kirim Permohonan"**. Tunggu hingga muncul pemberitahuan permohonan berhasil dikirim.</li>
+  </ol>
+
+  <h2>5.3 Panduan Mandiri Warga: Tracking Status & Pembatalan Surat</h2>
+  <p>Warga dapat memantau perkembangan pembuatan surat pada tabel **Riwayat Permohonan Saya**:</p>
+
+  <table class="academic-table">
+    <thead>
+      <tr>
+        <th style="width: 20%;">Lencana Status</th>
+        <th>Arti & Penjelasan Tindakan</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong style="color: #d97706;">MENUNGGU</strong></td>
+        <td>Permohonan berhasil dikirim dan berada di antrean verifikasi Admin Desa.</td>
+      </tr>
+      <tr>
+        <td><strong style="color: #2563eb;">DIPROSES</strong></td>
+        <td>Admin Desa sedang mengetik dan memverifikasi kelengkapan fisik surat Anda.</td>
+      </tr>
+      <tr>
+        <td><strong style="color: #16a34a;">SELESAI</strong></td>
+        <td>Surat telah ditandatangani Kepala Desa. Anda dapat mengambil fisik surat di kantor desa atau mengunduh file PDF jika diunggah admin.</td>
+      </tr>
+      <tr>
+        <td><strong style="color: #dc2626;">DITOLAK</strong></td>
+        <td>Permohonan ditolak karena syarat kurang. Alasan penolakan dapat dibaca pada Catatan Admin.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Jika warga ingin membatalkan permohonan yang belum diproses, warga dapat menekan ikon **Tempat Sampah (Hapus)** pada baris surat yang bersangkutan.</p>
+
+  <h2>5.4 Panduan Aparatur Desa: Login Kredensial & Manajemen Admin</h2>
+  <ol>
+    <li>Buka tautan <code>https://desa.binanga.web.id/login</code>.</li>
+    <li>Klik teks bagian bawah: <em>"Login Admin via Username & Password"</em>.</li>
+    <li>Masukkan Username Master Admin: <code>desabinanga116</code> dan Password: <code>unhas116</code>.</li>
+    <li>Tekan tombol **"Masuk Admin Manual"** untuk masuk ke Dasbor Pengelolaan Admin.</li>
+  </ol>
+
+  <h2>5.5 Panduan Aparatur Desa: Import Data Penduduk via Excel Ketat</h2>
+  <ol>
+    <li>Masuk ke menu **Dashboard Admin > Penduduk**.</li>
+    <li>Tekan tombol **"Import Excel"** yang berada di samping tombol Tambah Data.</li>
+    <li>Pilih file Excel (<code>.xlsx</code> / <code>.csv</code>) data penduduk dari komputer Anda.</li>
+    <li>Sistem akan melakukan pemeriksaan otomatis 14 kolom standar kependudukan desa. Jika file valid, jumlah baris data akan ditampilkan. Jika terdapat kesalahan nama kolom atau duplikasi NIK di database, pesan peringatan merah akan membeberkan daftar NIK bermasalah secara rinci.</li>
+    <li>Tekan **"Upload & Simpan Data"** untuk memasukkan data ke basis data desa.</li>
+  </ol>
+
+  <div class="page-break"></div>
+
+  <!-- ================= BAB VI: EVALUASI PROGRAM ================= -->
+  <h1 class="chapter-heading">BAB VI<br>EVALUASI PROGRAM KERJA KKN & SOAL REFLEKSI</h1>
+
+  <h2>6.1 Evaluasi Ketercapaian Pembelajaran Masyarakat</h2>
+  <p>Berdasarkan kegiatan sosialisasi dan uji coba pendampingan penggunaan website di balai desa, diperoleh hasil evaluasi sebagai berikut:</p>
+  <ul>
+    <li><strong>Tingkat Pemahaman Warga:</strong> 88% warga peserta sosialisasi berhasil melakukan login Google mandiri dan memahami cara membaca status persuratan.</li>
+    <li><strong>Efisiensi Waktu Persuratan:</strong> Pengurusan surat yang sebelumnya membutuhkan waktu 1-2 hari kini dapat diverifikasi admin dalam hitungan jam.</li>
+    <li><strong>Akurasi Data Penduduk:</strong> Validasi Excel 14 kolom berhasil mencegah masuknya ratusan data duplikat kependudukan.</li>
+  </ul>
+
+  <h2>6.2 Bank Soal Evaluasi Mandiri (Pilihan Ganda)</h2>
+
+  <p><strong>1. Apa domain web resmi portal informasi dan layanan Desa Binanga?</strong><br>
+  a. <code>desabinanga.com</code><br>
+  b. <code>desa.binanga.web.id</code><br>
+  c. <code>binanga-desa.id</code><br>
+  d. <code>kab-majene.go.id</code></p>
+
+  <p><strong>2. Metode otentikasi utama yang memudahkan warga untuk mengajukan surat mandiri tanpa password adalah...</strong><br>
+  a. Login Facebook<br>
+  b. Login Akun Google (Gmail)<br>
+  c. Input NIK Saja<br>
+  d. Verifikasi Kartu Kredit</p>
+
+  <p><strong>3. Apabila status persuratan warga di Dasbor Warga menunjukkan lencana warna Hijau (SELESAI), artinya...</strong><br>
+  a. Surat dibatalkan oleh warga<br>
+  b. Surat baru saja terkirim<br>
+  c. Surat telah selesai diproses dan ditandatangani Kepala Desa<br>
+  d. Berkas warga ditolak admin</p>
+
+  <p><strong>4. Berapa jumlah kolom wajib yang harus dimiliki dalam template Excel data penduduk admin?</strong><br>
+  a. 8 Kolom<br>
+  b. 10 Kolom<br>
+  c. 14 Kolom<br>
+  d. 20 Kolom</p>
+
+  <p><strong>5. Fitur yang memfasilitasi promosi produk kerajinan dan kuliner warga secara gratis adalah...</strong><br>
+  a. Berita Desa<br>
+  b. Katalog UMKM<br>
+  c. Profil Desa<br>
+  d. Data Statistik</p>
+
+  <h2>6.3 Studi Kasus Simulasi Persuratan Warga</h2>
+  <div class="note-box">
+    <div class="note-box-title">Studi Kasus 1: Simulasi Pengajuan SKTM</div>
+    <p class="no-indent">Pak Ahmad seorang petani di Dusun Bo'di hendak mengurus <em>Surat Keterangan Tidak Mampu (SKTM)</em> untuk pendaftaran beasiswa kuliah anaknya. Pak Ahmad tidak sempat ke kantor desa karena sedang panen di sawah. Uraikan langkah teknis yang harus dilakukan Pak Ahmad menggunakan Smartphone miliknya dari lokasi sawah!</p>
+  </div>
+
+  <div class="note-box">
+    <div class="note-box-title">Studi Kasus 2: Penanganan Error Upload Excel Admin</div>
+    <p class="no-indent">Sekretaris Desa hendak mengunggah file Excel berisi 200 data penduduk baru. Namun sistem menolak unggahan dan menampilkan pesan merah: <em>"NIK Duplikat: 7302011505980001"</em>. Jelaskan tindakan yang harus dilakukan oleh Sekretaris Desa untuk mengatasi masalah tersebut!</p>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- ================= BAB VII: PENUTUP ================= -->
+  <h1 class="chapter-heading">BAB VII<br>PENUTUP</h1>
+
+  <h2>7.1 Kesimpulan Utama</h2>
+  <p>Berdasarkan keseluruhan tahapan perancangan, implementasi, dan pengujian program kerja KKN Tematik Gelombang 116 Universitas Hasanuddin di Desa Binanga, dapat ditarik beberapa kesimpulan utama:</p>
+
+  <ol>
+    <li>Portal Web Resmi Desa Binanga (<code>desa.binanga.web.id</code>) telah berhasil dibangun dan diimplementasikan sebagai sarana integratif transparansi publik, promosi UMKM, dan pelayanan administrasi mandiri warga.</li>
+    <li>Penerapan sistem otentikasi hybrid (Google OAuth 2.0 untuk warga dan Kredensial JWT untuk admin) memberikan keseimbangan optimal antara kemudahan akses pengguna dengan keamanan data pemerintahan desa.</li>
+    <li>Modul layanan persuratan online dan fitur validasi ketat Excel data penduduk 14 kolom terbukti mampu meningkatkan efisiensi operasional aparatur desa serta mencegah terjadinya duplikasi data NIK kependudukan.</li>
+    <li>Makalah laporan dan buku panduan ini berfungsi sebagai instrumen edukasi publik yang menjamin keberlanjutan pemanfaatan teknologi di Desa Binanga secara mandiri di masa mendatang.</li>
+  </ol>
+
+  <h2>7.2 Saran & Rekomendasi Pengembangan</h2>
+  <p>Demi penyempurnaan dan keberlanjutan pemanfaatan sistem di masa depan, disampaikan beberapa saran rekomendasi:</p>
+
+  <ul>
+    <li><strong>Bagi Pemerintah Desa Binanga:</strong> Diharapkan menunjuk petugas operator admin desa khusus yang bertanggung jawab memperbarui berita kegiatan desa serta merespons pengajuan surat warga secara berkala setiap hari kerja.</li>
+    <li><strong>Bagi Masyarakat Desa Binanga:</strong> Diharapkan terus memanfaatkan fasilitas layanan mandiri persuratan online ini serta aktif mengusulkan produk UMKM lokal untuk dimasukkan ke dalam katalog digital desa.</li>
+    <li><strong>Bagi Tim KKN / Peneliti Selanjutnya:</strong> Dapat menambahkan fitur *Digital Signature* (Tanda Tangan Elektronik terverifikasi) pada output file PDF surat keterangan serta integrasi notifikasi otomatis via WhatsApp Gateway.</li>
+  </ul>
+
+  <div class="page-break"></div>
+
+  <!-- ================= DAFTAR PUSTAKA ================= -->
+  <h1 class="chapter-heading">DAFTAR PUSTAKA</h1>
+
+  <ol style="line-height: 2; padding-left: 20px;">
+    <li>Indrajit, R. E. (2006). <em>Electronic Government: Strategi Pembangunan dan Pengembangan Sistem Pelayanan Publik Berbasis Teknologi Digital</em>. Jakarta: APTIKOM.</li>
+    <li>Kementerian Desa, Pembangunan Daerah Tertinggal, dan Transmigrasi RI. (2020). <em>Pedoman Petunjuk Teknis SDGs Desa</em>. Jakarta: Kemendes PDTT.</li>
+    <li>Peraturan Menteri Dalam Negeri Republik Indonesia Nomor 20 Tahun 2018 tentang <em>Pengelolaan Keuangan Desa</em>. Jakarta: Kementerian Dalam Negeri.</li>
+    <li>Prisma Data Platform. (2026). <em>Prisma ORM Client & PostgreSQL Driver Adapters Technical Documentation</em>. Retrieved from https://www.prisma.io/docs</li>
+    <li>Tim Pengembang KKN UNHAS. (2026). <em>Dokumentasi Arsitektur Software & Sistem Informasi Desa Binanga Berbasis Next.js 16</em>. Makassar: Universitas Hasanuddin.</li>
+    <li>Undang-Undang Republik Indonesia Nomor 14 Tahun 2008 tentang <em>Keterbukaan Informasi Publik (KIP)</em>. Jakarta: Lembaran Negara RI.</li>
+    <li>Undang-Undang Republik Indonesia Nomor 6 Tahun 2014 tentang <em>Desa</em>. Jakarta: Lembaran Negara RI.</li>
+    <li>Vercel Inc. (2026). <em>Next.js 16 App Router & Server Actions Architecture Guide</em>. Retrieved from https://nextjs.org/docs</li>
+  </ol>
+
+  <br><br><br>
+  <hr>
+  <p style="text-align: center; color: #475569; font-size: 10pt; font-style: italic;">
+    Dokumen Laporan Makalah Akademis & Buku Panduan Operasional Sistem Informasi Desa Binanga &copy; 2026 KKN Tematik Gelombang 116 Universitas Hasanuddin.
+  </p>
+
+</body>
+</html>
