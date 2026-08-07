@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Landmark, BarChart3, TrendingUp, Newspaper, HeartHandshake, Image, FileSearch, MapPin, Users, Wallet, ChevronRight, CheckCircle2, Clock } from 'lucide-react';
+import { Landmark, BarChart3, TrendingUp, Newspaper, HeartHandshake, Image as ImageIcon, FileSearch, MapPin, Users, Wallet, ChevronRight, ChevronLeft, CheckCircle2, Clock, Eye } from 'lucide-react';
 import styles from './page.module.css';
 
 import { useState, useEffect } from 'react';
@@ -16,6 +16,7 @@ export default function Home() {
   const [pengaturan, setPengaturan] = useState<Record<string, string>>({});
   const [statistik, setStatistik] = useState<Statistik>({ penduduk: 0, kepala_keluarga: 0, luas_wilayah: 0, realisasi_anggaran: 0 });
   const [berita, setBerita] = useState<Post[]>([]);
+  const [activeNewsSlide, setActiveNewsSlide] = useState(0);
   const [umkmList, setUmkmList] = useState<UMKM[]>([]);
   const [wisataList, setWisataList] = useState<Wisata[]>([]);
   const [perangkat, setPerangkat] = useState<any[]>([]);
@@ -128,7 +129,7 @@ export default function Home() {
 
 
           <motion.a variants={itemVariants} href="/wisata#galeri-virtual-tour" className={styles.serviceCard}>
-            <div className={styles.serviceIcon}><Image size={24} /></div>
+            <div className={styles.serviceIcon}><ImageIcon size={24} /></div>
             <h3 className={styles.serviceTitle}>Galeri</h3>
           </motion.a>
 
@@ -194,60 +195,138 @@ export default function Home() {
         </div>
       </section>
 
-      {/* NEWS SECTION */}
+      {/* NEWS SECTION (MAGAZINE PORTAL STYLE) */}
       <section className={styles.newsSection}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
           <motion.div 
             className={styles.sectionHeader}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className={styles.sectionTitle}>Berita & Agenda</h2>
-            <p style={{ color: '#475569' }}>Kabar terbaru dari pemerintahan dan warga desa</p>
+            <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#e11d48', textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '6px', display: 'inline-block' }}>KABAR TERKINI DESA</span>
+            <h2 className={styles.sectionTitle}>Berita & Informasi Desa</h2>
+            <p style={{ color: '#475569', margin: 0 }}>Kabar terbaru dari pemerintahan, pembangunan, dan warga Desa Binanga</p>
           </motion.div>
 
           {berita.length > 0 ? (
-            <motion.div 
-              className={styles.newsLayout}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={containerVariants}
-            >
-              {/* Berita Terbaru */}
-              <motion.a variants={itemVariants} href={`/berita-agenda/${berita[0].slug}`} className={styles.latestNewsCard}>
-                <img src={berita[0].cover || 'https://placehold.co/800x500/e2e8f0/475569?text=Tidak+Ada+Gambar'} alt={berita[0].judul} className={styles.latestNewsImage} />
-                <div className={styles.latestNewsOverlay}>
-                  <div className={styles.newsMeta} style={{ marginBottom: '12px' }}>
-                    <span style={{ color: '#2563eb', fontWeight: 700, backgroundColor: '#fff', padding: '4px 12px', borderRadius: '20px', fontSize: '0.8rem' }}>{berita[0].kategori}</span>
-                    <span style={{ color: '#f8fafc', fontWeight: 600, fontSize: '0.9rem', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>{new Date(berita[0].tanggal).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
-                  </div>
-                  <h3 className={styles.latestNewsTitle}>{berita[0].judul}</h3>
-                  <p className={styles.latestNewsSummary}>{berita[0].ringkasan}</p>
-                </div>
-              </motion.a>
+            <div className={styles.newsLayout}>
+              
+              {/* LEFT COLUMN: HERO BANNER + 4 THUMBNAILS */}
+              <div className={styles.mainCol}>
+                {(() => {
+                  const featuredNews = berita.slice(0, 4);
+                  const currentHero = featuredNews[activeNewsSlide] || featuredNews[0];
 
-              {/* Daftar Berita Lainnya */}
-              {berita.length > 1 && (
-                <div className={styles.otherNewsContainer}>
-                  {berita.slice(1).map((item) => (
-                    <motion.a variants={itemVariants} key={item.id} href={`/berita-agenda/${item.slug}`} className={styles.otherNewsCard}>
-                      <img src={item.cover || 'https://placehold.co/400x300/e2e8f0/475569?text=Tidak+Ada+Gambar'} alt={item.judul} className={styles.otherNewsImage} />
-                      <div className={styles.otherNewsContent}>
-                        <div className={styles.newsMeta}>
-                          <span style={{ color: '#1e3a8a', fontWeight: 600 }}>{item.kategori}</span>
-                          <span>{new Date(item.tanggal).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+                  const handleNext = () => setActiveNewsSlide((prev) => (prev + 1) % featuredNews.length);
+                  const handlePrev = () => setActiveNewsSlide((prev) => (prev - 1 + featuredNews.length) % featuredNews.length);
+
+                  return (
+                    <>
+                      {/* Hero Carousel */}
+                      <div className={styles.heroBannerContainer}>
+                        <div className={styles.heroImageWrapper}>
+                          <img 
+                            src={currentHero.cover || '/pic/hero-binanga.jpg'} 
+                            alt={currentHero.judul} 
+                            className={styles.heroImage} 
+                          />
+                          <div className={styles.heroOverlay} />
+
+                          {/* Navigation Buttons */}
+                          <button 
+                            type="button" 
+                            onClick={handlePrev} 
+                            className={`${styles.navBtn} ${styles.prevBtn}`}
+                            aria-label="Previous"
+                          >
+                            <ChevronLeft size={22} />
+                          </button>
+                          <button 
+                            type="button" 
+                            onClick={handleNext} 
+                            className={`${styles.navBtn} ${styles.nextBtn}`}
+                            aria-label="Next"
+                          >
+                            <ChevronRight size={22} />
+                          </button>
+
+                          {/* Center Icon Badge */}
+                          <div className={styles.centerBadge}>
+                            <ImageIcon size={20} color="#ffffff" />
+                          </div>
+
+                          {/* Caption */}
+                          <div className={styles.heroCaption}>
+                            <span className={styles.redCategoryBadge}>{currentHero.kategori || 'BERITA'}</span>
+                            <Link href={`/berita-agenda/${currentHero.slug || currentHero.id}`} className={styles.heroTitleLink}>
+                              <h3 className={styles.heroTitle}>{currentHero.judul}</h3>
+                            </Link>
+                          </div>
                         </div>
-                        <h3 className={styles.otherNewsTitle}>{item.judul}</h3>
                       </div>
-                    </motion.a>
-                  ))}
+
+                      {/* 4 Thumbnails Row */}
+                      <div className={styles.thumbnailRow}>
+                        {featuredNews.map((item, idx) => (
+                          <div 
+                            key={item.id}
+                            className={`${styles.thumbCard} ${activeNewsSlide === idx ? styles.thumbCardActive : ''}`}
+                            onClick={() => setActiveNewsSlide(idx)}
+                          >
+                            <div className={styles.thumbImageWrap}>
+                              <img src={item.cover || '/pic/hero-binanga.jpg'} alt={item.judul} className={styles.thumbImg} />
+                              <div className={styles.thumbIconBadge}>
+                                <ImageIcon size={13} color="#ffffff" />
+                              </div>
+                            </div>
+                            <h4 className={styles.thumbTitle}>{item.judul}</h4>
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  );
+                })()}
+              </div>
+
+              {/* RIGHT COLUMN: TOP NEWS SIDEBAR */}
+              <div className={styles.sideCol}>
+                <div className={styles.topNewsSection}>
+                  <div className={styles.topNewsHeader}>
+                    <span className={styles.topNewsRedBadge}>TOP NEWS</span>
+                  </div>
+
+                  <div className={styles.topNewsList}>
+                    {berita.slice(1, 6).map((item, index) => (
+                      <Link href={`/berita-agenda/${item.slug || item.id}`} key={item.id} className={styles.topNewsItem}>
+                        <div className={styles.topNewsText}>
+                          <h4 className={styles.topNewsItemTitle}>{item.judul}</h4>
+                          <div className={styles.topNewsMeta}>
+                            <span>{new Date(item.tanggal || Date.now()).toLocaleDateString('id-ID', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase()}</span>
+                            <span className={styles.viewsMeta}>
+                              <Eye size={12} style={{ display: 'inline', marginRight: '3px' }} />
+                              {12 + index * 4}
+                            </span>
+                          </div>
+                        </div>
+                        <div className={styles.topNewsImgWrap}>
+                          <img src={item.cover || '/pic/hero-binanga.jpg'} alt={item.judul} className={styles.topNewsImg} />
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+
+                  <div style={{ marginTop: '20px', textAlign: 'center' }}>
+                    <Link href="/berita-agenda" className={styles.viewAllNewsBtn}>
+                      Lihat Semua Berita & Agenda <ChevronRight size={16} style={{ display: 'inline', marginBottom: '-2px' }} />
+                    </Link>
+                  </div>
                 </div>
-              )}
-            </motion.div>
+              </div>
+
+            </div>
           ) : (
-            <div style={{ textAlign: 'center', padding: '40px', background: '#f8fafc', borderRadius: '16px', border: '1px dashed #cbd5e1' }}>
+            <div style={{ textAlign: 'center', padding: '40px', background: '#ffffff', borderRadius: '16px', border: '1px dashed #cbd5e1' }}>
               <p style={{ color: '#64748b', fontSize: '1.1rem' }}>Belum ada berita atau agenda yang ditambahkan oleh admin.</p>
             </div>
           )}
