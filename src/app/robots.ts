@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/admin/', '/user-dashboard/'],
     },
-    sitemap: 'https://desa.binanga.web.id/sitemap.xml',
+    sitemap: 'https://binanga.web.id/sitemap.xml',
   }
 }

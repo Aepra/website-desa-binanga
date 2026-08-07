@@ -7,7 +7,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://desa.binanga.web.id"),
+  metadataBase: new URL("https://binanga.web.id"),
   title: {
     default: "Desa Binanga - Portal Resmi Pemerintahan Desa Binanga, Sendana, Majene",
     template: "%s | Desa Binanga",
@@ -35,13 +35,13 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Desa Binanga - Portal Resmi Pemerintahan Desa Binanga",
     description: "Website Resmi Pemerintahan Desa Binanga, Kecamatan Sendana, Kabupaten Majene, Sulawesi Barat.",
-    url: "https://desa.binanga.web.id",
+    url: "https://binanga.web.id",
     siteName: "Desa Binanga",
     locale: "id_ID",
     type: "website",
   },
   alternates: {
-    canonical: "https://desa.binanga.web.id",
+    canonical: "https://binanga.web.id",
   },
   verification: {
     google: "ujIHV5N2kQ-pG-RDi9Kl_YTJmZ0NeJhF3mX1Tpja9-o",
@@ -60,8 +60,8 @@ export default function RootLayout({
     "@type": "GovernmentOrganization",
     "name": "Pemerintah Desa Binanga",
     "alternateName": "Desa Binanga",
-    "url": "https://desa.binanga.web.id",
-    "logo": "https://desa.binanga.web.id/pic/logo-soon.png",
+    "url": "https://binanga.web.id",
+    "logo": "https://binanga.web.id/pic/logo-soon.png",
     "description": "Portal Resmi Pemerintahan Desa Binanga, Kecamatan Sendana, Kabupaten Majene, Sulawesi Barat.",
     "address": {
       "@type": "PostalAddress",
