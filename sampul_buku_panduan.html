@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sampul Buku Panduan Website Desa Binanga</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* CSS RESET & PAGE SETUP */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    body {
+      font-family: 'Montserrat', 'Inter', sans-serif;
+      background-color: #0f172a;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px 0;
+    }
+
+    /* CONTROL BAR (Hidden on print) */
+    .control-bar {
+      background: rgba(30, 41, 59, 0.9);
+      backdrop-filter: blur(10px);
+      padding: 12px 24px;
+      border-radius: 50px;
+      margin-bottom: 25px;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      z-index: 100;
+    }
+
+    .control-bar h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #94a3b8;
+      margin-right: 10px;
+    }
+
+    .btn {
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn:hover {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: #334155;
+      color: #cbd5e1;
+    }
+
+    .btn-secondary:hover {
+      background: #475569;
+      color: #fff;
+    }
+
+    .btn.active {
+      background: #0284c7;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.5);
+    }
+
+    /* A4 COVER CONTAINER */
+    .a4-page {
+      width: 210mm;
+      height: 297mm;
+      position: relative;
+      background: #172e6c; /* Royal Deep Navy Blue matching reference image */
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 2.2cm 2cm 2cm 2cm;
+    }
+
+    /* BACKGROUND GRADIENT & OVERLAY */
+    .bg-gradient {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(145deg, #1b3579 0%, #152963 60%, #101f4c 100%);
+      z-index: 1;
+    }
+
+    /* GLOBE VECTOR GRAPHIC AT BOTTOM RIGHT */
+    .globe-graphic {
+      position: absolute;
+      right: -120mm;
+      bottom: -100mm;
+      width: 240mm;
+      height: 240mm;
+      z-index: 2;
+      pointer-events: none;
+      opacity: 0.85;
+      mix-blend-mode: screen;
+    }
+
+    /* SUBTLE LIGHTING EFFECT */
+    .light-glow {
+      position: absolute;
+      bottom: 10%;
+      right: 10%;
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.25) 0%, rgba(30, 58, 138, 0) 70%);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* COVER CONTENT WRAPPER */
+    .cover-content {
+      position: relative;
+      z-index: 10;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* TOP SECTION: TITLES */
+    .top-section {
+      width: 90%;
+    }
+
+    .main-header {
+      font-size: 56pt;
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: 0.5px;
+      color: #ffffff;
+      text-transform: uppercase;
+      margin-bottom: 22pt;
+    }
+
+    .main-header span {
+      display: block;
+    }
+
+    .title-description {
+      font-size: 19pt;
+      font-weight: 800;
+      line-height: 1.35;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+      max-width: 95%;
+      margin-bottom: 25pt;
+    }
+
+    .author-block {
+      font-size: 11pt;
+      font-weight: 500;
+      line-height: 1.6;
+      color: #e2e8f0;
+    }
+
+    .author-block strong {
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    /* BOTTOM SECTION: KKN & LOCATION INFO */
+    .bottom-section {
+      margin-top: auto;
+      width: 75%;
+    }
+
+    .location-info {
+      font-size: 13.5pt;
+      font-weight: 800;
+      line-height: 1.45;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .location-info .kkn-tag {
+      font-size: 14.5pt;
+      font-weight: 900;
+      display: block;
+      margin-bottom: 4px;
+      color: #ffffff;
+    }
+
+    /* ALTERNATIVE VIEW SLOTS */
+    .cover-option-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 15;
+      display: none;
+    }
+
+    /* PRINT MEDIA QUERY */
+    @media print {
+      body {
+        background: transparent;
+        padding: 0;
+      }
+      .control-bar {
+        display: none !important;
+      }
+      .a4-page {
+        box-shadow: none;
+        page-break-after: always;
+        width: 210mm;
+        height: 297mm;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CONTROL BAR -->
+  <div class="control-bar">
+    <h3>PILIH DESIGN SAMPUL:</h3>
+    <button class="btn active" onclick="switchOption('vector')">🌐 Vector Dotted Globe (Presisi Reference)</button>
+    <button class="btn btn-secondary" onclick="switchOption('v1')">🎨 Art Concept V1</button>
+    <button class="btn btn-secondary" onclick="switchOption('v2')">✨ Art Concept V2</button>
+    <button class="btn" style="background: #10b981;" onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
+  </div>
+
+  <!-- A4 COVER CONTAINER -->
+  <div class="a4-page">
+    
+    <!-- BACKGROUND & GRADIENT -->
+    <div class="bg-gradient"></div>
+    <div class="light-glow"></div>
+
+    <!-- VECTOR GLOBE GRAPHIC (SVG matching reference image) -->
+    <div class="globe-graphic" id="vectorGlobe">
+      <svg viewBox="0 0 800 800" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="globeGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#60a5fa" stop-opacity="0.4"/>
+            <stop offset="60%" stop-color="#3b82f6" stop-opacity="0.1"/>
+            <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <circle cx="400" cy="400" r="340" fill="url(#globeGlow)" />
+        <image href="/images/globe_dots.svg" width="800" height="800" />
+      </svg>
+    </div>
+
+    <!-- IMAGE OVERLAYS FOR ART CONCEPTS -->
+    <img id="imgV1" class="cover-option-img" src="/images/sampul_buku_panduan_v1.png" alt="Concept V1">
+    <img id="imgV2" class="cover-option-img" src="/images/sampul_buku_panduan_v2.png" alt="Concept V2">
+
+    <!-- MAIN COVER CONTENT -->
+    <div class="cover-content">
+      
+      <!-- TOP SECTION -->
+      <div class="top-section">
+        <h1 class="main-header">
+          <span>BUKU</span>
+          <span>PANDUAN</span>
+        </h1>
+
+        <div class="title-description">
+          PEMBUATAN WEBSITE PROFIL DESA BINANGA SEBAGAI MEDIA INFORMASI DAN PROMOSI DESA
+        </div>
+
+        <div class="author-block">
+          <strong>Tim KKN - T Universitas Hasanuddin</strong><br>
+          Desa Binanga, Kecamatan Sendana, Kabupaten Majene
+        </div>
+      </div>
+
+      <!-- BOTTOM SECTION -->
+      <div class="bottom-section">
+        <div class="location-info">
+          <span class="kkn-tag">KKN - T UNIVERSITAS HASANUDDIN</span>
+          UNIVERSITAS HASANUDDIN<br>
+          DESA BINANGA, KECAMATAN SENDANA,<br>
+          KABUPATEN MAJENE
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function switchOption(type) {
+      const vGlobe = document.getElementById('vectorGlobe');
+      const imgV1 = document.getElementById('imgV1');
+      const imgV2 = document.getElementById('imgV2');
+      const btns = document.querySelectorAll('.control-bar .btn');
+
+      // Reset active state
+      btns[0].className = 'btn ' + (type === 'vector' ? 'active' : 'btn-secondary');
+      btns[1].className = 'btn ' + (type === 'v1' ? 'active' : 'btn-secondary');
+      btns[2].className = 'btn ' + (type === 'v2' ? 'active' : 'btn-secondary');
+
+      if (type === 'vector') {
+        vGlobe.style.display = 'block';
+        imgV1.style.display = 'none';
+        imgV2.style.display = 'none';
+      } else if (type === 'v1') {
+        vGlobe.style.display = 'none';
+        imgV1.style.display = 'block';
+        imgV2.style.display = 'none';
+      } else if (type === 'v2') {
+        vGlobe.style.display = 'none';
+        imgV1.style.display = 'none';
+        imgV2.style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>

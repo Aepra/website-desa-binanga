@@ -1,4 +1,4 @@
-import { getPerangkat, createPerangkat, deletePerangkat } from '@/server/actions/struktur.action';
+import { getPerangkat, createPerangkat, deletePerangkat, updatePerangkat } from '@/server/actions/struktur.action';
 import OrgChart from '@/components/features/OrgChart';
 
 export default async function PerangkatPage() {
@@ -13,7 +13,7 @@ export default async function PerangkatPage() {
         </div>
       </div>
       
-      <OrgChart data={data} onCreate={createPerangkat} onDelete={deletePerangkat} />
+      <OrgChart data={data} onCreate={createPerangkat} onDelete={deletePerangkat} onUpdate={updatePerangkat} />
     </div>
   );
 }

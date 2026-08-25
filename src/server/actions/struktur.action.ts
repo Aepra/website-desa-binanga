@@ -37,6 +37,48 @@ export async function createPerangkat(formData: FormData) {
   revalidatePath('/home');
 }
 
+export async function updatePerangkat(id: string, formData: FormData) {
+  const data = Object.fromEntries(formData.entries());
+  
+  // Handle file upload if there's a new file
+  const file = data.foto as File;
+  let uploadedUrl: string | undefined = undefined;
+  
+  if (file && file.size > 0) {
+    try {
+      uploadedUrl = await uploadImage(file, 'website-desa-binanga/profil_desa');
+    } catch (e) {
+      console.error('Error uploading image:', e);
+    }
+  }
+
+  const atasanId = data.atasanId as string;
+  
+  const updateData: any = {
+    nama: data.nama as string,
+    kategoriJabatan: data.kategoriJabatan as string,
+    jabatan: data.jabatan as string,
+  };
+  
+  // Update atasanId if it's explicitly provided
+  if (atasanId !== undefined) {
+    updateData.atasanId = atasanId ? atasanId : null;
+  }
+
+  if (uploadedUrl) {
+    updateData.fotoUrl = uploadedUrl;
+  }
+
+  await prisma.perangkatDesa.update({
+    where: { id },
+    data: updateData
+  });
+  
+  revalidatePath('/admin/struktur');
+  revalidatePath('/');
+  revalidatePath('/home');
+}
+
 export async function deletePerangkat(id: string) {
   // Set subordinates' atasanId to null first to avoid FK constraint error
   await prisma.perangkatDesa.updateMany({
