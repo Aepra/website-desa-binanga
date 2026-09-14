@@ -1,6 +1,7 @@
-import { getBerita, createBerita, deleteBerita } from '@/server/actions/berita.action';
-import { Image as ImageIcon, Trash2, PlusCircle, FileText } from 'lucide-react';
+import { getBerita } from '@/server/actions/berita.action';
+import { FileText } from 'lucide-react';
 import BeritaFormClient from './BeritaFormClient';
+import DeleteBeritaButtonClient from './DeleteBeritaButtonClient';
 
 export default async function BeritaPage() {
   const data = await getBerita();
@@ -53,14 +54,7 @@ export default async function BeritaPage() {
                     </div>
                   </td>
                   <td style={{ padding: '16px', textAlign: 'center' }}>
-                    <form action={async () => {
-                      'use server';
-                      await deleteBerita(item.id);
-                    }}>
-                      <button type="submit" style={{ padding: '8px', background: '#fee2e2', color: '#ef4444', border: 'none', borderRadius: '6px', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <Trash2 size={16} />
-                      </button>
-                    </form>
+                    <DeleteBeritaButtonClient id={item.id} />
                   </td>
                 </tr>
               ))}
